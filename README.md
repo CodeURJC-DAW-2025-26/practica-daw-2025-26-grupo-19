@@ -13,20 +13,22 @@
 ## 🎭 **Preparación 1: Definición del Proyecto**
 
 ### **Descripción del Tema**
-[Escribe aquí una descripción breve y concisa de qué trata tu aplicación, el sector al que pertenece y qué valor aporta al usuario].
+Una aplicación web destinada a la gestión integral de competiciones de fútbol, enfocada tanto en ligas oficiales como en la creación de mini ligas o torneos personalizados por parte de los usuarios.
 
+La aplicación aporta valor al permitir que grupos de amigos, comunidades o asociaciones organicen sus propios campeonatos digitales, gestionando sus propios equipos (con nombres y escudos originales o existentes), calendarios, resultados, estadísticas y noticias centralizando toda la información que usualmente se pierde en hojas de cálculo o chats de grupo.
 ### **Entidades**
 Indicar las entidades principales que gestionará la aplicación y las relaciones entre ellas:
 
-1. **[Entidad 1]**: [Ej: Usuario]
-2. **[Entidad 2]**: [Ej: Producto]
-3. **[Entidad 3]**: [Ej: Pedido]
-4. **[Entidad 4]**: [Ej: Categoría]
+1. **[Entidad 1]**: [Usuario]
+2. **[Entidad 2]**: [Equipo]
+3. **[Entidad 3]**: [Torneo]
+4. **[Entidad 4]**: [Partido]
 
 **Relaciones entre entidades:**
-- [Ej: Usuario - Pedido: Un usuario puede tener múltiples pedidos (1:N)]
-- [Ej: Pedido - Producto: Un pedido puede contener múltiples productos y un producto puede estar en múltiples pedidos (N:M)]
-- [Ej: Producto - Categoría: Un producto pertenece a una categoría (N:1)]
+- Usuario - Equipo: Un usuario administra un equipo (1:1 o 1:N, dependiendo si permites que un usuario tenga varios equipos). Recomendado: 1:1 para simplificar.
+- Torneo - Equipo: Una torneo/liga tiene muchos equipos inscritos, y un equipo puede participar en varias ligas/torneos a lo largo del tiempo (N:M).
+- Torneo - Partido: Una liga se compone de múltiples partidos (1:N).
+- Partido - Equipo: Un partido relaciona dos equipos (Local y Visitante).
 - [Descripción de otras relaciones relevantes]
 
 ### **Permisos de los Usuarios**
@@ -62,16 +64,13 @@ Indicar qué información se mostrará usando gráficos y de qué tipo serán:
 ### **Tecnología Complementaria**
 Indicar qué tecnología complementaria se empleará:
 
-- [Ej: Envío de correos electrónicos automáticos mediante JavaMailSender]
-- [Ej: Generación de PDFs de facturas usando iText o similar]
-- [Ej: Sistema de autenticación OAuth2 o JWT]
-- [Otras tecnologías externas que se integrarán]
+- Envío de correos electrónicos automáticos mediante JavaMailSender para la recuperación de contraseñas
 
 ### **Algoritmo o Consulta Avanzada**
 Indicar cuál será el algoritmo o consulta avanzada que se implementará:
 
-- **Algoritmo/Consulta**: [Ej: Sistema de recomendaciones basado en el historial de compras del usuario]
-- **Descripción**: [Ej: Analiza los productos comprados previamente y sugiere productos similares o complementarios utilizando filtrado colaborativo]
+- **Algoritmo/Consulta**: [La clasificación se deberá calcular de forma automática a medida que se vayan registrando los resultados los partidos.]
+- **Descripción**: [Una vez se juegue un partido se actualizará la clasificación de todos los equipos que estén en la tabla]
 - **Alternativa**: [Ej: Consulta compleja que agrupe ventas por categoría, mes y región, con cálculo de tendencias]
 
 ---
