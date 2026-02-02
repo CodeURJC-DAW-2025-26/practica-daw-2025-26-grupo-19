@@ -23,29 +23,28 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 2. **[Entidad 2]**: [Equipo]
 3. **[Entidad 3]**: [Torneo]
 4. **[Entidad 4]**: [Partido]
-5. **[Entidad 5]**: [Jugadores]
+
 
 **Relaciones entre entidades:**
 - Usuario - Equipo: Un usuario administra un equipo (1:1).
 - Torneo - Equipo: Una torneo/liga tiene muchos equipos inscritos, y un equipo puede participar en varias ligas/torneos a lo largo del tiempo (N:M).
 - Torneo - Partido: Una liga se compone de múltiples partidos (1:N).
 - Partido - Equipo: Un partido relaciona dos equipos (Local y Visitante).
-- Jugadores- Equipo: Muchos jugadores pertenecen a un único equipo (N:1).
 
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
 
 * **Usuario Anónimo**: 
-  - Permisos: [Ver clasificación general, noticias y estadísticas]
+  - Permisos: [Ver clasificación general y estadísticas]
   - No es dueño de ninguna entidad
 
 * **Usuario Registrado**: 
-  - Permisos: [Además de lo mismo que usuario anónimo, puede crear un equipo y crear una liga]
+  - Permisos: [Además de lo mismo que usuario anónimo, puede crear un equipo con sus jugadores, decidir a quien convocas]
   - Es dueño de: [Equipo, torneo]
 
 * **Administrador**: 
-  - Permisos: [Administra los partidos, noticias, estadísticas y clasificación]
+  - Permisos: [Administra los partidos, crear ligas, aceptar los equipos a las ligas, decidir que hace cada equipo]
   - Es dueño de: [Equipo, torneo, partido]
 
 ### **Imágenes**
@@ -54,13 +53,14 @@ Indicar qué entidades tendrán asociadas una o varias imágenes:
 - **[Entidad con imágenes 1]**: [Usuario - Una imagen de avatar por usuario]
 - **[Entidad con imágenes 2]**: [Equipo - Escudo del club]
 - **[Entidad con imágenes 3]**: [Jugador - Fotos del jugador]
+- **[Entidad con imágenes 3]**: [Torneo - Imagen de liga]
 
 ### **Gráficos**
 Indicar qué información se mostrará usando gráficos y de qué tipo serán:
 
 - **Gráfico 1**: [Gráfico de máximos asistentes - Gráfico de barras]
-- **Gráfico 2**: [Victorias/Empates/Derrotas equipo favorito - Gráfico de tarta/circular]
 - **Gráfico 3**: [Máximos goleadores - Gráfico de barras horizontales]
+- **Gráfico 3**: [Victorias/Empates/Derrotas equipo favorito - Gráfico de barras horizontales]
 
 ### **Tecnología Complementaria**
 Indicar qué tecnología complementaria se empleará:
@@ -72,7 +72,7 @@ Indicar cuál será el algoritmo o consulta avanzada que se implementará:
 
 - **Algoritmo/Consulta**: [La clasificación se deberá calcular de forma automática a medida que se vayan registrando los resultados los partidos.]
 - **Descripción**: [Una vez se juegue un partido se actualizará la clasificación de todos los equipos que estén en la tabla]
-- **Alternativa**: [Ej: Consulta compleja que agrupe ventas por categoría, mes y región, con cálculo de tendencias]
+- **Alternativa**: [Generara todos los partidos tanto de ida y de vuelta]
 
 ---
 
