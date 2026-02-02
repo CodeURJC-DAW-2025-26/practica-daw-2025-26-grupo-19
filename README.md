@@ -5,7 +5,7 @@
 |:--- |:--- |:--- |
 | Víctor Omar Llantoy Núñez del Arco | vo.llantoy.2023@alumnos.urjc.es | V1ctor2911 |
 | Adam El Kassmi Serroukh | a.elkassmi.2023@alumnos.urjc.es | aaluc2 |
-| Santiago Sanchez-Merino Pérez | [email3]@alumnos.urjc.es | [User3] |
+| Santiago Sanchez-Merino Pérez | [sa.sanchezmerin.2022@alumnos.urjc.es | YagoSMP |
 | [Nombre 4] | [email4]@alumnos.urjc.es | [User4] |
 
 ---
