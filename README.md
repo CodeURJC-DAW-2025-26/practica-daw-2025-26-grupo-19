@@ -23,43 +23,44 @@ Indicar las entidades principales que gestionará la aplicación y las relacione
 2. **[Entidad 2]**: [Equipo]
 3. **[Entidad 3]**: [Torneo]
 4. **[Entidad 4]**: [Partido]
+5. **[Entidad 5]**: [Jugadores]
 
 **Relaciones entre entidades:**
-- Usuario - Equipo: Un usuario administra un equipo (1:1 o 1:N, dependiendo si permites que un usuario tenga varios equipos). Recomendado: 1:1 para simplificar.
+- Usuario - Equipo: Un usuario administra un equipo (1:1).
 - Torneo - Equipo: Una torneo/liga tiene muchos equipos inscritos, y un equipo puede participar en varias ligas/torneos a lo largo del tiempo (N:M).
 - Torneo - Partido: Una liga se compone de múltiples partidos (1:N).
 - Partido - Equipo: Un partido relaciona dos equipos (Local y Visitante).
-- [Descripción de otras relaciones relevantes]
+- Jugadores- Equipo: Muchos jugadores pertenecen a un único equipo (N:1).
+
 
 ### **Permisos de los Usuarios**
 Describir los permisos de cada tipo de usuario e indicar de qué entidades es dueño:
 
 * **Usuario Anónimo**: 
-  - Permisos: [Ej: Visualización de catálogo, búsqueda de productos, registro]
+  - Permisos: [Ver clasificación general, noticias y estadísticas]
   - No es dueño de ninguna entidad
 
 * **Usuario Registrado**: 
-  - Permisos: [Ej: Gestión de perfil, realizar pedidos, crear valoraciones]
-  - Es dueño de: [Ej: Sus propios Pedidos, su Perfil de Usuario, sus Valoraciones]
+  - Permisos: [Además de lo mismo que usuario anónimo, puede crear un equipo y crear una liga]
+  - Es dueño de: [Equipo, torneo]
 
 * **Administrador**: 
-  - Permisos: [Ej: Gestión completa de productos (CRUD), visualización de estadísticas, moderación de contenido]
-  - Es dueño de: [Ej: Productos, Categorías, puede gestionar todos los Pedidos y Usuarios]
+  - Permisos: [Administra los partidos, noticias, estadísticas y clasificación]
+  - Es dueño de: [Equipo, torneo, partido]
 
 ### **Imágenes**
 Indicar qué entidades tendrán asociadas una o varias imágenes:
 
-- **[Entidad con imágenes 1]**: [Ej: Usuario - Una imagen de avatar por usuario]
-- **[Entidad con imágenes 2]**: [Ej: Producto - Múltiples imágenes por producto (galería)]
-- **[Entidad con imágenes 3]**: [Ej: Categoría - Una imagen representativa por categoría]
+- **[Entidad con imágenes 1]**: [Usuario - Una imagen de avatar por usuario]
+- **[Entidad con imágenes 2]**: [Equipo - Escudo del club]
+- **[Entidad con imágenes 3]**: [Jugador - Fotos del jugador]
 
 ### **Gráficos**
 Indicar qué información se mostrará usando gráficos y de qué tipo serán:
 
-- **Gráfico 1**: [Ej: Ventas mensuales - Gráfico de barras]
-- **Gráfico 2**: [Ej: Productos más vendidos - Gráfico de tarta/circular]
-- **Gráfico 3**: [Ej: Evolución de usuarios registrados - Gráfico de líneas]
-- **Gráfico 4**: [Ej: Distribución de pedidos por categoría - Gráfico de barras horizontales]
+- **Gráfico 1**: [Gráfico de máximos asistentes - Gráfico de barras]
+- **Gráfico 2**: [Victorias/Empates/Derrotas equipo favorito - Gráfico de tarta/circular]
+- **Gráfico 3**: [Máximos goleadores - Gráfico de barras horizontales]
 
 ### **Tecnología Complementaria**
 Indicar qué tecnología complementaria se empleará:
