@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Equipo - FutbolManager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">⚽</div>
+          <span class="logo-text">FutbolManager</span>
+        </a>
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="manage-team.html">Mi Equipo</a>
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-left: 1rem; padding-left: 1rem; border-left: 2px solid #8EBD8C;">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid white;">
+            <span style="font-size: 0.875rem;">usuario@email.com</span>
+            <a href="index.html" style="color: white; text-decoration: none;">🚪</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="form-container form-container-wide">
+      <div class="card">
+        <div class="form-header">
+          <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: #8EBD8C; color: #060C04; border-radius: 50%; margin-bottom: 1rem;">
+            <span style="font-size: 2rem;">🛡️</span>
+          </div>
+          <h1 style="font-size: 1.875rem; font-weight: bold; color: #111827;">Crear Equipo</h1>
+          <p class="text-gray">Crea tu equipo para participar en ligas y torneos</p>
+        </div>
+
+        <form>
+          <div class="form-group">
+            <label for="teamName" class="form-label">Nombre del equipo</label>
+            <input type="text" id="teamName" class="form-input" placeholder="Ej: Águilas Rojas FC">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Selecciona el escudo de tu equipo</label>
+            <div class="shield-grid">
+              <div class="shield-option selected">
+                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=Shield1&backgroundColor=53912E" alt="Escudo 1">
+              </div>
+              <div class="shield-option">
+                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=Shield2&backgroundColor=678F6C" alt="Escudo 2">
+              </div>
+              <div class="shield-option">
+                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=Shield3&backgroundColor=8EBD8C" alt="Escudo 3">
+              </div>
+              <div class="shield-option">
+                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=Shield4&backgroundColor=53912E" alt="Escudo 4">
+              </div>
+              <div class="shield-option">
+                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=Shield5&backgroundColor=678F6C" alt="Escudo 5">
+              </div>
+              <div class="shield-option">
+                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=Shield6&backgroundColor=8EBD8C" alt="Escudo 6">
+              </div>
+              <div class="shield-option">
+                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=Shield7&backgroundColor=53912E" alt="Escudo 7">
+              </div>
+              <div class="shield-option">
+                <img src="https://api.dicebear.com/7.x/shapes/svg?seed=Shield8&backgroundColor=678F6C" alt="Escudo 8">
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <p style="font-size: 0.875rem;">
+              📌 Solo puedes crear un equipo por cuenta. Una vez creado, podrás inscribir jugadores y participar en competiciones.
+            </p>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Crear Equipo</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 FutbolManager - Organiza tus ligas y torneos</p>
+    </div>
+  </footer>
+</body>
+</html>

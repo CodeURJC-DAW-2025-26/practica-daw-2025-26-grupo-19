@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FutbolManager - Página Principal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">⚽</div>
+          <span class="logo-text">FutbolManager</span>
+        </a>
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="login.html">Iniciar Sesión</a>
+          <a href="register.html" class="btn btn-secondary">Registrarse</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Inscríbete en Ligas y Torneos de Fútbol</h1>
+      <p>Crea tu equipo, inscribe jugadores y compite en múltiples competiciones</p>
+      <div class="hero-actions">
+        <a href="create-team.html" class="btn btn-secondary">Crear Equipo</a>
+      </div>
+    </section>
+
+    <!-- Leagues Section -->
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🏆</span>
+        <h2 class="section-title">Ligas</h2>
+      </div>
+      <div class="grid grid-cols-3">
+        <!-- League Card 1 -->
+        <div class="card">
+          <a href="league-detail.html" style="text-decoration: none; color: inherit;">
+            <div class="card-header">
+              <div class="card-icon">🏆</div>
+              <div>
+                <h3 class="card-title">Liga Premium</h3>
+                <p class="text-sm text-gray"><span class="badge badge-success">En curso</span></p>
+              </div>
+            </div>
+            <div>
+              <div style="display: grid; grid-template-columns: 1fr 7fr 1fr 1fr 1fr 1fr; gap: 0.5rem; font-size: 0.75rem; color: #6b7280; padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                <div>#</div>
+                <div>Equipo</div>
+                <div class="table-center">PJ</div>
+                <div class="table-center">GF</div>
+                <div class="table-center">GC</div>
+                <div class="table-center">Pts</div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 7fr 1fr 1fr 1fr 1fr; gap: 0.5rem; font-size: 0.875rem; padding: 0.5rem 0;">
+                <div style="font-weight: 600;">1</div>
+                <div>Águilas Rojas</div>
+                <div class="table-center">10</div>
+                <div class="table-center">25</div>
+                <div class="table-center">10</div>
+                <div class="table-center table-highlight">23</div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 7fr 1fr 1fr 1fr 1fr; gap: 0.5rem; font-size: 0.875rem; padding: 0.5rem 0;">
+                <div style="font-weight: 600;">2</div>
+                <div>Leones FC</div>
+                <div class="table-center">10</div>
+                <div class="table-center">22</div>
+                <div class="table-center">12</div>
+                <div class="table-center table-highlight">21</div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 7fr 1fr 1fr 1fr 1fr; gap: 0.5rem; font-size: 0.875rem; padding: 0.5rem 0;">
+                <div style="font-weight: 600;">3</div>
+                <div>Tigres Unidos</div>
+                <div class="table-center">10</div>
+                <div class="table-center">20</div>
+                <div class="table-center">13</div>
+                <div class="table-center table-highlight">20</div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 7fr 1fr 1fr 1fr 1fr; gap: 0.5rem; font-size: 0.875rem; padding: 0.5rem 0;">
+                <div style="font-weight: 600;">4</div>
+                <div>Halcones del Norte</div>
+                <div class="table-center">10</div>
+                <div class="table-center">18</div>
+                <div class="table-center">14</div>
+                <div class="table-center table-highlight">18</div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 7fr 1fr 1fr 1fr 1fr; gap: 0.5rem; font-size: 0.875rem; padding: 0.5rem 0;">
+                <div style="font-weight: 600;">5</div>
+                <div>Dragones FC</div>
+                <div class="table-center">10</div>
+                <div class="table-center">16</div>
+                <div class="table-center">15</div>
+                <div class="table-center table-highlight">16</div>
+              </div>
+              <p class="text-sm text-gray text-center mt-2">Ver clasificación completa →</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- League Card 2 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">🏆</div>
+            <div>
+              <h3 class="card-title">Liga Regional Norte</h3>
+              <p class="text-sm text-gray"><span class="badge badge-success">En curso</span></p>
+            </div>
+          </div>
+          <div class="empty-state">
+            <p class="text-sm">Esta liga tiene 6 equipos participantes</p>
+          </div>
+        </div>
+
+        <!-- League Card 3 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">🏆</div>
+            <div>
+              <h3 class="card-title">Liga Amateur</h3>
+              <p class="text-sm text-gray"><span class="badge badge-info">Inscripciones abiertas</span></p>
+            </div>
+          </div>
+          <div class="empty-state">
+            <p class="text-sm">Esta liga aún no ha comenzado</p>
+            <p class="text-sm mt-1">0 equipos inscritos</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tournaments Section -->
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🥇</span>
+        <h2 class="section-title">Torneos</h2>
+      </div>
+      <div class="grid grid-cols-3">
+        <!-- Tournament Card 1 -->
+        <div class="card">
+          <a href="tournament-detail.html" style="text-decoration: none; color: inherit;">
+            <div class="card-header">
+              <div class="card-icon">🥇</div>
+              <div>
+                <h3 class="card-title">Copa de Campeones</h3>
+                <p class="text-sm text-gray"><span class="badge badge-success">En curso</span></p>
+              </div>
+            </div>
+            <div style="background: #f9fafb; border-radius: 0.5rem; padding: 1rem;">
+              <div class="text-center">
+                <div style="background: white; border-radius: 0.5rem; padding: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: inline-block; margin-bottom: 0.5rem;">
+                  <span style="font-size: 2rem;">🏆</span>
+                </div>
+                <p class="text-sm text-gray">Eliminación directa</p>
+                <p class="text-sm mt-1" style="font-weight: 600;">8 equipos</p>
+              </div>
+              <p class="text-sm text-gray text-center mt-2">Ver cuadro completo →</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Tournament Card 2 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon">🥇</div>
+            <div>
+              <h3 class="card-title">Torneo Apertura 2026</h3>
+              <p class="text-sm text-gray"><span class="badge badge-info">Inscripciones abiertas</span></p>
+            </div>
+          </div>
+          <div class="empty-state">
+            <p class="text-sm">Este torneo aún no ha comenzado</p>
+            <p class="text-sm mt-1">0 equipos inscritos</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section>
+      <div class="section-header">
+        <span class="section-icon">🎯</span>
+        <h2 class="section-title">Estadísticas</h2>
+      </div>
+      <div class="grid grid-cols-2">
+        <!-- Top Scorers -->
+        <div class="card">
+          <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Top 5 Goleadores</h3>
+          <div class="chart-container">
+            [Gráfico de barras horizontales - Top 5 Goleadores]
+          </div>
+          <div class="mt-2">
+            <p class="text-sm text-gray">1. Carlos Martínez - 15 goles</p>
+            <p class="text-sm text-gray">2. Luis García - 14 goles</p>
+            <p class="text-sm text-gray">3. Roberto Pérez - 13 goles</p>
+            <p class="text-sm text-gray">4. Diego Hernández - 12 goles</p>
+            <p class="text-sm text-gray">5. Javier López - 11 goles</p>
+          </div>
+        </div>
+
+        <!-- Top Assisters -->
+        <div class="card">
+          <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Top 5 Asistentes</h3>
+          <div class="chart-container">
+            [Gráfico de barras verticales - Top 5 Asistentes]
+          </div>
+          <div class="mt-2">
+            <p class="text-sm text-gray">1. José Ramírez - 13 asistencias</p>
+            <p class="text-sm text-gray">2. Miguel Rodríguez - 12 asistencias</p>
+            <p class="text-sm text-gray">3. Fernando González - 11 asistencias</p>
+            <p class="text-sm text-gray">4. Diego Hernández - 10 asistencias</p>
+            <p class="text-sm text-gray">5. Javier López - 9 asistencias</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 FutbolManager - Organiza tus ligas y torneos</p>
+    </div>
+  </footer>
+</body>
+</html>
