@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copa de Campeones - FutbolManager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">⚽</div>
+          <span class="logo-text">FutbolManager</span>
+        </a>
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="manage-team.html">Mi Equipo</a>
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-left: 1rem; padding-left: 1rem; border-left: 2px solid #8EBD8C;">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid white;">
+            <span style="font-size: 0.875rem;">usuario@email.com</span>
+            <a href="index.html" style="color: white; text-decoration: none;">🚪</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container" style="padding-top: 3rem; padding-bottom: 3rem;">
+    <a href="index.html" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #6b7280; text-decoration: none; margin-bottom: 1.5rem;">
+      ← Volver al inicio
+    </a>
+
+    <!-- Tournament Header -->
+    <div class="card mb-4">
+      <div class="flex-between">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div class="card-icon card-icon-lg">🥇</div>
+          <div>
+            <h1 style="font-size: 1.875rem; font-weight: bold; color: #111827; margin-bottom: 0.25rem;">Copa de Campeones</h1>
+            <p class="text-gray"><span class="badge badge-success">Torneo en curso</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-success mt-4">
+        <p class="text-sm">8 equipos participantes • Formato: Eliminación directa</p>
+      </div>
+    </div>
+
+    <!-- Tournament Bracket -->
+    <div class="card">
+      <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1.5rem;">Cuadro del Torneo</h2>
+      
+      <!-- Round 1: Cuartos de Final -->
+      <div style="margin-bottom: 2rem;">
+        <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem; color: #111827;">Cuartos de Final</h3>
+        <div class="grid grid-cols-2">
+          <div class="match-card">
+            <div class="match-team">
+              <span>Águilas Rojas</span>
+              <span class="match-score">3</span>
+            </div>
+            <div class="match-divider"></div>
+            <div class="match-team">
+              <span>Cóndores</span>
+              <span class="match-score">1</span>
+            </div>
+          </div>
+
+          <div class="match-card">
+            <div class="match-team">
+              <span>Leones FC</span>
+              <span class="match-score">2</span>
+            </div>
+            <div class="match-divider"></div>
+            <div class="match-team">
+              <span>Búfalos FC</span>
+              <span class="match-score">1</span>
+            </div>
+          </div>
+
+          <div class="match-card">
+            <div class="match-team">
+              <span>Tigres Unidos</span>
+              <span class="match-score">1</span>
+            </div>
+            <div class="match-divider"></div>
+            <div class="match-team">
+              <span>Fénix Deportivo</span>
+              <span class="match-score">1</span>
+            </div>
+          </div>
+
+          <div class="match-card">
+            <div class="match-team">
+              <span>Halcones del Norte</span>
+            </div>
+            <div class="match-divider"></div>
+            <div class="match-team">
+              <span>Dragones FC</span>
+            </div>
+            <div class="match-status">Por jugar</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Round 2: Semifinales -->
+      <div>
+        <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem; color: #111827;">Semifinales</h3>
+        <div class="grid grid-cols-2">
+          <div class="match-card">
+            <div class="match-team">
+              <span>Águilas Rojas</span>
+            </div>
+            <div class="match-divider"></div>
+            <div class="match-team">
+              <span>Leones FC</span>
+            </div>
+            <div class="match-status">Por jugar</div>
+          </div>
+
+          <div class="match-card">
+            <div class="match-team">
+              <span>Pendiente</span>
+            </div>
+            <div class="match-divider"></div>
+            <div class="match-team">
+              <span>Pendiente</span>
+            </div>
+            <div class="match-status">Por jugar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 FutbolManager - Organiza tus ligas y torneos</p>
+    </div>
+  </footer>
+</body>
+</html>
