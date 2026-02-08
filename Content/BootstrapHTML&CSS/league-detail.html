@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liga Premium - FutbolManager</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">⚽</div>
+          <span class="logo-text">FutbolManager</span>
+        </a>
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="manage-team.html">Mi Equipo</a>
+          <div class="user-info">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" class="user-avatar">
+            <span class="user-email">usuario@email.com</span>
+            <a href="index.html" class="logout-link">🚪</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-5">
+    <a href="index.html" class="btn btn-link text-decoration-none mb-3">← Volver al inicio</a>
+
+    <!-- League Header -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <div class="card-icon-custom card-icon-lg">🏆</div>
+            <div>
+              <h1 class="h2 fw-bold mb-1">Liga Premium</h1>
+              <span class="badge bg-success">Liga en curso</span>
+            </div>
+          </div>
+          <button class="btn btn-primary">
+            <span class="me-2">➕</span>
+            Inscribir mi equipo
+          </button>
+        </div>
+        <div class="alert alert-success-custom mt-3 mb-0">
+          <small>6 equipos participantes</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- League Table -->
+    <div class="card shadow">
+      <div class="card-body">
+        <h2 class="h4 fw-bold mb-4">Clasificación</h2>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th>Equipo</th>
+                <th class="text-center">PJ</th>
+                <th class="text-center">G</th>
+                <th class="text-center">E</th>
+                <th class="text-center">P</th>
+                <th class="text-center">GF</th>
+                <th class="text-center">GC</th>
+                <th class="text-center">DG</th>
+                <th class="text-center">Pts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-success">
+                <td class="fw-semibold">1</td>
+                <td class="fw-medium">Águilas Rojas</td>
+                <td class="text-center">10</td>
+                <td class="text-center">7</td>
+                <td class="text-center">2</td>
+                <td class="text-center">1</td>
+                <td class="text-center">25</td>
+                <td class="text-center">10</td>
+                <td class="text-center">15</td>
+                <td class="text-center table-highlight">23</td>
+              </tr>
+              <tr class="table-success">
+                <td class="fw-semibold">2</td>
+                <td class="fw-medium">Leones FC</td>
+                <td class="text-center">10</td>
+                <td class="text-center">6</td>
+                <td class="text-center">3</td>
+                <td class="text-center">1</td>
+                <td class="text-center">22</td>
+                <td class="text-center">12</td>
+                <td class="text-center">10</td>
+                <td class="text-center table-highlight">21</td>
+              </tr>
+              <tr class="table-success">
+                <td class="fw-semibold">3</td>
+                <td class="fw-medium">Tigres Unidos</td>
+                <td class="text-center">10</td>
+                <td class="text-center">6</td>
+                <td class="text-center">2</td>
+                <td class="text-center">2</td>
+                <td class="text-center">20</td>
+                <td class="text-center">13</td>
+                <td class="text-center">7</td>
+                <td class="text-center table-highlight">20</td>
+              </tr>
+              <tr>
+                <td class="fw-semibold">4</td>
+                <td class="fw-medium">Halcones del Norte</td>
+                <td class="text-center">10</td>
+                <td class="text-center">5</td>
+                <td class="text-center">3</td>
+                <td class="text-center">2</td>
+                <td class="text-center">18</td>
+                <td class="text-center">14</td>
+                <td class="text-center">4</td>
+                <td class="text-center table-highlight">18</td>
+              </tr>
+              <tr>
+                <td class="fw-semibold">5</td>
+                <td class="fw-medium">Dragones FC</td>
+                <td class="text-center">10</td>
+                <td class="text-center">4</td>
+                <td class="text-center">4</td>
+                <td class="text-center">2</td>
+                <td class="text-center">16</td>
+                <td class="text-center">15</td>
+                <td class="text-center">1</td>
+                <td class="text-center table-highlight">16</td>
+              </tr>
+              <tr>
+                <td class="fw-semibold">6</td>
+                <td class="fw-medium">Fénix Deportivo</td>
+                <td class="text-center">10</td>
+                <td class="text-center">3</td>
+                <td class="text-center">3</td>
+                <td class="text-center">4</td>
+                <td class="text-center">14</td>
+                <td class="text-center">16</td>
+                <td class="text-center">-2</td>
+                <td class="text-center table-highlight">12</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-3 text-muted small">
+          <p class="mb-1">PJ: Partidos Jugados | G: Ganados | E: Empatados | P: Perdidos</p>
+          <p class="mb-0">GF: Goles a Favor | GC: Goles en Contra | DG: Diferencia de Goles | Pts: Puntos</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 FutbolManager - Organiza tus ligas y torneos</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

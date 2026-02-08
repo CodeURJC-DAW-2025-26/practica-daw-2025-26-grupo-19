@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Equipo - FutbolManager</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">⚽</div>
+          <span class="logo-text">FutbolManager</span>
+        </a>
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="manage-team.html">Mi Equipo</a>
+          <div class="user-info">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" class="user-avatar">
+            <span class="user-email">usuario@email.com</span>
+            <a href="index.html" class="logout-link">🚪</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-5">
+    <!-- Team Header -->
+    <div class="card shadow mb-4">
+      <div class="card-body">
+        <div class="d-flex flex-wrap align-items-center gap-3 justify-content-between">
+          <div class="d-flex align-items-center gap-3 flex-grow-1">
+            <img src="https://api.dicebear.com/7.x/shapes/svg?seed=Shield1&backgroundColor=53912E" alt="Escudo" style="width: 96px; height: 96px; border-radius: 0.5rem;">
+            <div>
+              <h1 class="h2 fw-bold mb-1">Águilas Rojas FC</h1>
+              <p class="text-muted mb-0">Tu equipo</p>
+            </div>
+          </div>
+          <button class="btn btn-primary">
+            <span class="me-2">➕</span>
+            Inscribir Jugador
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Players List -->
+    <div class="card shadow">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <span class="section-icon">👥</span>
+          <h2 class="h4 fw-bold mb-0">Plantilla</h2>
+          <span class="badge badge-primary-custom">3 jugadores</span>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card border">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Player1" alt="Jugador 1" style="width: 64px; height: 64px; border-radius: 0.5rem;">
+                  <div>
+                    <h5 class="mb-1">Carlos Martínez</h5>
+                    <p class="text-muted mb-0 small">Jugador</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card border">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Player2" alt="Jugador 2" style="width: 64px; height: 64px; border-radius: 0.5rem;">
+                  <div>
+                    <h5 class="mb-1">Diego Hernández</h5>
+                    <p class="text-muted mb-0 small">Jugador</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card border">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3">
+                  <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Player3" alt="Jugador 3" style="width: 64px; height: 64px; border-radius: 0.5rem;">
+                  <div>
+                    <h5 class="mb-1">Luis García</h5>
+                    <p class="text-muted mb-0 small">Jugador</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 FutbolManager - Organiza tus ligas y torneos</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

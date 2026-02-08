@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión - FutbolManager</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">⚽</div>
+          <span class="logo-text">FutbolManager</span>
+        </a>
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="login.html">Iniciar Sesión</a>
+          <a href="register.html" class="nav-btn-secondary">Registrarse</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="card shadow">
+          <div class="card-body p-4">
+            <div class="text-center mb-4">
+              <div class="card-icon-custom card-icon-lg d-inline-flex align-items-center justify-content-center mb-3">
+                <span>🔑</span>
+              </div>
+              <h1 class="h2 fw-bold">Iniciar Sesión</h1>
+              <p class="text-muted">Accede a tu cuenta</p>
+            </div>
+
+            <form>
+              <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" placeholder="tu@email.com">
+              </div>
+
+              <div class="mb-4">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" placeholder="Tu contraseña">
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+            </form>
+
+            <div class="text-center mt-3">
+              <p class="text-muted mb-0">¿No tienes cuenta? <a href="register.html" class="text-primary text-decoration-none">Regístrate</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 FutbolManager - Organiza tus ligas y torneos</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

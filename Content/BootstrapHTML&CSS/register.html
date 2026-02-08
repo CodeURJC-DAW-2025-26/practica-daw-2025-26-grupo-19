@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrarse - FutbolManager</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">⚽</div>
+          <span class="logo-text">FutbolManager</span>
+        </a>
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="login.html">Iniciar Sesión</a>
+          <a href="register.html" class="nav-btn-secondary">Registrarse</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-body p-4">
+            <div class="text-center mb-4">
+              <div class="card-icon-custom card-icon-lg d-inline-flex align-items-center justify-content-center mb-3">
+                <span>👤</span>
+              </div>
+              <h1 class="h2 fw-bold">Registrarse</h1>
+              <p class="text-muted">Crea tu cuenta en FutbolManager</p>
+            </div>
+
+            <form>
+              <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" placeholder="tu@email.com">
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" placeholder="Mínimo 6 caracteres">
+              </div>
+
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Repite tu contraseña">
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Selecciona tu avatar</label>
+                <div class="row g-2">
+                  <div class="col-3">
+                    <div class="avatar-option selected">
+                      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar 1" class="img-fluid">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="avatar-option">
+                      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" alt="Avatar 2" class="img-fluid">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="avatar-option">
+                      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Midnight" alt="Avatar 3" class="img-fluid">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="avatar-option">
+                      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sophie" alt="Avatar 4" class="img-fluid">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="avatar-option">
+                      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Leo" alt="Avatar 5" class="img-fluid">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="avatar-option">
+                      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Maya" alt="Avatar 6" class="img-fluid">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="avatar-option">
+                      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Oliver" alt="Avatar 7" class="img-fluid">
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="avatar-option">
+                      <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Luna" alt="Avatar 8" class="img-fluid">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Crear cuenta</button>
+            </form>
+
+            <div class="text-center mt-3">
+              <p class="text-muted mb-0">¿Ya tienes cuenta? <a href="login.html" class="text-primary text-decoration-none">Inicia sesión</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 FutbolManager - Organiza tus ligas y torneos</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
