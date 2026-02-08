@@ -70,7 +70,7 @@ body {
   color: #D3E4DF;
 }
 
-.nav-btn-secondary {
+.nav .nav-btn-secondary {
   background: white;
   color: #53912E;
   padding: 0.5rem 1rem;
@@ -79,7 +79,7 @@ body {
   transition: all 0.3s;
 }
 
-.nav-btn-secondary:hover {
+.nav .nav-btn-secondary:hover {
   background: #D3E4DF;
   color: #53912E;
 }
