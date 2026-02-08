@@ -232,3 +232,19 @@ body {
     justify-content: center;
   }
 }
+
+/*Escudos futbol*/
+.shield-container>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shield-option {
+  width: 120px;
+  height: 120px;
+}
+
+.shield-option>img {
+  object-fit: contain;
+}
