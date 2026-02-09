@@ -92,9 +92,68 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 ### **Capturas de Pantalla y Descripción de Páginas**
 
 #### **1. Página Principal / Home**
-![Página Principal](images/home-page.png)
+![index](images/image.png)
 
-> [Descripción breve: Ej: "Página de inicio que muestra los productos destacados, categorías principales y un banner promocional. Incluye barra de navegación y acceso a registro/login para usuarios no autenticados."]
+> Página de inicio que muestra un banner principal con la llamada a la acción para crear equipos, seguido de secciones con tarjetas informativas sobre las ligas y torneos disponibles, además debajo del todo tenemos un panel con estadísticas interesantes. Incluye una barra de navegación superior y acceso a registro/login para usuarios no autenticados. 
+
+#### **2. Añadir jugador / Add player**
+![Añadir jugador](images/add-player.PNG)
+
+> Página de inscripción de jugadores que presenta un formulario para dar de alta a nuevos jugadores para la liga. Tiene campos para ingresar datos personales, dorsal y foto, junto a las opciones de guardar o cancelar.
+
+#### **3. Panel de control admin / Admin dashboard**
+![Panel de control admin](images/admin-dashboard.PNG)
+
+> Página de admin que muestra un resumen del estado de la plataforma con métricas, con una sección para efectuar acciones rápidas, como crear liga o aprobar nuevos equipos que solicitan ser inscritos. Además, hay un registro de actividad reciente. 
+
+
+#### **4. Panel de ligas admin / Admin leagues**
+![Panel de ligas admin](images/admin-leagues.PNG)
+
+> Página de admin que permite administrar los partidos guardando o actualizando los resultados, crear o editar ligas y muestra los resultados registrados de la jornada actual, dependiendo de la liga en la que nos encontremos. 
+
+#### **5. Panel de equipos admin / Admin teams**
+![Panel de equipos admin](images/admin-teams.PNG)
+
+> Página de admin que muestra las solicitudes de inscripción pendientes de validar, además de los equipos activos con su estado actual (activo, sancionado...). Permite, vetar equipo, aceptarlos o rechazarlos. También tiene barra de búsqueda.
+
+
+#### **6. Creación de equipos / Create teams**
+![Creación de equipos](images/create-team.PNG)
+
+> Página de creación de equipos, acción necesaria para participar en ligas y torneos. Permite elegir un nombre d eequipo y un escudo. Además, se limita el número de equipos a 1 por cuenta. Esta opción, es únicamente para los usuarios registrados en la aplicación.
+
+
+#### **7. Detalle liga / League detail**
+![Detalle liga](images/league-detail.PNG)
+
+> Página de detalle de competición que muestra la tabla de clasificación actualizada con las estadísticas completas de cada club, incluyendo partidos jugados, goles y puntos. Hay opción de inscribir equipo propio, muestra el estado de la liga y barra de navegación superior. 
+
+
+#### **8. Login**
+
+![Login](images/login.PNG)
+
+> Página de inicio de sesión que presenta un formulario para autenticar usuarios. Se deben introducir correo y contraseña. Debajo se deja una opción para registrarse en caso de no tener cuenta.
+
+
+#### **9. Gestión equipo / Manage team**
+![Gestión de equipo](images/manage-team.PNG)
+
+> Página de gestión de equipo que muestra la identidad del club y las lista de la plantilla actual con tarjetas que muestran a los jugadores. Incluye un botón para añadir nuevos integrantes. Sólo para usuarios registrados.
+
+
+#### **10. Registro de usuarios / Register**
+![Registro](images/register.PNG)
+
+> Página de registro que permite crear cuentas con campos para credenciales y la selección de tu avatar. Incluye validación de contraseña, botón de confirmación y un enlace de inicio de sesión para usuarios ya registrados.
+
+
+
+#### **10. Detalles torneos / Tournament detail**
+![Detalle de torneo](images/tournament-detail.PNG)
+
+> Página de detalle de competición que muestra el desarrollo del torneo con cuadros para cada eliminatoria, organizando emparejamientos desde cuartos de final hasta semifinales y finales. Además muestra los resultados de los partidos ya disputados, el estado de los encuentros pendientes e información general del torneo en un cuadro debajo del nombre del torneo jugado.
 
 #### **AQUÍ AÑADIR EL RESTO DE PÁGINAS**
 
@@ -150,60 +209,6 @@ Diagrama mostrando las entidades, sus campos y relaciones:
 
 Diagrama de clases de la aplicación con diferenciación por colores o secciones:
 
-![index](images/image.png)
-
-> Página de inicio que muestra un banner principal con la llamada a la acción para crear equipos, seguido de secciones con tarjetas informativas sobre las ligas y torneos disponibles, además debajo del todo tenemos un panel con estadísticas interesantes. Incluye una barra de navegación superior y acceso a registro/login para usuarios no autenticados. 
-
-
-![Añadir jugador](images/add-player.PNG)
-
-> Página de inscripción de jugadores que presenta un formulario para dar de alta a nuevos jugadores para la liga. Tiene campos para ingresar datos personales, dorsal y foto, junto a las opciones de guardar o cancelar.
-
-
-![Panel de control admin](images/admin-dashboard.PNG)
-
-> Página de admin que muestra un resumen del estado de la plataforma con métricas, con una sección para efectuar acciones rápidas, como crear liga o aprobar nuevos equipos que solicitan ser inscritos. Además, hay un registro de actividad reciente. 
-
-
-![Panel de ligas admin](images/admin-leagues.PNG)
-
-> Página de admin que permite administrar los partidos guardando o actualizando los resultados, crear o editar ligas y muestra los resultados registrados de la jornada actual, dependiendo de la liga en la que nos encontremos. 
-
-
-![Panel de equipos admin](images/admin-teams.PNG)
-
-> Página de admin que muestra las solicitudes de inscripción pendientes de validar, además de los equipos activos con su estado actual (activo, sancionado...). Permite, vetar equipo, aceptarlos o rechazarlos. También tiene barra de búsqueda.
-
-
-![Creación de equipos](images/create-team.PNG)
-
-> Página de creación de equipos, acción necesaria para participar en ligas y torneos. Permite elegir un nombre d eequipo y un escudo. Además, se limita el número de equipos a 1 por cuenta. Esta opción, es únicamente para los usuarios registrados en la aplicación.
-
-
-![Detalle liga](images/league-detail.PNG)
-
-> Página de detalle de competición que muestra la tabla de clasificación actualizada con las estadísticas completas de cada club, incluyendo partidos jugados, goles y puntos. Hay opción de inscribir equipo propio, muestra el estado de la liga y barra de navegación superior. 
-
-
-![Login](images/login.PNG)
-
-> Página de inicio de sesión que presenta un formulario para autenticar usuarios. Se deben introducir correo y contraseña. Debajo se deja una opción para registrarse en caso de no tener cuenta.
-
-
-
-![Gestión de equipo](images/manage-team.PNG)
-
-> Página de gestión de equipo que muestra la identidad del club y las lista de la plantilla actual con tarjetas que muestran a los jugadores. Incluye un botón para añadir nuevos integrantes. Sólo para usuarios registrados.
-
-
-![Registro](images/register.PNG)
-
-> Página de registro que permite crear cuentas con campos para credenciales y la selección de tu avatar. Incluye validación de contraseña, botón de confirmación y un enlace de inicio de sesión para usuarios ya registrados.
-
-
-![Detalle de torneo](images/tournament-detail.PNG)
-
-> Página de detalle de competición que muestra el desarrollo del torneo con cuadros para cada eliminatoria, organizando emparejamientos desde cuartos de final hasta semifinales y finales. Además muestra los resultados de los partidos ya disputados, el estado de los encuentros pendientes e información general del torneo en un cuadro debajo del nombre del torneo jugado.
 
 
 
