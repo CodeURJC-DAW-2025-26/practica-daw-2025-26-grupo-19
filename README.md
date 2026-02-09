@@ -191,6 +191,22 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 
 
+![Gestión de equipo](images/manage-team.PNG)
+
+> Página de gestión de equipo que muestra la identidad del club y las lista de la plantilla actual con tarjetas que muestran a los jugadores. Incluye un botón para añadir nuevos integrantes. Sólo para usuarios registrados.
+
+
+![Registro](images/register.PNG)
+
+> Página de registro que permite crear cuentas con campos para credenciales y la selección de tu avatar. Incluye validación de contraseña, botón de confirmación y un enlace de inicio de sesión para usuarios ya registrados.
+
+
+![Detalle de torneo](images/tournament-detail.PNG)
+
+> Página de detalle de competición que muestra el desarrollo del torneo con cuadros para cada eliminatoria, organizando emparejamientos desde cuartos de final hasta semifinales y finales. Además muestra los resultados de los partidos ya disputados, el estado de los encuentros pendientes e información general del torneo en un cuadro debajo del nombre del torneo jugado.
+
+
+
 ### **Participación de Miembros en la Práctica 1**
 
 #### **Alumno 1 - [Nombre Completo]**
