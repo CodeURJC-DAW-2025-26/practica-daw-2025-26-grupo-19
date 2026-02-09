@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ligas y Partidos - Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="admin-dashboard.html" class="logo">
+          <div class="logo-icon">🛡️</div>
+          <span class="logo-text">AdminPanel</span>
+        </a>
+        <nav class="nav">
+          <a href="admin-dashboard.html">Panel</a>
+          <a href="admin-leagues.html" class="fw-bold">Ligas y Partidos</a>
+          <a href="admin-teams.html">Equipos</a>
+          <div class="user-info">
+            <span class="badge bg-warning text-dark me-2">ADMIN</span>
+            <a href="index.html" class="logout-link">🚪</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-5">
+    
+    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active fw-bold" id="matches-tab" data-bs-toggle="tab" data-bs-target="#matches" type="button">⚽ Administrar Partidos</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fw-bold" id="create-tab" data-bs-toggle="tab" data-bs-target="#create" type="button">🏆 Crear / Editar Ligas</button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+      
+      <div class="tab-pane fade show active" id="matches" role="tabpanel">
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-4">
+              <h4 class="card-title">Jornada Actual - Resultados</h4>
+              <select class="form-select w-auto">
+                <option>Liga Oro - Jornada 5</option>
+                <option>Liga Plata - Jornada 5</option>
+              </select>
+            </div>
+
+            <div class="list-group">
+              <div class="list-group-item p-3">
+                <div class="row align-items-center text-center">
+                  <div class="col-4 text-end fw-semibold">Águilas Rojas</div>
+                  <div class="col-4">
+                    <div class="input-group input-group-sm justify-content-center">
+                      <input type="number" class="form-control text-center" value="2" style="max-width: 50px;">
+                      <span class="input-group-text border-0 bg-transparent fw-bold">-</span>
+                      <input type="number" class="form-control text-center" value="1" style="max-width: 50px;">
+                    </div>
+                    <small class="text-muted d-block mt-1">Finalizado</small>
+                  </div>
+                  <div class="col-4 text-start fw-semibold">Leones FC</div>
+                </div>
+                <div class="text-center mt-2">
+                   <button class="btn btn-sm btn-primary py-0 px-2">Guardar</button>
+                </div>
+              </div>
+
+              <div class="list-group-item p-3 bg-light">
+                <div class="row align-items-center text-center">
+                  <div class="col-4 text-end text-muted">Tigres del Sur</div>
+                  <div class="col-4">
+                    <div class="input-group input-group-sm justify-content-center">
+                      <input type="number" class="form-control text-center" placeholder="0" style="max-width: 50px;">
+                      <span class="input-group-text border-0 bg-transparent fw-bold">-</span>
+                      <input type="number" class="form-control text-center" placeholder="0" style="max-width: 50px;">
+                    </div>
+                    <small class="text-primary d-block mt-1">Jueves 20:00</small>
+                  </div>
+                  <div class="col-4 text-start text-muted">Rayo Vallecano B</div>
+                </div>
+                 <div class="text-center mt-2">
+                   <button class="btn btn-sm btn-outline-primary py-0 px-2">Actualizar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="create" role="tabpanel">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card shadow h-100">
+              <div class="card-body">
+                <h5 class="card-title fw-bold mb-3">Nueva Competición</h5>
+                <form>
+                  <div class="mb-3">
+                    <label class="form-label">Nombre de la Liga</label>
+                    <input type="text" class="form-control" placeholder="Ej: Liga Verano 2026">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Tipo</label>
+                    <select class="form-select">
+                      <option>Liga (Puntos)</option>
+                      <option>Torneo (Eliminatoria)</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Cupo de Equipos</label>
+                    <input type="number" class="form-control" value="16">
+                  </div>
+                  <button class="btn btn-primary w-100">Crear Liga</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="card shadow h-100">
+              <div class="card-body">
+                <h5 class="card-title fw-bold mb-3">Ligas Existentes</h5>
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Equipos</th>
+                      <th>Estado</th>
+                      <th>Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Liga Oro</td>
+                      <td>16/16</td>
+                      <td><span class="badge bg-success">En curso</span></td>
+                      <td><button class="btn btn-sm btn-link">Administrar</button></td>
+                    </tr>
+                    <tr>
+                      <td>Copa Apertura</td>
+                      <td>8/32</td>
+                      <td><span class="badge bg-warning text-dark">Inscripción</span></td>
+                      <td><button class="btn btn-sm btn-link">Administrar</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - FutbolManager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="admin-dashboard.html" class="logo">
+          <div class="logo-icon">🛡️</div> <span class="logo-text">AdminPanel</span>
+        </a>
+        <nav class="nav">
+          <a href="admin-dashboard.html" class="fw-bold">Panel</a>
+          <a href="admin-leagues.html">Ligas y Partidos</a>
+          <a href="admin-teams.html">Equipos</a>
+          <div class="user-info">
+            <span class="badge bg-warning text-dark me-2">ADMIN</span>
+            <a href="index.html" class="logout-link">🚪</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-5">
+    <h1 class="h2 fw-bold mb-4">Panel de Control</h1>
+
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="card shadow border-0 h-100">
+          <div class="card-body d-flex align-items-center gap-3">
+            <div class="bg-primary bg-opacity-10 p-3 rounded-circle text-primary fs-4">🏆</div>
+            <div>
+              <h6 class="text-muted mb-0">Ligas Activas</h6>
+              <h3 class="fw-bold mb-0">4</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow border-0 h-100">
+          <div class="card-body d-flex align-items-center gap-3">
+            <div class="bg-warning bg-opacity-10 p-3 rounded-circle text-warning fs-4">⚠️</div>
+            <div>
+              <h6 class="text-muted mb-0">Solicitudes Pendientes</h6>
+              <h3 class="fw-bold mb-0">2</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow border-0 h-100">
+          <div class="card-body d-flex align-items-center gap-3">
+            <div class="bg-success bg-opacity-10 p-3 rounded-circle text-success fs-4">⚽</div>
+            <div>
+              <h6 class="text-muted mb-0">Partidos esta semana</h6>
+              <h3 class="fw-bold mb-0">12</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-white fw-bold py-3">Acciones Rápidas</div>
+          <div class="card-body">
+            <div class="d-grid gap-3">
+              <a href="admin-leagues.html" class="btn btn-outline-primary d-flex justify-content-between align-items-center">
+                <span>➕ Crear Nueva Liga</span>
+                <span>→</span>
+              </a>
+              <a href="admin-teams.html" class="btn btn-outline-success d-flex justify-content-between align-items-center">
+                <span>✅ Aprobar Nuevos Equipos</span>
+                <span class="badge bg-danger rounded-pill">2</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header bg-white fw-bold py-3">Actividad Reciente</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item small text-muted">
+              <span class="text-dark fw-semibold">Águilas Rojas</span> se ha registrado. <span class="float-end">Hace 1h</span>
+            </li>
+            <li class="list-group-item small text-muted">
+              Resultado actualizado: <span class="text-dark">Liga Oro (Jornada 3)</span>. <span class="float-end">Hace 3h</span>
+            </li>
+            <li class="list-group-item small text-muted">
+              Nueva liga creada: <span class="text-dark">Torneo de Verano</span>. <span class="float-end">Ayer</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
