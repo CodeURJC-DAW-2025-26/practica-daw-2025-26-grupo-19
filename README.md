@@ -150,9 +150,46 @@ Diagrama mostrando las entidades, sus campos y relaciones:
 
 Diagrama de clases de la aplicación con diferenciación por colores o secciones:
 
-![Diagrama de Clases](images/classes-diagram.png)
+![index](images/image.png)
 
-> [Descripción opcional del diagrama y relaciones principales]
+> Página de inicio que muestra un banner principal con la llamada a la acción para crear equipos, seguido de secciones con tarjetas informativas sobre las ligas y torneos disponibles, además debajo del todo tenemos un panel con estadísticas interesantes. Incluye una barra de navegación superior y acceso a registro/login para usuarios no autenticados. 
+
+
+![Añadir jugador](images/add-player.PNG)
+
+> Página de inscripción de jugadores que presenta un formulario para dar de alta a nuevos jugadores para la liga. Tiene campos para ingresar datos personales, dorsal y foto, junto a las opciones de guardar o cancelar.
+
+
+![Panel de control admin](images/admin-dashboard.PNG)
+
+> Página de admin que muestra un resumen del estado de la plataforma con métricas, con una sección para efectuar acciones rápidas, como crear liga o aprobar nuevos equipos que solicitan ser inscritos. Además, hay un registro de actividad reciente. 
+
+
+![Panel de ligas admin](images/admin-leagues.PNG)
+
+> Página de admin que permite administrar los partidos guardando o actualizando los resultados, crear o editar ligas y muestra los resultados registrados de la jornada actual, dependiendo de la liga en la que nos encontremos. 
+
+
+![Panel de equipos admin](images/admin-teams.PNG)
+
+> Página de admin que muestra las solicitudes de inscripción pendientes de validar, además de los equipos activos con su estado actual (activo, sancionado...). Permite, vetar equipo, aceptarlos o rechazarlos. También tiene barra de búsqueda.
+
+
+![Creación de equipos](images/create-team.PNG)
+
+> Página de creación de equipos, acción necesaria para participar en ligas y torneos. Permite elegir un nombre d eequipo y un escudo. Además, se limita el número de equipos a 1 por cuenta. Esta opción, es únicamente para los usuarios registrados en la aplicación.
+
+
+![Detalle liga](images/league-detail.PNG)
+
+> Página de detalle de competición que muestra la tabla de clasificación actualizada con las estadísticas completas de cada club, incluyendo partidos jugados, goles y puntos. Hay opción de inscribir equipo propio, muestra el estado de la liga y barra de navegación superior. 
+
+
+![Login](images/login.PNG)
+
+> Página de inicio de sesión que presenta un formulario para autenticar usuarios. Se deben introducir correo y contraseña. Debajo se deja una opción para registrarse en caso de no tener cuenta.
+
+
 
 ### **Participación de Miembros en la Práctica 1**
 
