@@ -150,7 +150,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 
 
-#### **10. Detalles torneos / Tournament detail**
+#### **11. Detalles torneos / Tournament detail**
 ![Detalle de torneo](images/tournament-detail.PNG)
 
 > Página de detalle de competición que muestra el desarrollo del torneo con cuadros para cada eliminatoria, organizando emparejamientos desde cuartos de final hasta semifinales y finales. Además muestra los resultados de los partidos ya disputados, el estado de los encuentros pendientes e información general del torneo en un cuadro debajo del nombre del torneo jugado.
