@@ -1,0 +1,103 @@
+{{> header}}
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <div
+                            class="card-icon-custom card-icon-lg d-inline-flex align-items-center justify-content-center mb-3">
+                            <span>👤</span>
+                        </div>
+                        <h1 class="h2 fw-bold">Registrarse</h1>
+                        <p class="text-muted">Crea tu cuenta en FutbolManager</p>
+                    </div>
+
+                    <form action="/register" method="post">
+                        <input type="hidden" name="_csrf" value="{{token}}"/>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="tu@email.com" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Mínimo 6 caracteres" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                placeholder="Repite tu contraseña" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Selecciona tu avatar</label>
+                            <div class="row g-2">
+                                <div class="col-3">
+                                    <div class="avatar-option selected">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar 1"
+                                            class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="avatar-option">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" alt="Avatar 2"
+                                            class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="avatar-option">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Midnight"
+                                            alt="Avatar 3" class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="avatar-option">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sophie" alt="Avatar 4"
+                                            class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="avatar-option">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Leo" alt="Avatar 5"
+                                            class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="avatar-option">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Maya" alt="Avatar 6"
+                                            class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="avatar-option">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Oliver" alt="Avatar 7"
+                                            class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="avatar-option">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Luna" alt="Avatar 8"
+                                            class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Crear cuenta</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <p class="text-muted mb-0">¿Ya tienes cuenta? <a href="/login"
+                                class="text-primary text-decoration-none">Inicia sesión</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{{> footer}}

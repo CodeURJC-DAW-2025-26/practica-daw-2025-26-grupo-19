@@ -18,6 +18,8 @@ public class User {
 
 	private String name;
 
+	private String email;
+
 	private String encodedPassword;
 
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -26,8 +28,9 @@ public class User {
 	public User() {
 	}
 
-	public User(String name, String encodedPassword, String... roles) {
+	public User(String name, String email, String encodedPassword, String... roles) {
 		this.name = name;
+		this.email = email;
 		this.encodedPassword = encodedPassword;
 		this.roles = List.of(roles);
 	}
@@ -39,7 +42,12 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public String getEncodedPassword() {
 		return encodedPassword;
 	}

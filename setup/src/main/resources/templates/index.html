@@ -1,0 +1,154 @@
+{{> header}}
+
+<main class="container my-5">
+  <section class="hero-section">
+    <h1 class="display-4 fw-bold mb-3">Inscríbete en Ligas y Torneos de Fútbol</h1>
+    <p class="lead hero-subtitle mb-4">Crea tu equipo, inscribe jugadores y compite en múltiples competiciones</p>
+    <div class="d-flex gap-3 justify-content-center">
+      <a href="/create-team" class="btn btn-light btn-lg">Crear Equipo</a>
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <span class="section-icon">🏆</span>
+      <h2 class="display-6 fw-bold mb-0">Ligas</h2>
+    </div>
+    <div class="row g-4">
+
+      {{#leagues}}
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow">
+          <div class="card-body">
+            <a href="/league/{{id}}" class="text-decoration-none text-dark">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="card-icon-custom">🏆</div>
+                <div>
+                  <h5 class="card-title mb-1">{{name}}</h5>
+                  <span class="badge {{badgeClass}}">{{status}}</span>
+                </div>
+              </div>
+
+              {{#hasStandings}}
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead class="table-light">
+                    <tr class="small">
+                      <th>#</th>
+                      <th>Equipo</th>
+                      <th class="text-center">Pts</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {{#topTeams}}
+                    <tr>
+                      <td class="fw-semibold">{{position}}</td>
+                      <td>{{teamName}}</td>
+                      <td class="text-center table-highlight">{{points}}</td>
+                    </tr>
+                    {{/topTeams}}
+                  </tbody>
+                </table>
+              </div>
+              <p class="text-center text-muted small mb-0">Ver clasificación completa →</p>
+              {{/hasStandings}}
+
+              {{^hasStandings}}
+              <div class="text-center py-4 text-muted">
+                <p class="small mb-1">{{description}}</p>
+                <p class="small mb-0">{{teamsCount}} equipos inscritos</p>
+              </div>
+              {{/hasStandings}}
+
+            </a>
+          </div>
+        </div>
+      </div>
+      {{/leagues}}
+
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <span class="section-icon">🥇</span>
+      <h2 class="display-6 fw-bold mb-0">Torneos</h2>
+    </div>
+    <div class="row g-4">
+
+      {{#tournaments}}
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow">
+          <div class="card-body">
+            <a href="/tournament/{{id}}" class="text-decoration-none text-dark">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="card-icon-custom">🥇</div>
+                <div>
+                  <h5 class="card-title mb-1">{{name}}</h5>
+                  <span class="badge {{badgeClass}}">{{status}}</span>
+                </div>
+              </div>
+
+              <div class="bg-light rounded p-3">
+                <div class="text-center">
+                  <div class="bg-white rounded p-3 shadow-sm d-inline-block mb-2">
+                    <span style="font-size: 2rem;">🏆</span>
+                  </div>
+                  <p class="small text-muted mb-1">{{type}}</p>
+                  <p class="small fw-semibold mb-0">{{teamsCount}} equipos</p>
+                </div>
+                <p class="text-center text-muted small mb-0 mt-3">Ver cuadro completo →</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      {{/tournaments}}
+
+    </div>
+  </section>
+
+  <section>
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <span class="section-icon">🎯</span>
+      <h2 class="display-6 fw-bold mb-0">Estadísticas</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card shadow">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Top 5 Goleadores</h5>
+            <div class="bg-light rounded p-4 text-center mb-3"
+              style="height: 200px; display: flex; align-items: center; justify-content: center;">
+              <p class="text-muted fst-italic">[Gráfico Goleadores]</p>
+            </div>
+            <ul class="list-group list-group-flush mt-3">
+              {{#topScorers}}
+              <li class="list-group-item small">{{position}}. {{playerName}} - {{goals}} goles</li>
+              {{/topScorers}}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card shadow">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Top 5 Asistentes</h5>
+            <div class="bg-light rounded p-4 text-center mb-3"
+              style="height: 200px; display: flex; align-items: center; justify-content: center;">
+              <p class="text-muted fst-italic">[Gráfico Asistentes]</p>
+            </div>
+            <ul class="list-group list-group-flush mt-3">
+              {{#topAssisters}}
+              <li class="list-group-item small">{{position}}. {{playerName}} - {{assists}} asistencias</li>
+              {{/topAssisters}}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{{> footer}}

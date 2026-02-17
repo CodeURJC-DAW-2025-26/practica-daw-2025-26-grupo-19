@@ -43,6 +43,8 @@ public class WebSecurityConfig {
 						.requestMatchers("/books/**").permitAll()
 						.requestMatchers("/assets/**").permitAll() // Allow access to static resources
 						.requestMatchers("/favicon.ico").permitAll()
+						.requestMatchers("/css/**").permitAll()
+						.requestMatchers("/register").permitAll()
 						// PRIVATE PAGES
 						.requestMatchers("/newbook").hasAnyRole("USER")
 						.requestMatchers("/editbook").hasAnyRole("USER")
@@ -50,6 +52,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/removebook/*").hasAnyRole("ADMIN"))
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
+						.usernameParameter("email")
 						.failureUrl("/loginerror")
 						.defaultSuccessUrl("/")
 						.permitAll())

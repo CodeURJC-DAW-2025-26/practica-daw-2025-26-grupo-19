@@ -1,10 +1,48 @@
-{{>header}}
-<form action="/login" method="post" class="d-flex flex-column gap-2 p-4">
-    <input type="text" class="form-control" name="username" placeholder="Username">
-    <input type="password" class="form-control" name="password" placeholder="Password">
-    <div class="text-start w-100">
-        <button type="submit" class="btn btn-primary">Log In</button>
+{{> header}}
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <div class="card-icon-custom card-icon-lg d-inline-flex align-items-center justify-content-center mb-3">
+                            <span>🔑</span>
+                        </div>
+                        <h1 class="h2 fw-bold">Iniciar Sesión</h1>
+                        <p class="text-muted">Accede a tu cuenta</p>
+                    </div>
+
+                    {{#error}}
+                    <div class="alert alert-danger text-center" role="alert">
+                        Usuario o contraseña incorrectos.
+                    </div>
+                    {{/error}}
+
+                    <form action="/login" method="post">
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="tu@email.com" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Tu contraseña" required>
+                        </div>
+
+                        <input type="hidden" name="_csrf" value="{{token}}"/>
+
+                        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <p class="text-muted mb-0">¿No tienes cuenta? <a href="/register" class="text-primary text-decoration-none">Regístrate</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <input type="hidden" name="_csrf" value="{{token}}" />
-</form>
-{{>footer}}
+</main>
+
+{{> footer}}
