@@ -52,9 +52,9 @@ public class WebSecurityConfig {
 						.requestMatchers("/removebook/*").hasAnyRole("ADMIN"))
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
-						.usernameParameter("email")
+						// .usernameParameter("email")
 						.failureUrl("/loginerror")
-						.defaultSuccessUrl("/")
+						.defaultSuccessUrl("/", true)
 						.permitAll())
 				.logout(logout -> logout
 						.logoutUrl("/logout")

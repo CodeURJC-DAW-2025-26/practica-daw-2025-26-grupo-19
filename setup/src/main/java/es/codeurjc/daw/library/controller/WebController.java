@@ -88,12 +88,12 @@ public class WebController {
         return "index"; // Esto carga el archivo index.html
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public String login() {
         return "login"; 
     }
 
-    @PostMapping("/loginerror")
+    @GetMapping("/loginerror")
     public String loginerror(Model model) {
         model.addAttribute("error", true);
         return "login"; 

@@ -6,34 +6,42 @@
             <div class="card shadow">
                 <div class="card-body p-4">
                     <div class="text-center mb-4">
-                        <div class="card-icon-custom card-icon-lg d-inline-flex align-items-center justify-content-center mb-3">
+                        <div
+                            class="card-icon-custom card-icon-lg d-inline-flex align-items-center justify-content-center mb-3">
                             <span>🔑</span>
                         </div>
                         <h1 class="h2 fw-bold">Iniciar Sesión</h1>
-                        <p class="text-muted">Accede a tu cuenta</p>
+                        <p class="text-muted">Accede a tu cuenta de FutbolManager</p>
                     </div>
 
                     {{#error}}
-                    <div class="alert alert-danger text-center" role="alert">
+                    <div class="alert alert-danger" role="alert">
                         Usuario o contraseña incorrectos.
                     </div>
                     {{/error}}
 
                     <form action="/login" method="post">
-                        
+                        <input type="hidden" name="_csrf" value="{{token}}"/>
+
                         <div class="mb-3">
                             <label for="email" class="form-label">Correo electrónico</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="tu@email.com" required>
+                            <input type="text" class="form-control" id="email" name="username" placeholder="tu@email.com" required>
                         </div>
 
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="Tu contraseña" required>
                         </div>
 
-                        <input type="hidden" name="_csrf" value="{{token}}"/>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="remember">
+                                <label class="form-check-label small" for="remember">Recordarme</label>
+                            </div>
+                            <a href="#" class="small text-decoration-none">¿Olvidaste tu contraseña?</a>
+                        </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                        <button type="submit" class="btn btn-primary w-100">Entrar</button>
                     </form>
 
                     <div class="text-center mt-3">

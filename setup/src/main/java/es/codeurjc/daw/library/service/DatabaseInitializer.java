@@ -78,9 +78,8 @@ public class DatabaseInitializer {
 				new ArrayList<>(Arrays.asList(shop1, shop2))));
 
 		// Sample users
-
-		userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
-		userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
+		userRepository.save(new User("user", "user@futbolmanager.com", passwordEncoder.encode("pass"), "USER"));
+		userRepository.save(new User("admin", "admin@futbolmanager.com", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
 	}
 
 	public void setBookImage(Book book, String classpathResource) throws IOException {
