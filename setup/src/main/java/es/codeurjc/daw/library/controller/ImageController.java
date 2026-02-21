@@ -1,5 +1,5 @@
 package es.codeurjc.daw.library.controller;
-
+/* 
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import es.codeurjc.daw.library.service.ImageService;
+import es.codeurjc.daw.library.service.PartidoService;
 
 @Controller
 public class ImageController {
 
     @Autowired
-    private ImageService imageService;
+    private PartidoService imageService;
 
     @GetMapping("/images/{id}")
     public ResponseEntity<Object> getImageFile(@PathVariable long id) throws SQLException {
@@ -34,3 +34,5 @@ public class ImageController {
                 .body(imageFile);
     }
 }
+
+ */

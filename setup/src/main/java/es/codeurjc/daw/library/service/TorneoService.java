@@ -1,5 +1,5 @@
 package es.codeurjc.daw.library.service;
-
+/*
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import es.codeurjc.daw.library.model.Shop;
 import es.codeurjc.daw.library.repository.ShopRepository;
 
 @Service
-public class ShopService {
+public class TorneoService {
 
 	@Autowired
 	private ShopRepository repository;
@@ -41,3 +41,5 @@ public class ShopService {
 
 	
 }
+
+ */

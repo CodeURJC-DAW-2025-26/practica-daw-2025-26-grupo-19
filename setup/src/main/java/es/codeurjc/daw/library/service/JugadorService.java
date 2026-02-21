@@ -1,16 +1,18 @@
 package es.codeurjc.daw.library.service;
-
+/*
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.codeurjc.daw.library.model.Book;
-import es.codeurjc.daw.library.repository.BookRepository;
+import es.codeurjc.daw.library.model.Jugador;
+import es.codeurjc.daw.library.repository.JugadorRepository;
+
+
 
 @Service
-public class BookService {
+public class JugadorService {
 
 	@Autowired
 	private BookRepository repository;
@@ -35,3 +37,4 @@ public class BookService {
 		repository.deleteById(id);
 	}
 }
+*/
