@@ -21,9 +21,9 @@ public class RepositoryUserDetailsService implements UserDetailsService {
 	private EquipoRepository userRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		Equipo user = userRepository.findByEmail(email)
+		Equipo user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
 		List<GrantedAuthority> roles = new ArrayList<>();
@@ -31,7 +31,7 @@ public class RepositoryUserDetailsService implements UserDetailsService {
 			roles.add(new SimpleGrantedAuthority("ROLE_" + role));
 		}
 
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), 
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), 
 				user.getEncodedPassword(), roles);
 
 	}
