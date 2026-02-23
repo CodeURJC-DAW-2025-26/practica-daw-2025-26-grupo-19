@@ -112,6 +112,5 @@ equipoRepository.saveAll(Arrays.asList(admin, aguilas, leones, tigres, halcones,
 
         partidoRepository.saveAll(Arrays.asList(p1, p2, p3));
         
-        System.out.println("✅ Base de datos inicializada correctamente con @PostConstruct");
     }
 }

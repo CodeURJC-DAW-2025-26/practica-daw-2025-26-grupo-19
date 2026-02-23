@@ -76,6 +76,13 @@ public class WebController {
         return "login"; 
     }
 
+
+    @GetMapping("/admin-dashboard")
+    public String adminDashboard(Model model) {
+
+        return "admin-dashboard"; 
+    }
+
     @GetMapping("/register")
     public String register() {
         return "register"; 

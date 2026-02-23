@@ -47,6 +47,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/register").permitAll()
 						// PRIVATE PAGES
 						.requestMatchers("/newbook").hasAnyRole("USER")
+						.requestMatchers("/admin-dashboard").hasAnyRole("ADMIN")
 						.requestMatchers("/editbook").hasAnyRole("USER")
 						.requestMatchers("/editbook/*").hasAnyRole("USER")
 						.requestMatchers("/removebook/*").hasAnyRole("ADMIN"))
