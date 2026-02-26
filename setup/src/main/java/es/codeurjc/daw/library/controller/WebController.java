@@ -26,6 +26,8 @@ import es.codeurjc.daw.library.repository.EquipoRepository;
 import es.codeurjc.daw.library.repository.JugadorRepository;
 import es.codeurjc.daw.library.repository.TorneoRepository;
 import es.codeurjc.daw.library.service.TorneoService;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class WebController {
@@ -234,6 +236,16 @@ public String userProfile(Model model, HttpServletRequest request) {
 
         return "redirect:/profile";
     }
+
+    @PostMapping("/equipo/jugador/{id}/borrar")
+    public String borrarJugador(@PathVariable Long id) {
+        Optional<Jugador> jugadorOpt = jugadorRepository.findById(id);
+        if (jugadorOpt.isPresent()) {
+            jugadorRepository.delete(jugadorOpt.get());
+        }
+        return "redirect:/profile";
+    }
+    
 
     @GetMapping("/torneo/{id}")
     public String torneoDetalle(@PathVariable Long id, Model model) {

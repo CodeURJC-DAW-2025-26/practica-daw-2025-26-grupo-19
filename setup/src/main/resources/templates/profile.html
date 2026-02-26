@@ -45,7 +45,7 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="card border">
                         <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-start justify-content-between">
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="card-icon-custom">
                                         <strong>{{dorsal}}</strong>
@@ -55,9 +55,44 @@
                                         <p class="text-muted mb-0 small">Posición: {{posicion}}</p>
                                     </div>
                                 </div>
-                                <div class="text-end text-muted small">
-                                    <div>⚽ {{goles}}</div>
-                                    <div>👟 {{asistencias}}</div>
+
+                                <div class="d-flex flex-column align-items-end gap-2">
+                                    <div class="text-end text-muted small">
+                                        <div>⚽ {{goles}}</div>
+                                        <div>👟 {{asistencias}}</div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-danger p-1"
+                                        style="line-height: 1;" data-bs-toggle="modal"
+                                        data-bs-target="#deletePlayerModal{{id}}" title="Despedir jugador">
+                                        🗑️
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="deletePlayerModal{{id}}" tabindex="-1"
+                        aria-labelledby="deletePlayerModalLabel{{id}}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title fw-bold" id="deletePlayerModalLabel{{id}}">Despedir Jugador
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center py-4">
+                                    <p class="mb-0">¿Estás seguro de que quieres despedir a <strong>{{nombre}}</strong>?
+                                    </p>
+                                    <p class="text-muted small mt-1">Esta acción no se puede deshacer.</p>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <form action="/equipo/jugador/{{id}}/borrar" method="POST" style="margin: 0;">
+                                        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                                        <button type="submit" class="btn btn-danger">Sí, despedir</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +120,6 @@
             </div>
             <form action="/equipo/jugador/nuevo" method="POST">
                 <div class="modal-body">
-
                     <div class="mb-3">
                         <label for="nombreJugador" class="form-label fw-bold">Nombre del Jugador</label>
                         <input type="text" class="form-control" id="nombreJugador" name="nombre"
