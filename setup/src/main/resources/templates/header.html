@@ -30,7 +30,7 @@
                     <form action="/logout" method="post" style="display:inline;">
                         <button type="submit" class="btn btn-link text-decoration-none" style="color: inherit;">Cerrar
                             Sesión</button>
-                        <input type="hidden" name="_csrf" value="{{token}}" />
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
                     </form>
                     {{/logged}}
                 </nav>

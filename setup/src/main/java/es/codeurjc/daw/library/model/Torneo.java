@@ -17,7 +17,16 @@ public class Torneo {
     
     private String estado; // "INSCRIPCIONES", "EN_CURSO", "FINALIZADO"
 
+    private int maxParticipantes;
     
+    public int getMaxParticipantes() {
+        return maxParticipantes;
+    }
+
+    public void setMaxParticipantes(int maxParticipantes) {
+        this.maxParticipantes = maxParticipantes;
+    }
+
     // Un torneo tiene muchos equipos, y un equipo puede jugar muchos torneos
     @ManyToMany
     @JoinTable(
@@ -33,10 +42,11 @@ public class Torneo {
 
     public Torneo() {}
 
-    public Torneo(String nombre, String tipo, String estado) {
+    public Torneo(String nombre, String tipo, String estado, int maxParticipantes) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.estado = estado;
+        this.maxParticipantes = maxParticipantes;
     }
 
     public Long getId() {

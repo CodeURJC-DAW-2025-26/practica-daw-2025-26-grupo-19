@@ -69,6 +69,19 @@
               </div>
               {{/equipos}}
 
+              <hr>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small fw-bold text-muted">{{equipos.size}} de {{maxParticipantes}} plazas</span>
+                
+                {{#logged}}
+                <form action="/torneo/inscribir" method="post" class="m-0">
+                   <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                   <input type="hidden" name="torneoId" value="{{id}}" />
+                   <button type="submit" class="btn btn-sm btn-primary">¡Inscribir a mi equipo!</button>
+                </form>
+                {{/logged}}
+              </div>
+
               <p class="text-center text-muted small mb-0 mt-2">Ver clasificación completa →</p>
             </a>
           </div>

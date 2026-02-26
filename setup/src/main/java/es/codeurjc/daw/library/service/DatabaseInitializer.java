@@ -57,16 +57,16 @@ Equipo dragones = new Equipo("user5", "user5@futbolmanager.com", passwordEncoder
 equipoRepository.saveAll(Arrays.asList(admin, aguilas, leones, tigres, halcones, dragones));
 
 
-        Torneo ligaPremium = new Torneo("Liga Premium", "LIGA", "En curso");
+        Torneo ligaPremium = new Torneo("Liga Premium", "LIGA", "En curso", 20);
         ligaPremium.getEquipos().addAll(Arrays.asList(aguilas, leones, tigres, halcones, dragones));
 
-        Torneo ligaNorte = new Torneo("Liga Regional Norte", "LIGA", "En curso");
-        Torneo ligaAmateur = new Torneo("Liga Amateur", "LIGA", "Inscripciones abiertas");
+        Torneo ligaNorte = new Torneo("Liga Regional Norte", "LIGA", "En curso",20);
+        Torneo ligaAmateur = new Torneo("Liga Amateur", "LIGA", "Inscripciones abiertas", 20);
 
-        Torneo copaCampeones = new Torneo("Copa de Campeones", "ELIMINATORIA", "En curso");
+        Torneo copaCampeones = new Torneo("Copa de Campeones", "ELIMINATORIA", "En curso", 10);
         copaCampeones.getEquipos().addAll(Arrays.asList(aguilas, leones, tigres, halcones));
 
-        Torneo torneoApertura = new Torneo("Torneo Apertura 2026", "LIGA", "Inscripciones abiertas");
+        Torneo torneoApertura = new Torneo("Torneo Apertura 2026", "LIGA", "Inscripciones abiertas",10);
 
         torneoRepository.saveAll(Arrays.asList(ligaPremium, ligaNorte, ligaAmateur, copaCampeones, torneoApertura));
 

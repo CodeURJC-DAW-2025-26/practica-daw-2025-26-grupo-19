@@ -43,38 +43,66 @@
   </div>
 
   <div class="row g-4">
-    <div class="col-md-6">
+    <div class="col-md-5">
       <div class="card shadow h-100">
-        <div class="card-header bg-white fw-bold py-3">Acciones Rápidas</div>
+        <div class="card-header bg-white fw-bold py-3">➕ Crear Nueva Liga</div>
         <div class="card-body">
-          <div class="d-grid gap-3">
-            <a href="/admin/leagues" class="btn btn-outline-primary d-flex justify-content-between align-items-center">
-              <span>➕ Crear Nueva Liga</span>
-              <span>→</span>
-            </a>
-            <a href="/admin/teams" class="btn btn-outline-success d-flex justify-content-between align-items-center">
-              <span>✅ Aprobar Nuevos Equipos</span>
-              <span class="badge bg-danger rounded-pill">2</span>
-            </a>
-          </div>
+          <form action="/admin/leagues/new" method="post">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+            <div class="mb-3">
+              <label class="form-label">Nombre de la Competición</label>
+              <input type="text" class="form-control" name="nombre" placeholder="Ej: Liga de Verano" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Número de Participantes</label>
+              <input type="number" class="form-control" name="maxParticipantes" min="2" max="20" placeholder="Mínimo 2, Máximo 20" required>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary fw-bold">Crear Competición</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
     
-    <div class="col-md-6">
+    <div class="col-md-7">
       <div class="card shadow h-100">
-        <div class="card-header bg-white fw-bold py-3">Actividad Reciente</div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item small text-muted">
-            <span class="text-dark fw-semibold">Águilas Rojas</span> se ha registrado. <span class="float-end">Hace 1h</span>
-          </li>
-          <li class="list-group-item small text-muted">
-            Resultado actualizado: <span class="text-dark">Liga Oro (Jornada 3)</span>. <span class="float-end">Hace 3h</span>
-          </li>
-          <li class="list-group-item small text-muted">
-            Nueva liga creada: <span class="text-dark">Torneo de Verano</span>. <span class="float-end">Ayer</span>
-          </li>
-        </ul>
+        <div class="card-header bg-white fw-bold py-3">⚙️ Gestionar Competiciones</div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Nombre</th>
+                  <th>Inscritos</th>
+                  <th>Estado Actual</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#torneosAdmin}}
+                <tr>
+                  <td class="fw-semibold">{{nombre}}</td>
+                  <td>{{equipos.size}} / {{maxParticipantes}}</td>
+                  <td>
+                    <form action="/admin/leagues/status" method="post" class="d-flex align-items-center gap-2 m-0">
+                      <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                      <input type="hidden" name="torneoId" value="{{id}}" />
+                      <select name="estado" class="form-select form-select-sm" style="width: auto;">
+                        <option value="INSCRIPCIONES">Inscripciones</option>
+                        <option value="EN_CURSO">En Curso</option>
+                        <option value="FINALIZADO">Finalizado</option>
+                      </select>
+                      <button type="submit" class="btn btn-sm btn-dark">Actualizar</button>
+                    </form>
+                    <small class="text-muted d-block mt-1">Actualmente: <strong>{{estado}}</strong></small>
+                  </td>
+                </tr>
+                {{/torneosAdmin}}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>

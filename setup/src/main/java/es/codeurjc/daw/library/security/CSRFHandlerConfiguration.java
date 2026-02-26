@@ -26,11 +26,16 @@ class CSRFHandlerInterceptor implements HandlerInterceptor {
 			final ModelAndView modelAndView) throws Exception {
 
 		if (modelAndView != null) {
-
-			CsrfToken token = (CsrfToken) request.getAttribute("_csrf");
+			// Forma segura de obtener el token en Spring Security 6+
+			CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+            
 			if (token != null) {
-				modelAndView.addObject("token", token.getToken());
-			}
+				// Lo inyectamos como "csrfToken" para que coincida con tus plantillas HTML
+				modelAndView.addObject("csrfToken", token.getToken());
+			} else {
+                // Por precaución, si no hay token (páginas públicas sin sesión), mandamos un string vacío
+                modelAndView.addObject("csrfToken", "");
+            }
 		}
 	}
 }

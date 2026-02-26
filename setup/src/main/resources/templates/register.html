@@ -15,7 +15,7 @@
                     </div>
 
                     <form action="/register" method="post">
-                        <input type="hidden" name="_csrf" value="{{token}}" />
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
 
                         {{#error}}
                         <div class="alert alert-danger" role="alert">

@@ -1,0 +1,69 @@
+{{> header}}
+
+<main class="container my-5">
+    <div class="mb-4">
+        <a href="/" class="btn btn-outline-secondary btn-sm">← Volver a Inicio</a>
+    </div>
+
+    <div class="card shadow mb-4 border-0">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-5 fw-bold mb-1">{{torneo.nombre}}</h1>
+                    <div class="d-flex gap-2 mt-2">
+                        <span class="badge bg-primary">{{torneo.tipo}}</span>
+                        <span class="badge bg-success">{{torneo.estado}}</span>
+                        <span class="badge bg-info text-dark">Plazas: {{torneo.equipos.size}} / {{torneo.maxParticipantes}}</span>
+                    </div>
+                </div>
+                <div class="text-center d-none d-md-block">
+                    <span style="font-size: 4rem;">🏆</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-header bg-white fw-bold py-3 d-flex align-items-center gap-2">
+            <span>📊</span> Clasificación
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-start ps-4">Equipo</th>
+                            <th>Puntos</th>
+                            <th>PJ (Jugados)</th>
+                            <th>V (Victorias)</th>
+                            <th>E (Empates)</th>
+                            <th>D (Derrotas)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#torneo.equipos}}
+                        <tr>
+                            <td class="text-start ps-4 fw-semibold">{{nombreEquipo}}</td>
+                            <td class="fw-bold text-primary">0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        {{/torneo.equipos}}
+                        
+                        {{^torneo.equipos}}
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <em>Aún no hay equipos inscritos en esta competición.</em>
+                            </td>
+                        </tr>
+                        {{/torneo.equipos}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+{{> footer}}
