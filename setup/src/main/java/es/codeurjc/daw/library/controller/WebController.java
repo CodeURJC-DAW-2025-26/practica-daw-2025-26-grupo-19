@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
 import es.codeurjc.daw.library.model.Equipo;
+import es.codeurjc.daw.library.model.Jugador;
 import es.codeurjc.daw.library.model.Torneo;
 import es.codeurjc.daw.library.repository.EquipoRepository;
 import es.codeurjc.daw.library.repository.JugadorRepository;
@@ -85,7 +89,6 @@ public class WebController {
     }
 
 
-
     @GetMapping("/register")
     public String register() {
         return "register";
@@ -117,11 +120,8 @@ public class WebController {
 
         // Se inicializa el Equipo con el ROL de "USER"
         Equipo nuevoEquipo = new Equipo(username, email, encodedPassword, nombreEquipo, "USER");
-
-        // 4. Guardar en la base de datos
         equipoRepository.save(nuevoEquipo);
 
-        // 5. Redirigir al login tras un registro exitoso
         return "redirect:/login";
     }
 
@@ -153,7 +153,8 @@ public class WebController {
     }
 
     @PostMapping("/torneo/inscribir")
-    public String inscribirEquipo(@RequestParam Long torneoId, Principal principal) {
+    public String inscribirEquipo(@RequestParam Long torneoId, HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
         if (principal == null)
             return "redirect:/login";
 
@@ -176,6 +177,62 @@ public class WebController {
             }
         }
         return "redirect:/";
+    }
+
+@GetMapping("/profile")
+public String userProfile(Model model, HttpServletRequest request) {
+    Principal principal = request.getUserPrincipal();
+    String username = principal.getName();
+    
+    Optional<Equipo> equipoOpt = equipoRepository.findByUsername(username);
+
+    if (equipoOpt.isPresent()) {
+        Equipo equipo = equipoOpt.get();
+
+        model.addAttribute("username", equipo.getUsername());
+        model.addAttribute("email", equipo.getEmail());
+        model.addAttribute("nombreEquipo", equipo.getNombreEquipo());
+
+        List<Jugador> jugadores = equipo.getJugadores();
+        model.addAttribute("jugadores", jugadores);
+        model.addAttribute("totalJugadores", jugadores.size());
+        
+        // Comprobamos si el equipo tiene escudo para pasarlo en Base64 al HTML
+        if (equipo.getEscudo() != null) {
+            model.addAttribute("hasEscudo", true);
+            String base64Image = Base64.getEncoder().encodeToString(equipo.getEscudo());
+            model.addAttribute("escudoBase64", base64Image);
+        } else {
+            model.addAttribute("hasEscudo", false);
+        }
+
+        return "profile"; 
+    }
+
+    // Si por algún motivo el equipo no existe en BD, lo mandamos al inicio
+    return "redirect:/";
+}
+
+    @PostMapping("/equipo/jugador/nuevo")
+    public String nuevoJugador(HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion, @RequestParam int dorsal) {
+
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return "redirect:/login";
+        }
+        // 2. Buscamos el equipo del usuario que ha iniciado sesión
+        String username = principal.getName();
+        Optional<Equipo> equipoOpt = equipoRepository.findByUsername(username);
+
+        if (equipoOpt.isPresent()) {
+            Equipo equipo = (Equipo) equipoOpt.get();
+
+            Jugador nuevoJugador = new Jugador(nombre, posicion, dorsal, equipo);
+
+            jugadorRepository.save(nuevoJugador);
+        }
+
+        return "redirect:/profile";
     }
 
     @GetMapping("/torneo/{id}")

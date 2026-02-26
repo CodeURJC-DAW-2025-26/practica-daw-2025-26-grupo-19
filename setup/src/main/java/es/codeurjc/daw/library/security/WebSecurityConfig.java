@@ -47,14 +47,17 @@ public class WebSecurityConfig {
 						.requestMatchers("/favicon.ico").permitAll()
 						.requestMatchers("/css/**").permitAll()
 						.requestMatchers("/register").permitAll()
+						
 						// PRIVATE PAGES
 						.requestMatchers("/newbook").hasAnyRole("USER")
 						.requestMatchers("/admin-dashboard").hasAnyRole("ADMIN")
 						.requestMatchers("/admin/**").hasAnyRole("ADMIN")
 						.requestMatchers("/torneo/inscribir").hasAnyRole("USER", "ADMIN")
+						.requestMatchers("/equipo/jugador/nuevo").hasAnyRole("USER", "ADMIN")						
 						.requestMatchers("/editbook").hasAnyRole("USER")
 						.requestMatchers("/editbook/*").hasAnyRole("USER")
-						.requestMatchers("/removebook/*").hasAnyRole("ADMIN"))
+						.requestMatchers("/removebook/*").hasAnyRole("ADMIN")
+						.requestMatchers("/profile").hasAnyRole("USER", "ADMIN"))
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
 						// .usernameParameter("email")

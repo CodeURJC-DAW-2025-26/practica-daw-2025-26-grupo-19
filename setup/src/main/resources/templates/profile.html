@@ -1,0 +1,123 @@
+{{> header}}
+
+<main class="container my-5">
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="d-flex flex-wrap align-items-center gap-4 justify-content-between">
+                <div class="d-flex align-items-center gap-4 flex-grow-1">
+                    <div class="shield-container"
+                        style="width: 120px; height: 120px; background: #f3f4f6; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                        {{#hasEscudo}}
+                        <img src="data:image/png;base64,{{escudoBase64}}" alt="Escudo"
+                            style="max-width: 100%; max-height: 100%;">
+                        {{/hasEscudo}}
+                        {{^hasEscudo}}
+                        <span class="text-muted">Sin escudo</span>
+                        {{/hasEscudo}}
+                    </div>
+
+                    <div>
+                        <h1 class="h2 fw-bold mb-1">{{nombreEquipo}}</h1>
+                        <p class="text-muted mb-1">Entrenador/Usuario: <strong>{{username}}</strong></p>
+                        <p class="text-muted mb-0">Contacto: {{email}}</p>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal"
+                    data-bs-target="#addPlayerModal">
+                    <span class="me-2">➕</span> Añadir Jugador
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <span class="section-icon">👥</span>
+                <h2 class="h4 fw-bold mb-0">Mi Plantilla</h2>
+                <span class="badge badge-primary-custom">{{totalJugadores}} jugadores</span>
+            </div>
+
+            <div class="row g-3">
+                {{#jugadores}}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="card-icon-custom">
+                                        <strong>{{dorsal}}</strong>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-1 fw-bold">{{nombre}}</h5>
+                                        <p class="text-muted mb-0 small">Posición: {{posicion}}</p>
+                                    </div>
+                                </div>
+                                <div class="text-end text-muted small">
+                                    <div>⚽ {{goles}}</div>
+                                    <div>👟 {{asistencias}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/jugadores}}
+
+                {{^jugadores}}
+                <div class="col-12 text-center py-4">
+                    <p class="text-muted mb-0">Aún no tienes jugadores en tu equipo. ¡Empieza a fichar!</p>
+                </div>
+                {{/jugadores}}
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="modal fade" id="addPlayerModal" tabindex="-1" aria-labelledby="addPlayerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header header text-white">
+                <h5 class="modal-title fw-bold" id="addPlayerModalLabel">Fichar Nuevo Jugador</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <form action="/equipo/jugador/nuevo" method="POST">
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="nombreJugador" class="form-label fw-bold">Nombre del Jugador</label>
+                        <input type="text" class="form-control" id="nombreJugador" name="nombre"
+                            placeholder="Ej. Carlos Martínez" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="posicionJugador" class="form-label fw-bold">Posición</label>
+                        <select class="form-select form-control" id="posicionJugador" name="posicion" required>
+                            <option value="" disabled selected>Selecciona una posición...</option>
+                            <option value="Portero">Portero</option>
+                            <option value="Defensa">Defensa</option>
+                            <option value="Centrocampista">Centrocampista</option>
+                            <option value="Delantero">Delantero</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="dorsalJugador" class="form-label fw-bold">Dorsal</label>
+                        <input type="number" class="form-control" id="dorsalJugador" name="dorsal" min="1" max="99"
+                            placeholder="Ej. 10" required>
+                    </div>
+
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Jugador</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> footer}}
