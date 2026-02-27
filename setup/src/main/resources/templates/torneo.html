@@ -43,7 +43,9 @@
                     <tbody>
                         {{#torneo.equipos}}
                         <tr>
-                            <td class="text-start ps-4 fw-semibold">{{nombreEquipo}}</td>
+                            <td class="text-start ps-4 fw-semibold">
+                                <a href="/equipo/{{id}}" class="text-decoration-none fw-bold text-primary">{{nombreEquipo}}</a>
+                            </td>
                             <td class="fw-bold text-primary">0</td>
                             <td>0</td>
                             <td>0</td>

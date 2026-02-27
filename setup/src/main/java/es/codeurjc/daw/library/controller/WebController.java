@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 import es.codeurjc.daw.library.model.Equipo;
 import es.codeurjc.daw.library.model.Jugador;
 import es.codeurjc.daw.library.model.Torneo;
@@ -27,7 +26,6 @@ import es.codeurjc.daw.library.repository.JugadorRepository;
 import es.codeurjc.daw.library.repository.TorneoRepository;
 import es.codeurjc.daw.library.service.TorneoService;
 import org.springframework.web.bind.annotation.RequestBody;
-
 
 @Controller
 public class WebController {
@@ -89,7 +87,6 @@ public class WebController {
         model.addAttribute("error", true);
         return "login";
     }
-
 
     @GetMapping("/register")
     public String register() {
@@ -181,42 +178,43 @@ public class WebController {
         return "redirect:/";
     }
 
-@GetMapping("/profile")
-public String userProfile(Model model, HttpServletRequest request) {
-    Principal principal = request.getUserPrincipal();
-    String username = principal.getName();
-    
-    Optional<Equipo> equipoOpt = equipoRepository.findByUsername(username);
+    @GetMapping("/profile")
+    public String userProfile(Model model, HttpServletRequest request) {
+        Principal principal = request.getUserPrincipal();
+        String username = principal.getName();
 
-    if (equipoOpt.isPresent()) {
-        Equipo equipo = equipoOpt.get();
+        Optional<Equipo> equipoOpt = equipoRepository.findByUsername(username);
 
-        model.addAttribute("username", equipo.getUsername());
-        model.addAttribute("email", equipo.getEmail());
-        model.addAttribute("nombreEquipo", equipo.getNombreEquipo());
+        if (equipoOpt.isPresent()) {
+            Equipo equipo = equipoOpt.get();
 
-        List<Jugador> jugadores = equipo.getJugadores();
-        model.addAttribute("jugadores", jugadores);
-        model.addAttribute("totalJugadores", jugadores.size());
-        
-        // Comprobamos si el equipo tiene escudo para pasarlo en Base64 al HTML
-        if (equipo.getEscudo() != null) {
-            model.addAttribute("hasEscudo", true);
-            String base64Image = Base64.getEncoder().encodeToString(equipo.getEscudo());
-            model.addAttribute("escudoBase64", base64Image);
-        } else {
-            model.addAttribute("hasEscudo", false);
+            model.addAttribute("username", equipo.getUsername());
+            model.addAttribute("email", equipo.getEmail());
+            model.addAttribute("nombreEquipo", equipo.getNombreEquipo());
+
+            List<Jugador> jugadores = equipo.getJugadores();
+            model.addAttribute("jugadores", jugadores);
+            model.addAttribute("totalJugadores", jugadores.size());
+
+            // Comprobamos si el equipo tiene escudo para pasarlo en Base64 al HTML
+            if (equipo.getEscudo() != null) {
+                model.addAttribute("hasEscudo", true);
+                String base64Image = Base64.getEncoder().encodeToString(equipo.getEscudo());
+                model.addAttribute("escudoBase64", base64Image);
+            } else {
+                model.addAttribute("hasEscudo", false);
+            }
+
+            return "profile";
         }
 
-        return "profile"; 
+        // Si por algún motivo el equipo no existe en BD, lo mandamos al inicio
+        return "redirect:/";
     }
 
-    // Si por algún motivo el equipo no existe en BD, lo mandamos al inicio
-    return "redirect:/";
-}
-
     @PostMapping("/equipo/jugador/nuevo")
-    public String nuevoJugador(HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion, @RequestParam int dorsal) {
+    public String nuevoJugador(HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion,
+            @RequestParam int dorsal) {
 
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
@@ -245,21 +243,50 @@ public String userProfile(Model model, HttpServletRequest request) {
         }
         return "redirect:/profile";
     }
-    
 
     @GetMapping("/torneo/{id}")
     public String torneoDetalle(@PathVariable Long id, Model model) {
         Optional<Torneo> torneoOpt = torneoService.findById(id);
-        
+
         if (torneoOpt.isPresent()) {
             model.addAttribute("torneo", torneoOpt.get());
             return "torneo"; // Nombre de la nueva plantilla HTML
         } else {
             // Si el torneo no existe, redirigimos al inicio
-            return "redirect:/"; 
+            return "redirect:/";
         }
     }
 
-    
+    @GetMapping("/equipo/{id}")
+    public String perfilEquipo(@PathVariable Long id, Model model) {
+        Optional<Equipo> equipoOpt = equipoRepository.findById(id);
+
+        if (equipoOpt.isPresent()) {
+            Equipo equipo = equipoOpt.get();
+
+            // Datos básicos del equipo
+            model.addAttribute("nombreEquipo", equipo.getNombreEquipo());
+            model.addAttribute("email", equipo.getEmail()); // Información de contacto
+
+            // Lista de jugadores
+            List<Jugador> jugadores = equipo.getJugadores();
+            model.addAttribute("jugadores", jugadores);
+            model.addAttribute("totalJugadores", jugadores.size());
+
+            // Comprobamos si el equipo tiene escudo para pasarlo en Base64 al HTML
+            if (equipo.getEscudo() != null) {
+                model.addAttribute("hasEscudo", true);
+                String base64Image = Base64.getEncoder().encodeToString(equipo.getEscudo());
+                model.addAttribute("escudoBase64", base64Image);
+            } else {
+                model.addAttribute("hasEscudo", false);
+            }
+
+            return "equipo-detalle"; // Nueva plantilla HTML que vamos a crear
+        }
+
+        // Si el equipo no existe, volvemos a la página principal
+        return "redirect:/";
+    }
 
 }

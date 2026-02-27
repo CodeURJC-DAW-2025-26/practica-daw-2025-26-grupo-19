@@ -56,6 +56,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/equipo/jugador/nuevo").hasAnyRole("USER", "ADMIN")	
 						.requestMatchers("/equipo/jugador/*/borrar").hasAnyRole("USER", "ADMIN")						
 						.requestMatchers("/editbook").hasAnyRole("USER")
+						.requestMatchers("/equipo/*").permitAll()
 						.requestMatchers("/editbook/*").hasAnyRole("USER")
 						.requestMatchers("/removebook/*").hasAnyRole("ADMIN")
 						.requestMatchers("/profile").hasAnyRole("USER", "ADMIN"))

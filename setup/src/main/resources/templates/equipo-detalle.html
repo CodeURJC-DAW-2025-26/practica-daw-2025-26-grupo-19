@@ -1,0 +1,68 @@
+{{> header}}
+
+<main class="container my-5">
+    <div class="mb-4">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary btn-sm">← Volver a la Liga</a>
+    </div>
+
+    <div class="card shadow mb-4 border-0">
+        <div class="card-body d-flex align-items-center gap-4">
+            
+            <div>
+                {{#hasEscudo}}
+                <img src="data:image/png;base64,{{escudoBase64}}" alt="Escudo de {{nombreEquipo}}" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #eee;">
+                {{/hasEscudo}}
+                
+                {{^hasEscudo}}
+                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center text-secondary" style="width: 120px; height: 120px; font-size: 3rem; border: 3px solid #eee;">
+                    🛡️
+                </div>
+                {{/hasEscudo}}
+            </div>
+            
+            <div>
+                <h1 class="display-6 fw-bold mb-1">{{nombreEquipo}}</h1>
+                <p class="text-muted mb-1"><strong>Contacto:</strong> {{email}}</p>
+                <span class="badge bg-primary">Jugadores inscritos: {{totalJugadores}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-header bg-white fw-bold py-3">
+            <span>🏃‍♂️</span> Plantilla de Jugadores
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 text-center align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Dorsal</th>
+                            <th class="text-start">Nombre</th>
+                            <th>Posición</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#jugadores}}
+                        <tr>
+                            <td class="fw-bold fs-5">{{dorsal}}</td>
+                            <td class="text-start fw-semibold">{{nombre}}</td>
+                            <td><span class="badge bg-secondary">{{posicion}}</span></td>
+                        </tr>
+                        {{/jugadores}}
+                        
+                        {{^jugadores}}
+                        <tr>
+                            <td colspan="3" class="text-center py-4 text-muted">
+                                <em>Este equipo no tiene jugadores inscritos aún.</em>
+                            </td>
+                        </tr>
+                        {{/jugadores}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+{{> footer}}
