@@ -421,4 +421,53 @@ public class WebController {
         }
     }
 
+   // 1. Mostrar la página de equipos
+    @GetMapping("/admin/teams")
+    public String adminTeams(Model model, HttpServletRequest request) {
+        if (!request.isUserInRole("ADMIN")) {
+            return "redirect:/";
+        }
+        
+        // Si venimos de un intento de borrado fallido, mostramos el error
+        if (request.getParameter("error") != null) {
+            model.addAttribute("error", "Acción denegada: No puedes eliminar a un administrador ni a tu propio equipo.");
+        }
+        
+        model.addAttribute("equipos", equipoRepository.findAll());
+        return "admin-teams";
+    }
+
+    // 2. Eliminar equipo con validación de seguridad
+    @PostMapping("/admin/teams/delete")
+    public String deleteTeam(@RequestParam Long teamId, HttpServletRequest request) {
+        Optional<Equipo> equipoOpt = equipoRepository.findById(teamId);
+        
+        if (equipoOpt.isPresent()) {
+            Equipo equipo = equipoOpt.get();
+            
+            // Obtenemos el nombre del usuario que está conectado ahora mismo
+            String currentUsername = request.getUserPrincipal().getName();
+            
+            // Obtenemos el usuario dueño de ese equipo (Ajusta los métodos get() si en tu código se llaman distinto)
+            String teamManager = equipo.getUsername(); // O equipo.getUsername() si lo tienes como String
+            boolean isTargetAdmin = equipo.getRoles().contains("ADMIN"); // Comprueba si el dueño es ADMIN
+            
+            // VALIDACIÓN: Si el equipo es tuyo, o el dueño es otro ADMIN, cancelamos el borrado
+            if (teamManager.equals(currentUsername) || isTargetAdmin) {
+                return "redirect:/admin/teams?error=true";
+            }
+            
+            // Si pasa la validación, desvinculamos de los torneos...
+            for (Torneo torneo : equipo.getTorneos()) {
+                torneo.getEquipos().remove(equipo);
+                torneoService.save(torneo);
+            }
+            
+            // ... y borramos definitivamente
+            equipoRepository.delete(equipo);
+        }
+        
+        return "redirect:/admin/teams";
+    }
+
 }
