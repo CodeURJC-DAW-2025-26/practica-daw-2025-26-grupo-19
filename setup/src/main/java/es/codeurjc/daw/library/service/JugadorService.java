@@ -1,5 +1,5 @@
 package es.codeurjc.daw.library.service;
-/*
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,28 +13,14 @@ import es.codeurjc.daw.library.repository.JugadorRepository;
 
 @Service
 public class JugadorService {
-
 	@Autowired
-	private BookRepository repository;
+	private JugadorRepository jugadorRepository;
 
-	public Optional<Book> findById(long id) {
-		return repository.findById(id);
-	}
-	
-	public boolean exist(long id) {
-		return repository.existsById(id);
+	public List<Jugador> findAll() {
+		return jugadorRepository.findAll();
 	}
 
-	public List<Book> findAll() {
-		return repository.findAll();
-	}
-
-	public void save(Book book) {
-		repository.save(book);
-	}
-
-	public void delete(long id) {
-		repository.deleteById(id);
+	public Optional<Jugador> findById(Long id) {
+		return jugadorRepository.findById(id);
 	}
 }
-*/

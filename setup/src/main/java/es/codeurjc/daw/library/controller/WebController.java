@@ -42,6 +42,8 @@ import es.codeurjc.daw.library.repository.JugadorRepository;
 import es.codeurjc.daw.library.repository.TorneoRepository;
 import es.codeurjc.daw.library.service.TorneoService;
 import es.codeurjc.daw.library.service.EquipoService;
+import es.codeurjc.daw.library.service.JugadorService;
+
 
 @Controller
 public class WebController {
@@ -63,6 +65,9 @@ public class WebController {
 
     @Autowired
     private EquipoService equipoService;
+
+    @Autowired
+    private JugadorService jugadorService;
 
     // Método global para saber si el usuario está logueado en cualquier página
     @ModelAttribute
@@ -217,6 +222,10 @@ public class WebController {
                 model.addAttribute("errorDorsal", true);
             }
 
+            if ("image".equals(error)) {
+                model.addAttribute("errorImage", true);
+            }
+
             model.addAttribute("username", equipo.getUsername());
             model.addAttribute("email", equipo.getEmail());
             model.addAttribute("nombreEquipo", equipo.getNombreEquipo());
@@ -237,11 +246,15 @@ public class WebController {
     }
 
     @PostMapping("/equipo/jugador/nuevo")
-    public String nuevoJugador(HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion,
-            @RequestParam int dorsal) {
+    public String nuevoJugador(Model model, HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion,
+            @RequestParam int dorsal, @RequestParam("image") MultipartFile image) throws IOException, SQLException {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return "redirect:/login";
+        }
+        if (image.isEmpty()) {
+            model.addAttribute("error", "La foto del jugador es obligatoria.");
+            return "redirect:/profile?error=image";
         }
         String username = principal.getName();
         Optional<Equipo> equipoOpt = equipoService.findByUsername(username);
@@ -251,8 +264,13 @@ public class WebController {
             if (equipoService.isDorsalRepetido(equipo, dorsal)) {
                 return "redirect:/profile?error=dorsal";
             }
-            // Si estamos aqui no hay dorsal repetido
+            // Si llegamos aqui no hay dorsal repetido
+            
             Jugador nuevoJugador = new Jugador(nombre, posicion, dorsal, equipo);
+            byte[] bytes = image.getBytes();
+            Blob blob = new SerialBlob(bytes);
+            nuevoJugador.setImagen(blob);
+            nuevoJugador.setHasImagen(true);
             jugadorRepository.save(nuevoJugador);
         }
 
@@ -442,5 +460,26 @@ public class WebController {
         }
     }
 
+
+    @GetMapping("/jugador/{id}/image")
+    public ResponseEntity<Resource> downloadPlayerImage(@PathVariable long id) throws SQLException {
+        Optional<Jugador> op = jugadorService.findById(id);
+
+        if (op.isPresent() && op.get().getImagen() != null) {
+            Blob image = op.get().getImagen();
+            Resource imageFile = new InputStreamResource(image.getBinaryStream());
+
+            MediaType mediaType = MediaTypeFactory
+                    .getMediaType(imageFile)
+                    .orElse(MediaType.IMAGE_JPEG);
+
+            return ResponseEntity
+                    .ok()
+                    .contentType(mediaType)
+                    .body(imageFile);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
