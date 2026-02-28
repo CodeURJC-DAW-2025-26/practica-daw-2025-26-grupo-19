@@ -42,6 +42,7 @@ import es.codeurjc.daw.library.repository.EquipoRepository;
 import es.codeurjc.daw.library.repository.JugadorRepository;
 import es.codeurjc.daw.library.repository.TorneoRepository;
 import es.codeurjc.daw.library.service.TorneoService;
+import es.codeurjc.daw.library.service.EquipoService;
 
 
 @Controller
@@ -61,6 +62,9 @@ public class WebController {
 
     @Autowired
     private TorneoService torneoService;
+
+    @Autowired
+    private EquipoService equipoService;
 
     // Método global para saber si el usuario está logueado en cualquier página
     @ModelAttribute
@@ -187,57 +191,62 @@ public class WebController {
         return "redirect:/";
     }
 
-    @GetMapping("/profile")
-    public String userProfile(Model model, HttpServletRequest request) {
-        Principal principal = request.getUserPrincipal();
-        String username = principal.getName();
+@GetMapping("/profile")
+    public String userProfile(Model model, Principal principal, @RequestParam(required = false) String error) {
+        if (principal == null) {
+            return "redirect:/login";
+        }
 
-        Optional<Equipo> equipoOpt = equipoRepository.findByUsername(username);
+        String username = principal.getName();
+        // Usamos el servicio en lugar del repositorio directamente
+        Optional<Equipo> equipoOpt = equipoService.findByUsername(username);
 
         if (equipoOpt.isPresent()) {
             Equipo equipo = equipoOpt.get();
+            
+            if ("dorsal".equals(error)) {
+                model.addAttribute("errorDorsal", true);
+            }
 
             model.addAttribute("username", equipo.getUsername());
             model.addAttribute("email", equipo.getEmail());
             model.addAttribute("nombreEquipo", equipo.getNombreEquipo());
-
-            List<Jugador> jugadores = equipo.getJugadores();
+            
+            // Delegamos la lógica de ordenación al servicio
+            List<Jugador> jugadores = equipoService.getJugadoresOrdenadosPorDorsal(equipo);
+            
             model.addAttribute("jugadores", jugadores);
             model.addAttribute("totalJugadores", jugadores.size());
-
-            // Comprobamos si el equipo tiene escudo para pasarlo en Base64 al HTML
+            
             if (equipo.getEscudo() != null) {
                 model.addAttribute("hasEscudo", true);
-                String base64Image = Base64.getEncoder().encodeToString(equipo.getEscudo());
+                String base64Image = java.util.Base64.getEncoder().encodeToString(equipo.getEscudo());
                 model.addAttribute("escudoBase64", base64Image);
             } else {
                 model.addAttribute("hasEscudo", false);
             }
 
-            return "profile";
+            return "profile"; 
         }
 
-        // Si por algún motivo el equipo no existe en BD, lo mandamos al inicio
         return "redirect:/";
     }
-
     @PostMapping("/equipo/jugador/nuevo")
-    public String nuevoJugador(HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion,
-            @RequestParam int dorsal) {
-
+    public String nuevoJugador(HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion, @RequestParam int dorsal) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return "redirect:/login";
         }
-        // 2. Buscamos el equipo del usuario que ha iniciado sesión
         String username = principal.getName();
-        Optional<Equipo> equipoOpt = equipoRepository.findByUsername(username);
-
+        Optional<Equipo> equipoOpt = equipoService.findByUsername(username);
         if (equipoOpt.isPresent()) {
-            Equipo equipo = (Equipo) equipoOpt.get();
+            Equipo equipo = equipoOpt.get();
 
+            if (equipoService.isDorsalRepetido(equipo, dorsal)) {
+                return "redirect:/profile?error=dorsal";
+            }
+            //Si estamos aqui no hay dorsal repetido
             Jugador nuevoJugador = new Jugador(nombre, posicion, dorsal, equipo);
-
             jugadorRepository.save(nuevoJugador);
         }
 

@@ -2,6 +2,12 @@
 
 <main class="container my-5">
 
+    {{#errorDorsal}}
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+        <strong>¡Fichaje cancelado!</strong> Ya tienes a un jugador en tu plantilla usando ese dorsal. Por favor, elige otro número.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {{/errorDorsal}}
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="d-flex flex-wrap align-items-center gap-4 justify-content-between">
