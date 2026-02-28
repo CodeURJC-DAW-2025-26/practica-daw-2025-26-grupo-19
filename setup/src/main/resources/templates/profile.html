@@ -4,7 +4,8 @@
 
     {{#errorDorsal}}
     <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-        <strong>¡Fichaje cancelado!</strong> Ya tienes a un jugador en tu plantilla usando ese dorsal. Por favor, elige otro número.
+        <strong>¡Fichaje cancelado!</strong> Ya tienes a un jugador en tu plantilla usando ese dorsal. Por favor, elige
+        otro número.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {{/errorDorsal}}
@@ -14,13 +15,12 @@
                 <div class="d-flex align-items-center gap-4 flex-grow-1">
                     <div class="shield-container"
                         style="width: 120px; height: 120px; background: #f3f4f6; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                        {{#hasEscudo}}
-                        <img src="data:image/png;base64,{{escudoBase64}}" alt="Escudo"
-                            style="max-width: 100%; max-height: 100%;">
-                        {{/hasEscudo}}
-                        {{^hasEscudo}}
+                        {{#hasImagen}}
+                <img src="/equipo/{{id}}/image" alt="Logo {{nombreEquipo}}" style="width: 100%; height: 100%">                        
+                        {{/hasImagen}}
+                        {{^hasImagen}}
                         <span class="text-muted">Sin escudo</span>
-                        {{/hasEscudo}}
+                        {{/hasImagen}}
                     </div>
 
                     <div>

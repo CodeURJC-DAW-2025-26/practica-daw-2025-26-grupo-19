@@ -3,6 +3,8 @@ package es.codeurjc.daw.library.model;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Blob;
+
 
 @Entity
 public class Equipo {
@@ -27,8 +29,6 @@ public class Equipo {
     @Column(unique = true, nullable = false)
     private String nombreEquipo;
     
-    @Lob 
-    private byte[] escudo;
 
  
     // Un equipo tiene muchos jugadores
@@ -56,6 +56,27 @@ public class Equipo {
         this.Email = Email;
         this.nombreEquipo = nombreEquipo;
         this.roles = List.of(roles);
+    }
+    
+    @Lob
+    private Blob imagen;
+
+    private boolean hasImagen;
+    
+    public boolean isHasImagen() {
+        return hasImagen;
+    }
+
+    public void setHasImagen(boolean hasImagen) {
+        this.hasImagen = hasImagen;
+    }
+
+    public Blob getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Blob imagen) {
+        this.imagen = imagen;
     }
 
     public Long getId() {
@@ -96,14 +117,6 @@ public class Equipo {
 
     public void setNombreEquipo(String nombreEquipo) {
         this.nombreEquipo = nombreEquipo;
-    }
-
-    public byte[] getEscudo() {
-        return escudo;
-    }
-
-    public void setEscudo(byte[] escudo) {
-        this.escudo = escudo;
     }
 
     public List<Jugador> getJugadores() {
