@@ -343,4 +343,22 @@ public class WebController {
         return "redirect:/";
     }
 
+    // NUEVO: Eliminar liga
+    @PostMapping("/admin/leagues/delete")
+    public String deleteLeague(@RequestParam Long torneoId) {
+        Optional<Torneo> torneoOpt = torneoService.findById(torneoId);
+        
+        if (torneoOpt.isPresent()) {
+            Torneo torneo = torneoOpt.get();
+            
+
+            torneo.getEquipos().clear(); 
+            torneoService.save(torneo);
+            
+            // Borramos definitivamente el torneo
+            torneoService.delete(torneoId);
+        }
+        return "redirect:/admin-dashboard";
+    }
+
 }

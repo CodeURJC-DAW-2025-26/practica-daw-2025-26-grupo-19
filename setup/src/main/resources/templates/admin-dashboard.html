@@ -12,8 +12,8 @@
         <div class="card-body d-flex align-items-center gap-3">
           <div class="bg-primary bg-opacity-10 p-3 rounded-circle text-primary fs-4">🏆</div>
           <div>
-            <h6 class="text-muted mb-0">Ligas Activas</h6>
-            <h3 class="fw-bold mb-0">4</h3>
+            <h6 class="text-muted mb-0">Competiciones Activas</h6>
+            <h3 class="fw-bold mb-0">{{torneosAdmin.size}}</h3>
           </div>
         </div>
       </div>
@@ -24,7 +24,7 @@
           <div class="bg-warning bg-opacity-10 p-3 rounded-circle text-warning fs-4">⚠️</div>
           <div>
             <h6 class="text-muted mb-0">Solicitudes Pendientes</h6>
-            <h3 class="fw-bold mb-0">2</h3>
+            <h3 class="fw-bold mb-0">0</h3>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
           <div class="bg-success bg-opacity-10 p-3 rounded-circle text-success fs-4">⚽</div>
           <div>
             <h6 class="text-muted mb-0">Partidos esta semana</h6>
-            <h3 class="fw-bold mb-0">12</h3>
+            <h3 class="fw-bold mb-0">0</h3>
           </div>
         </div>
       </div>
@@ -75,8 +75,7 @@
                 <tr>
                   <th>Nombre</th>
                   <th>Inscritos</th>
-                  <th>Estado Actual</th>
-                  <th>Acción</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -85,17 +84,33 @@
                   <td class="fw-semibold">{{nombre}}</td>
                   <td>{{equipos.size}} / {{maxParticipantes}}</td>
                   <td>
-                    <form action="/admin/leagues/status" method="post" class="d-flex align-items-center gap-2 m-0">
-                      <input type="hidden" name="_csrf" value="{{csrfToken}}" />
-                      <input type="hidden" name="torneoId" value="{{id}}" />
-                      <select name="estado" class="form-select form-select-sm" style="width: auto;">
-                        <option value="INSCRIPCIONES">Inscripciones</option>
-                        <option value="EN_CURSO">En Curso</option>
-                        <option value="FINALIZADO">Finalizado</option>
-                      </select>
-                      <button type="submit" class="btn btn-sm btn-dark">Actualizar</button>
-                    </form>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <form action="/admin/leagues/status" method="post" class="d-flex align-items-center gap-2 m-0">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                        <input type="hidden" name="torneoId" value="{{id}}" />
+                        <select name="estado" class="form-select form-select-sm" style="width: auto;">
+                          <option value="INSCRIPCIONES" {{#estadoInscripciones}}selected{{/estadoInscripciones}}>Inscripciones</option>
+                          <option value="EN_CURSO" {{#estadoEnCurso}}selected{{/estadoEnCurso}}>En Curso</option>
+                          <option value="FINALIZADO" {{#estadoFinalizado}}selected{{/estadoFinalizado}}>Finalizado</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-dark">Actualizar</button>
+                      </form>
+
+                      <form action="/admin/leagues/delete" method="post" class="m-0" onsubmit="return confirm('⚠️ ¿Estás totalmente seguro de que deseas eliminar esta liga? Esta acción no se puede deshacer y borrará la clasificación y equipos asociados.');">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                        <input type="hidden" name="torneoId" value="{{id}}" />
+                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar Liga">🗑️</button>
+                      </form>
+                    </div>
                     <small class="text-muted d-block mt-1">Actualmente: <strong>{{estado}}</strong></small>
+                  </td>
+                </tr>
+                {{/torneosAdmin}}
+                
+                {{^torneosAdmin}}
+                <tr>
+                  <td colspan="3" class="text-center py-4 text-muted">
+                    No hay competiciones creadas todavía.
                   </td>
                 </tr>
                 {{/torneosAdmin}}

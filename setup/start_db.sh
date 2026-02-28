@@ -1,1 +1,1 @@
-docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=books -p 3306:3306 -d mysql:9.2
+docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=futbolmanager -p 3306:3306 -d mysql:9.2
