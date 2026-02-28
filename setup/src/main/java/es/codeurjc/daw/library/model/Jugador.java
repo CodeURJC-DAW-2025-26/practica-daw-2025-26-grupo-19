@@ -1,6 +1,8 @@
 package es.codeurjc.daw.library.model;
 
 import jakarta.persistence.*;
+import java.sql.Blob;
+
 
 @Entity
 public class Jugador {
@@ -31,6 +33,27 @@ public class Jugador {
         this.equipo = equipo;
         this.goles = 0;
         this.asistencias = 0;
+    }
+    
+    @Lob
+    private Blob imagen;
+
+    private boolean hasImagen;
+    
+    public boolean isHasImagen() {
+        return hasImagen;
+    }
+
+    public void setHasImagen(boolean hasImagen) {
+        this.hasImagen = hasImagen;
+    }
+
+    public Blob getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Blob imagen) {
+        this.imagen = imagen;
     }
 
     public Long getId() {

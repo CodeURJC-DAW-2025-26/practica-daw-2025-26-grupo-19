@@ -14,7 +14,7 @@
                         <p class="text-muted">Crea tu cuenta en FutbolManager</p>
                     </div>
 
-                    <form action="/register" method="post">
+                    <form action="/register" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_csrf" value="{{csrfToken}}" />
 
                         {{#error}}
@@ -39,6 +39,11 @@
                             <label for="nombreEquipo" class="form-label">Nombre del equipo</label>
                             <input type="text" class="form-control" id="nombreEquipo" name="nombreEquipo"
                                 placeholder="Ej: F.C. Barcelona" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Escudo del equipo</label>
+                            <input type="file" class="form-control" name="image" accept="image/*">
                         </div>
 
                         <div class="mb-3">

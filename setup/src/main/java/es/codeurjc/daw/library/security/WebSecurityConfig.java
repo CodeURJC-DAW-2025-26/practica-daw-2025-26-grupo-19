@@ -42,6 +42,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/images/**").permitAll()
 						.requestMatchers("/error").permitAll()      // <-- AÑADE ESTO
     					.requestMatchers("/torneo/**").permitAll()
+						.requestMatchers("/equipo/**").permitAll()
 						.requestMatchers("/books/**").permitAll()
 						.requestMatchers("/assets/**").permitAll() // Allow access to static resources
 						.requestMatchers("/favicon.ico").permitAll()

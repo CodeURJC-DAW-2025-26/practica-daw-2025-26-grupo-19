@@ -23,7 +23,6 @@ import java.sql.Blob;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 
-
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -43,7 +42,6 @@ import es.codeurjc.daw.library.repository.JugadorRepository;
 import es.codeurjc.daw.library.repository.TorneoRepository;
 import es.codeurjc.daw.library.service.TorneoService;
 import es.codeurjc.daw.library.service.EquipoService;
-
 
 @Controller
 public class WebController {
@@ -121,7 +119,7 @@ public class WebController {
             @RequestParam String nombreEquipo,
             @RequestParam String password,
             @RequestParam String confirmPassword,
-            Model model) {
+            Model model, @RequestParam("image") MultipartFile image) throws IOException, SQLException {
 
         // 1. Validar que las contraseñas coinciden
         if (!password.equals(confirmPassword)) {
@@ -135,11 +133,22 @@ public class WebController {
             return "register";
         }
 
+        if (image.isEmpty()) {
+            model.addAttribute("error", "La foto del equipo es obligatoria");
+            return "register";
+        }
+
         // 3. Crear el nuevo usuario y cifrar la contraseña
         String encodedPassword = passwordEncoder.encode(password);
 
         // Se inicializa el Equipo con el ROL de "USER"
         Equipo nuevoEquipo = new Equipo(username, email, encodedPassword, nombreEquipo, "USER");
+
+        byte[] bytes = image.getBytes();
+        Blob blob = new SerialBlob(bytes);
+        nuevoEquipo.setImagen(blob);
+        nuevoEquipo.setHasImagen(true);
+
         equipoRepository.save(nuevoEquipo);
 
         return "redirect:/login";
@@ -151,7 +160,6 @@ public class WebController {
         model.addAttribute("torneosAdmin", torneoService.findAll());
         return "admin-dashboard";
     }
-
 
     @PostMapping("/admin/leagues/status")
     public String updateLeagueStatus(@RequestParam Long torneoId, @RequestParam String estado) {
@@ -191,8 +199,9 @@ public class WebController {
         return "redirect:/";
     }
 
-@GetMapping("/profile")
-    public String userProfile(Model model, Principal principal, @RequestParam(required = false) String error) {
+    @GetMapping("/profile")
+    public String userProfile(Model model, HttpServletRequest request, @RequestParam(required = false) String error) {
+        Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return "redirect:/login";
         }
@@ -203,7 +212,7 @@ public class WebController {
 
         if (equipoOpt.isPresent()) {
             Equipo equipo = equipoOpt.get();
-            
+
             if ("dorsal".equals(error)) {
                 model.addAttribute("errorDorsal", true);
             }
@@ -211,28 +220,25 @@ public class WebController {
             model.addAttribute("username", equipo.getUsername());
             model.addAttribute("email", equipo.getEmail());
             model.addAttribute("nombreEquipo", equipo.getNombreEquipo());
-            
+            model.addAttribute("id", equipo.getId());
+            model.addAttribute("hasImagen", equipo.isHasImagen());
+
             // Delegamos la lógica de ordenación al servicio
             List<Jugador> jugadores = equipoService.getJugadoresOrdenadosPorDorsal(equipo);
-            
+
             model.addAttribute("jugadores", jugadores);
             model.addAttribute("totalJugadores", jugadores.size());
-            
-            if (equipo.getEscudo() != null) {
-                model.addAttribute("hasEscudo", true);
-                String base64Image = java.util.Base64.getEncoder().encodeToString(equipo.getEscudo());
-                model.addAttribute("escudoBase64", base64Image);
-            } else {
-                model.addAttribute("hasEscudo", false);
-            }
 
-            return "profile"; 
+           
+            return "profile";
         }
 
         return "redirect:/";
     }
+
     @PostMapping("/equipo/jugador/nuevo")
-    public String nuevoJugador(HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion, @RequestParam int dorsal) {
+    public String nuevoJugador(HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion,
+            @RequestParam int dorsal) {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return "redirect:/login";
@@ -245,7 +251,7 @@ public class WebController {
             if (equipoService.isDorsalRepetido(equipo, dorsal)) {
                 return "redirect:/profile?error=dorsal";
             }
-            //Si estamos aqui no hay dorsal repetido
+            // Si estamos aqui no hay dorsal repetido
             Jugador nuevoJugador = new Jugador(nombre, posicion, dorsal, equipo);
             jugadorRepository.save(nuevoJugador);
         }
@@ -342,14 +348,7 @@ public class WebController {
             model.addAttribute("jugadores", jugadores);
             model.addAttribute("totalJugadores", jugadores.size());
 
-            // Comprobamos si el equipo tiene escudo para pasarlo en Base64 al HTML
-            if (equipo.getEscudo() != null) {
-                model.addAttribute("hasEscudo", true);
-                String base64Image = Base64.getEncoder().encodeToString(equipo.getEscudo());
-                model.addAttribute("escudoBase64", base64Image);
-            } else {
-                model.addAttribute("hasEscudo", false);
-            }
+
 
             return "equipo-detalle"; // Nueva plantilla HTML que vamos a crear
         }
@@ -362,29 +361,30 @@ public class WebController {
     @PostMapping("/admin/leagues/delete")
     public String deleteLeague(@RequestParam Long torneoId) {
         Optional<Torneo> torneoOpt = torneoService.findById(torneoId);
-        
+
         if (torneoOpt.isPresent()) {
             Torneo torneo = torneoOpt.get();
-            
 
-            torneo.getEquipos().clear(); 
+            torneo.getEquipos().clear();
             torneoService.save(torneo);
-            
+
             // Borramos definitivamente el torneo
             torneoService.delete(torneoId);
         }
         return "redirect:/admin-dashboard";
     }
 
+
+    
     @PostMapping("/admin/leagues/new")
-    public String createLeague(@RequestParam String nombre, 
-                               @RequestParam int maxParticipantes, 
-                               @RequestParam("imagen") MultipartFile imagen) throws IOException, SQLException { 
-        
+    public String createLeague(@RequestParam String nombre,
+            @RequestParam int maxParticipantes,
+            @RequestParam("imagen") MultipartFile imagen) throws IOException, SQLException {
+
         // Validamos el número de participantes
         if (maxParticipantes >= 2 && maxParticipantes <= 20) {
             Torneo torneo = new Torneo(nombre, "LIGA", "INSCRIPCIONES", maxParticipantes);
-            
+
             // Comprobamos si el administrador ha subido un archivo de imagen
             if (!imagen.isEmpty()) {
                 // Sacamos los bytes del archivo y creamos un SerialBlob estándar
@@ -393,33 +393,55 @@ public class WebController {
                 torneo.setImagen(blob);
                 torneo.setHasImagen(true);
             }
-            
+
             torneoService.save(torneo);
         }
-        
+
         return "redirect:/admin-dashboard";
     }
 
     @GetMapping("/torneo/{id}/image")
     public ResponseEntity<Resource> downloadImage(@PathVariable long id) throws SQLException {
         Optional<Torneo> op = torneoService.findById(id);
-        
+
         if (op.isPresent() && op.get().getImagen() != null) {
             Blob image = op.get().getImagen();
             Resource imageFile = new InputStreamResource(image.getBinaryStream());
-            
+
             MediaType mediaType = MediaTypeFactory
-                .getMediaType(imageFile)
-                .orElse(MediaType.IMAGE_JPEG);
-                
+                    .getMediaType(imageFile)
+                    .orElse(MediaType.IMAGE_JPEG);
+
             return ResponseEntity
-                .ok()
-                .contentType(mediaType)
-                .body(imageFile);
+                    .ok()
+                    .contentType(mediaType)
+                    .body(imageFile);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @GetMapping("/equipo/{id}/image")
+    public ResponseEntity<Resource> downloadUserImage(@PathVariable long id) throws SQLException {
+        Optional<Equipo> op = equipoService.findById(id);
+
+        if (op.isPresent() && op.get().getImagen() != null) {
+            Blob image = op.get().getImagen();
+            Resource imageFile = new InputStreamResource(image.getBinaryStream());
+
+            MediaType mediaType = MediaTypeFactory
+                    .getMediaType(imageFile)
+                    .orElse(MediaType.IMAGE_JPEG);
+
+            return ResponseEntity
+                    .ok()
+                    .contentType(mediaType)
+                    .body(imageFile);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
    // 1. Mostrar la página de equipos
     @GetMapping("/admin/teams")
@@ -448,9 +470,9 @@ public class WebController {
             // Obtenemos el nombre del usuario que está conectado ahora mismo
             String currentUsername = request.getUserPrincipal().getName();
             
-            // Obtenemos el usuario dueño de ese equipo (Ajusta los métodos get() si en tu código se llaman distinto)
-            String teamManager = equipo.getUsername(); // O equipo.getUsername() si lo tienes como String
-            boolean isTargetAdmin = equipo.getRoles().contains("ADMIN"); // Comprueba si el dueño es ADMIN
+            
+            String teamManager = equipo.getUsername(); 
+            boolean isTargetAdmin = equipo.getRoles().contains("ADMIN"); 
             
             // VALIDACIÓN: Si el equipo es tuyo, o el dueño es otro ADMIN, cancelamos el borrado
             if (teamManager.equals(currentUsername) || isTargetAdmin) {
@@ -463,7 +485,6 @@ public class WebController {
                 torneoService.save(torneo);
             }
             
-            // ... y borramos definitivamente
             equipoRepository.delete(equipo);
         }
         
