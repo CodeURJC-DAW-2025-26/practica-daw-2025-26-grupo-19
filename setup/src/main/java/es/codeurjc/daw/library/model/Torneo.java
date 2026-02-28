@@ -97,4 +97,54 @@ public class Torneo {
         this.partidos = partidos;
     }
 
+    public List<EstadisticasEquipo> getClasificacion() {
+        List<EstadisticasEquipo> clasificacion = new ArrayList<>();
+        
+        if (this.equipos == null) return clasificacion;
+
+        for (Equipo equipo : this.equipos) {
+            EstadisticasEquipo stats = new EstadisticasEquipo(equipo);
+            
+            if (this.partidos != null) {
+                for (Partido partido : this.partidos) {
+                    if (partido.isJugado()) {
+                        boolean esLocal = partido.getEquipoLocal().getId().equals(equipo.getId());
+                        boolean esVisitante = partido.getEquipoVisitante().getId().equals(equipo.getId());
+
+                        if (esLocal || esVisitante) {
+                            stats.setJugados(stats.getJugados() + 1);
+                            int golesFavor = esLocal ? partido.getGolesLocal() : partido.getGolesVisitante();
+                            int golesContra = esLocal ? partido.getGolesVisitante() : partido.getGolesLocal();
+
+                            stats.setGolesFavor(stats.getGolesFavor() + golesFavor);
+                            stats.setGolesContra(stats.getGolesContra() + golesContra);
+
+                            if (golesFavor > golesContra) {
+                                stats.setVictorias(stats.getVictorias() + 1);
+                                stats.setPuntos(stats.getPuntos() + 3);
+                            } else if (golesFavor == golesContra) {
+                                stats.setEmpates(stats.getEmpates() + 1);
+                                stats.setPuntos(stats.getPuntos() + 1);
+                            } else {
+                                stats.setDerrotas(stats.getDerrotas() + 1);
+                            }
+                        }
+                    }
+                }
+            }
+            clasificacion.add(stats);
+        }
+
+        // Ordenar por puntos y diferencia de goles
+        clasificacion.sort((a, b) -> {
+            if (a.getPuntos() != b.getPuntos()) {
+                return Integer.compare(b.getPuntos(), a.getPuntos());
+            } else {
+                return Integer.compare(b.getDiferenciaGoles(), a.getDiferenciaGoles());
+            }
+        });
+
+        return clasificacion;
+    }
+
 }

@@ -34,33 +34,39 @@
                         <tr>
                             <th class="text-start ps-4">Equipo</th>
                             <th>Puntos</th>
-                            <th>PJ (Jugados)</th>
-                            <th>V (Victorias)</th>
-                            <th>E (Empates)</th>
-                            <th>D (Derrotas)</th>
+                            <th title="Partidos Jugados">PJ</th>
+                            <th title="Victorias">V</th>
+                            <th title="Empates">E</th>
+                            <th title="Derrotas">D</th>
+                            <th title="Goles a Favor">GF</th>
+                            <th title="Goles en Contra">GC</th>
+                            <th title="Diferencia de Goles">DIF</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{#torneo.equipos}}
+                        {{#clasificacion}}
                         <tr>
                             <td class="text-start ps-4 fw-semibold">
-                                <a href="/equipo/{{id}}" class="text-decoration-none fw-bold text-primary">{{nombreEquipo}}</a>
+                                 <a href="/equipo/{{equipo.id}}" class="text-decoration-none fw-bold text-primary">{{equipo.nombreEquipo}}</a>
                             </td>
-                            <td class="fw-bold text-primary">0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td class="fw-bold text-primary fs-5">{{puntos}}</td>
+                            <td>{{jugados}}</td>
+                            <td>{{victorias}}</td>
+                            <td>{{empates}}</td>
+                            <td>{{derrotas}}</td>
+                            <td>{{golesFavor}}</td>
+                            <td>{{golesContra}}</td>
+                            <td>{{diferenciaGoles}}</td>
                         </tr>
-                        {{/torneo.equipos}}
+                        {{/clasificacion}}
                         
-                        {{^torneo.equipos}}
+                        {{^clasificacion}}
                         <tr>
-                            <td colspan="6" class="text-center py-5 text-muted">
+                            <td colspan="9" class="text-center py-5 text-muted">
                                 <em>Aún no hay equipos inscritos en esta competición.</em>
                             </td>
                         </tr>
-                        {{/torneo.equipos}}
+                        {{/clasificacion}}
                     </tbody>
                 </table>
             </div>

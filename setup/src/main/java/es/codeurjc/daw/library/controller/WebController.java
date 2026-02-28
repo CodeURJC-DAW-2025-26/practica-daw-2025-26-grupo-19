@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import es.codeurjc.daw.library.model.Equipo;
+import es.codeurjc.daw.library.model.EstadisticasEquipo;
 import es.codeurjc.daw.library.model.Jugador;
+import es.codeurjc.daw.library.model.Partido;
 import es.codeurjc.daw.library.model.Torneo;
 import es.codeurjc.daw.library.repository.EquipoRepository;
 import es.codeurjc.daw.library.repository.JugadorRepository;
@@ -249,10 +252,61 @@ public class WebController {
         Optional<Torneo> torneoOpt = torneoService.findById(id);
 
         if (torneoOpt.isPresent()) {
-            model.addAttribute("torneo", torneoOpt.get());
-            return "torneo"; // Nombre de la nueva plantilla HTML
+            Torneo torneo = torneoOpt.get();
+
+            // Lista donde guardaremos las estadísticas de cada equipo
+            List<EstadisticasEquipo> clasificacion = new ArrayList<>();
+
+            for (Equipo equipo : torneo.getEquipos()) {
+                EstadisticasEquipo stats = new EstadisticasEquipo(equipo);
+
+                for (Partido partido : torneo.getPartidos()) {
+                    // Solo contamos los partidos que ya se han jugado
+                    if (partido.isJugado()) {
+                        boolean esLocal = partido.getEquipoLocal().getId().equals(equipo.getId());
+                        boolean esVisitante = partido.getEquipoVisitante().getId().equals(equipo.getId());
+
+                        // Si el equipo participó en este partido
+                        if (esLocal || esVisitante) {
+                            stats.setJugados(stats.getJugados() + 1);
+
+                            // Detectamos cuántos goles metió y cuántos le metieron
+                            int golesFavor = esLocal ? partido.getGolesLocal() : partido.getGolesVisitante();
+                            int golesContra = esLocal ? partido.getGolesVisitante() : partido.getGolesLocal();
+
+                            stats.setGolesFavor(stats.getGolesFavor() + golesFavor);
+                            stats.setGolesContra(stats.getGolesContra() + golesContra);
+
+                            // Calculamos puntos y resultados (3 pts victoria, 1 pt empate)
+                            if (golesFavor > golesContra) {
+                                stats.setVictorias(stats.getVictorias() + 1);
+                                stats.setPuntos(stats.getPuntos() + 3);
+                            } else if (golesFavor == golesContra) {
+                                stats.setEmpates(stats.getEmpates() + 1);
+                                stats.setPuntos(stats.getPuntos() + 1);
+                            } else {
+                                stats.setDerrotas(stats.getDerrotas() + 1);
+                            }
+                        }
+                    }
+                }
+                clasificacion.add(stats);
+            }
+
+            // Ordenamos la clasificación: primero el que tenga más Puntos, luego Diferencia
+            // de Goles
+            clasificacion.sort((a, b) -> {
+                if (a.getPuntos() != b.getPuntos()) {
+                    return Integer.compare(b.getPuntos(), a.getPuntos()); // Mayor a menor
+                } else {
+                    return Integer.compare(b.getDiferenciaGoles(), a.getDiferenciaGoles());
+                }
+            });
+
+            model.addAttribute("torneo", torneo);
+            model.addAttribute("clasificacion", clasificacion);
+            return "torneo";
         } else {
-            // Si el torneo no existe, redirigimos al inicio
             return "redirect:/";
         }
     }
