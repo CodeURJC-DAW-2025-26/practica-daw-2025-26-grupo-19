@@ -461,25 +461,53 @@ public class WebController {
     }
 
 
-    @GetMapping("/jugador/{id}/image")
-    public ResponseEntity<Resource> downloadPlayerImage(@PathVariable long id) throws SQLException {
-        Optional<Jugador> op = jugadorService.findById(id);
 
-        if (op.isPresent() && op.get().getImagen() != null) {
-            Blob image = op.get().getImagen();
-            Resource imageFile = new InputStreamResource(image.getBinaryStream());
-
-            MediaType mediaType = MediaTypeFactory
-                    .getMediaType(imageFile)
-                    .orElse(MediaType.IMAGE_JPEG);
-
-            return ResponseEntity
-                    .ok()
-                    .contentType(mediaType)
-                    .body(imageFile);
-        } else {
-            return ResponseEntity.notFound().build();
+   // 1. Mostrar la página de equipos
+    @GetMapping("/admin/teams")
+    public String adminTeams(Model model, HttpServletRequest request) {
+        if (!request.isUserInRole("ADMIN")) {
+            return "redirect:/";
         }
+        
+        // Si venimos de un intento de borrado fallido, mostramos el error
+        if (request.getParameter("error") != null) {
+            model.addAttribute("error", "Acción denegada: No puedes eliminar a un administrador ni a tu propio equipo.");
+        }
+        
+        model.addAttribute("equipos", equipoRepository.findAll());
+        return "admin-teams";
+    }
+
+    // 2. Eliminar equipo con validación de seguridad
+    @PostMapping("/admin/teams/delete")
+    public String deleteTeam(@RequestParam Long teamId, HttpServletRequest request) {
+        Optional<Equipo> equipoOpt = equipoRepository.findById(teamId);
+        
+        if (equipoOpt.isPresent()) {
+            Equipo equipo = equipoOpt.get();
+            
+            // Obtenemos el nombre del usuario que está conectado ahora mismo
+            String currentUsername = request.getUserPrincipal().getName();
+            
+            
+            String teamManager = equipo.getUsername(); 
+            boolean isTargetAdmin = equipo.getRoles().contains("ADMIN"); 
+            
+            // VALIDACIÓN: Si el equipo es tuyo, o el dueño es otro ADMIN, cancelamos el borrado
+            if (teamManager.equals(currentUsername) || isTargetAdmin) {
+                return "redirect:/admin/teams?error=true";
+            }
+            
+            // Si pasa la validación, desvinculamos de los torneos...
+            for (Torneo torneo : equipo.getTorneos()) {
+                torneo.getEquipos().remove(equipo);
+                torneoService.save(torneo);
+            }
+            
+            equipoRepository.delete(equipo);
+        }
+        
+        return "redirect:/admin/teams";
     }
 
 }
