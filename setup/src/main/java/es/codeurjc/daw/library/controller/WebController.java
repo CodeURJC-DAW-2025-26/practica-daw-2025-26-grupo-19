@@ -460,7 +460,26 @@ public class WebController {
         }
     }
 
+        @GetMapping("/jugador/{id}/image")
+    public ResponseEntity<Resource> downloadPlayerImage(@PathVariable long id) throws SQLException {
+        Optional<Jugador> op = jugadorService.findById(id);
 
+        if (op.isPresent() && op.get().getImagen() != null) {
+            Blob image = op.get().getImagen();
+            Resource imageFile = new InputStreamResource(image.getBinaryStream());
+
+            MediaType mediaType = MediaTypeFactory
+                    .getMediaType(imageFile)
+                    .orElse(MediaType.IMAGE_JPEG);
+
+            return ResponseEntity
+                    .ok()
+                    .contentType(mediaType)
+                    .body(imageFile);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
    // 1. Mostrar la página de equipos
     @GetMapping("/admin/teams")
