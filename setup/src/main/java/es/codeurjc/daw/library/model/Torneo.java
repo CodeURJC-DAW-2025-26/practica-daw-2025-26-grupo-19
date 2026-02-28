@@ -3,6 +3,7 @@ package es.codeurjc.daw.library.model;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Blob;
 
 @Entity
 public class Torneo {
@@ -18,7 +19,28 @@ public class Torneo {
     private String estado; // "INSCRIPCIONES", "EN_CURSO", "FINALIZADO"
 
     private int maxParticipantes;
+
+    @Lob
+    private Blob imagen;
+
+    private boolean hasImagen;
     
+    public boolean isHasImagen() {
+        return hasImagen;
+    }
+
+    public void setHasImagen(boolean hasImagen) {
+        this.hasImagen = hasImagen;
+    }
+
+    public Blob getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Blob imagen) {
+        this.imagen = imagen;
+    }
+
     public int getMaxParticipantes() {
         return maxParticipantes;
     }

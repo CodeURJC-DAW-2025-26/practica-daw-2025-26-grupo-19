@@ -36,8 +36,15 @@
         <div class="card h-100 shadow">
           <div class="card-body">
             <a href="/torneo/{{id}}" class="text-decoration-none text-dark">
+              
               <div class="d-flex align-items-center gap-3 mb-3">
+                {{#hasImagen}}
+                <img src="/torneo/{{id}}/image" alt="Logo {{nombre}}" class="rounded-circle shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+                {{/hasImagen}}
+                {{^hasImagen}}
                 <div class="card-icon-custom">🏆</div>
+                {{/hasImagen}}
+                
                 <div>
                   <h5 class="card-title mb-1">{{nombre}}</h5>
                   <span class="badge bg-success">{{estado}}</span>
@@ -49,14 +56,14 @@
                   <thead class="table-light">
                     <tr class="small">
                       <th>Equipo</th>
-                      <th class="text-center">Puntos</th>
+                      <th class="text-center">Pts</th>
                     </tr>
                   </thead>
                   <tbody>
                     {{#clasificacion}}
                     <tr>
                       <td class="fw-semibold">{{equipo.nombreEquipo}}</td>
-                      <td class="text-center">{{puntos}}</td>
+                      <td class="text-center fw-bold text-primary">{{puntos}}</td>
                     </tr>
                     {{/clasificacion}}
                   </tbody>
@@ -125,52 +132,6 @@
         </div>
       </div>
       {{/copas}}
-    </div>
-  </section>
-
-  <section>
-    <div class="d-flex align-items-center gap-3 mb-4">
-      <span class="section-icon fs-2">🎯</span>
-      <h2 class="display-6 fw-bold mb-0">Estadísticas</h2>
-    </div>
-    <div class="row g-4">
-      
-      <div class="col-lg-6">
-        <div class="card shadow h-100">
-          <div class="card-body">
-            <h5 class="card-title mb-4">Top 5 Goleadores</h5>
-            <div class="bg-light rounded p-4 text-center mb-3" style="height: 150px; display: flex; align-items: center; justify-content: center;">
-              <p class="text-muted fst-italic">[Gráfico Goleadores]</p>
-            </div>
-            <ol class="list-group list-group-flush mt-3 ranking-list">
-              {{#goleadores}}
-              <li class="list-group-item small">
-                {{nombre}} - <span class="fw-bold">{{goles}} goles</span> <span class="text-muted">({{equipo.nombreEquipo}})</span>
-              </li>
-              {{/goleadores}}
-            </ol>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6">
-        <div class="card shadow h-100">
-          <div class="card-body">
-            <h5 class="card-title mb-4">Top 5 Asistentes</h5>
-            <div class="bg-light rounded p-4 text-center mb-3" style="height: 150px; display: flex; align-items: center; justify-content: center;">
-              <p class="text-muted fst-italic">[Gráfico Asistentes]</p>
-            </div>
-            <ol class="list-group list-group-flush mt-3 ranking-list">
-              {{#asistentes}}
-              <li class="list-group-item small">
-                {{nombre}} - <span class="fw-bold">{{asistencias}} asistencias</span> <span class="text-muted">({{equipo.nombreEquipo}})</span>
-              </li>
-              {{/asistentes}}
-            </ol>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 </main>

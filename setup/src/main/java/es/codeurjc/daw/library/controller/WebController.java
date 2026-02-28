@@ -1,10 +1,15 @@
 package es.codeurjc.daw.library.controller; // Ajusta el paquete si cambiaste el nombre del proyecto
 
+import java.io.IOException;
 import java.security.Principal;
+import java.sql.SQLException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaTypeFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +17,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.sql.Blob;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+
 
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+
+import javax.sql.rowset.serial.SerialBlob;
+
 import org.springframework.web.bind.annotation.PathVariable;
 
 import es.codeurjc.daw.library.model.Equipo;
@@ -28,7 +42,7 @@ import es.codeurjc.daw.library.repository.EquipoRepository;
 import es.codeurjc.daw.library.repository.JugadorRepository;
 import es.codeurjc.daw.library.repository.TorneoRepository;
 import es.codeurjc.daw.library.service.TorneoService;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class WebController {
@@ -134,14 +148,6 @@ public class WebController {
         return "admin-dashboard";
     }
 
-    @PostMapping("/admin/leagues/new")
-    public String createLeague(@RequestParam String nombre, @RequestParam int maxParticipantes) {
-        if (maxParticipantes >= 2 && maxParticipantes <= 20) {
-            Torneo torneo = new Torneo(nombre, "LIGA", "INSCRIPCIONES", maxParticipantes);
-            torneoService.save(torneo);
-        }
-        return "redirect:/admin-dashboard";
-    }
 
     @PostMapping("/admin/leagues/status")
     public String updateLeagueStatus(@RequestParam Long torneoId, @RequestParam String estado) {
@@ -359,6 +365,51 @@ public class WebController {
             torneoService.delete(torneoId);
         }
         return "redirect:/admin-dashboard";
+    }
+
+    @PostMapping("/admin/leagues/new")
+    public String createLeague(@RequestParam String nombre, 
+                               @RequestParam int maxParticipantes, 
+                               @RequestParam("imagen") MultipartFile imagen) throws IOException, SQLException { 
+        
+        // Validamos el número de participantes
+        if (maxParticipantes >= 2 && maxParticipantes <= 20) {
+            Torneo torneo = new Torneo(nombre, "LIGA", "INSCRIPCIONES", maxParticipantes);
+            
+            // Comprobamos si el administrador ha subido un archivo de imagen
+            if (!imagen.isEmpty()) {
+                // Sacamos los bytes del archivo y creamos un SerialBlob estándar
+                byte[] bytes = imagen.getBytes();
+                Blob blob = new SerialBlob(bytes);
+                torneo.setImagen(blob);
+                torneo.setHasImagen(true);
+            }
+            
+            torneoService.save(torneo);
+        }
+        
+        return "redirect:/admin-dashboard";
+    }
+
+    @GetMapping("/torneo/{id}/image")
+    public ResponseEntity<Resource> downloadImage(@PathVariable long id) throws SQLException {
+        Optional<Torneo> op = torneoService.findById(id);
+        
+        if (op.isPresent() && op.get().getImagen() != null) {
+            Blob image = op.get().getImagen();
+            Resource imageFile = new InputStreamResource(image.getBinaryStream());
+            
+            MediaType mediaType = MediaTypeFactory
+                .getMediaType(imageFile)
+                .orElse(MediaType.IMAGE_JPEG);
+                
+            return ResponseEntity
+                .ok()
+                .contentType(mediaType)
+                .body(imageFile);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

@@ -16,8 +16,14 @@
                         <span class="badge bg-info text-dark">Plazas: {{torneo.equipos.size}} / {{torneo.maxParticipantes}}</span>
                     </div>
                 </div>
+                
                 <div class="text-center d-none d-md-block">
+                    {{#torneo.hasImagen}}
+                    <img src="/torneo/{{torneo.id}}/image" alt="Logo {{torneo.nombre}}" class="rounded shadow-sm" style="width: 100px; height: 100px; object-fit: cover;">
+                    {{/torneo.hasImagen}}
+                    {{^torneo.hasImagen}}
                     <span style="font-size: 4rem;">🏆</span>
+                    {{/torneo.hasImagen}}
                 </div>
             </div>
         </div>
@@ -46,9 +52,7 @@
                     <tbody>
                         {{#clasificacion}}
                         <tr>
-                            <td class="text-start ps-4 fw-semibold">
-                                 <a href="/equipo/{{equipo.id}}" class="text-decoration-none fw-bold text-primary">{{equipo.nombreEquipo}}</a>
-                            </td>
+                            <td class="text-start ps-4 fw-semibold">{{equipo.nombreEquipo}}</td>
                             <td class="fw-bold text-primary fs-5">{{puntos}}</td>
                             <td>{{jugados}}</td>
                             <td>{{victorias}}</td>
