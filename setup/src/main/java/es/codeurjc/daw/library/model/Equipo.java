@@ -20,6 +20,7 @@ public class Equipo {
     @Column(nullable = false)
     private String EncodedPassword;
 
+    @Column(unique = true, nullable = false)
     private String email;
     
     @ElementCollection(fetch = FetchType.EAGER)

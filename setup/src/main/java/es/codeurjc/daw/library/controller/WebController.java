@@ -156,6 +156,11 @@ public class WebController {
             return "register";
         }
 
+        if (equipoRepository.findByEmail(email).isPresent()) {
+            model.addAttribute("error", "El email ya está en uso.");
+            return "register";
+        }
+
         // 3. Create the new user and encrypt the password
         String encodedPassword = passwordEncoder.encode(password);
 
