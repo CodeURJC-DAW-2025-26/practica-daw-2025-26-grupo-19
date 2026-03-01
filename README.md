@@ -155,7 +155,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 
 > Página de detalle de competición que muestra el desarrollo del torneo con cuadros para cada eliminatoria, organizando emparejamientos desde cuartos de final hasta semifinales y finales. Además muestra los resultados de los partidos ya disputados, el estado de los encuentros pendientes e información general del torneo en un cuadro debajo del nombre del torneo jugado.
 
-#### **AQUÍ AÑADIR EL RESTO DE PÁGINAS**
+
 
 ---
 
@@ -173,7 +173,39 @@ Solo si ha cambiado.
 
 #### **Capturas de Pantalla Actualizadas**
 
-Solo si han cambiado.
+#### **1. Panel Admin / Admin Dashboard**
+![Admin Dashboard](images\admin-dashboard2.PNG)
+
+> Página de admin que muestra un resumen del estado de la plataforma con métricas, con una sección para crear ligas y la gestión de competiciones las competiciones actuales, con botones para actualizar o borrar competiciones.
+
+
+#### **2. Equipos Admin / Admin Teams**
+![Admin teams](images\admin-teams2.PNG)
+
+> Página de admin que muestra los equipos activos con su estado actual con sus nombres, managers, email, jugadores. Además, permite borrar equipos con un botón.
+
+#### **3. Detalles torneos / Tournament detail**
+![Tournament detail](images\tournament-detail2.png)
+
+> Página de detalle de competición que muestra los partidos del torneo, organizando emparejamientos de las ligas. Además muestra los resultados de los partidos ya disputados, el estado de los encuentros pendientes e información general del torneo en un cuadro debajo del nombre del torneo jugado.
+
+#### **4. Perfil Equipo / Team Profile**
+![Manage Team](images\manage-team2.PNG)
+
+> Página de gestión de equipo que muestra la identidad del club y las lista de la plantilla actual con tarjetas que muestran a los jugadores. Incluye un botón para añadir nuevos integrantes y otro para editar los datos del equipo, son desplegables que te permiten cambiar nombres, correo e imágenes. Sólo para usuarios registrados.
+
+#### **5. Registro usuario y equipo / User and team register**
+![Register](images\register2.PNG)
+
+> Página de registro que permite crear cuentas con campos para credenciales propias y del equipo, además de que pide un escudo del equipo (campo obligatorio). Incluye validación de contraseña, botón de confirmación y un enlace de inicio de sesión para usuarios ya registrados.
+
+#### **6. Página principal / Home**
+![Home1](images\home3.png)
+![Home1](images\home2.png)
+
+> Página de inicio que muestra un banner principal con la llamada a la acción para crear equipos, seguido de secciones con tarjetas informativas sobre las ligas y torneos disponibles, además debajo del todo tenemos un panel con estadísticas interesantes. Incluye una barra de navegación superior y acceso a registro/login para usuarios no autenticados. 
+
+
 
 ### **Instrucciones de Ejecución**
 
