@@ -2,6 +2,7 @@ package es.codeurjc.daw.library.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Partido {
@@ -104,6 +105,12 @@ public class Partido {
 
     public void setEquipoVisitante(Equipo equipoVisitante) {
         this.equipoVisitante = equipoVisitante;
+    }
+
+    public String getFechaFormateada() {
+        if (this.fecha == null) return "Sin fecha";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return this.fecha.format(formatter);
     }
 
 }

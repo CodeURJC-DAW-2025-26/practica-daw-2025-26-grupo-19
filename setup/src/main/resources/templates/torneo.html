@@ -83,6 +83,62 @@
             </div>
         </div>
     </div>
+
+    <!--Matches Calendar-->
+    <div class="card shadow border-0 mt-5">
+        <div class="card-header bg-white fw-bold py-3 d-flex align-items-center gap-2">
+            <span>📅</span> Calendario de Partidos
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-start ps-4" style="width: 20%;">Fecha</th>
+                            <th class="text-end" style="width: 25%;">Equipo Local</th>
+                            <th style="width: 30%;">Resultado</th>
+                            <th class="text-start" style="width: 25%;">Equipo Visitante</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#torneo.partidos}}
+                        <tr>
+                            <td class="text-start ps-4 text-muted small fw-semibold">{{fechaFormateada}}</td>
+                            <td class="text-end fw-bold">{{equipoLocal.nombreEquipo}}</td>
+                            <td>
+                                {{#jugado}}
+                                <span class="badge bg-dark fs-6">{{golesLocal}} - {{golesVisitante}}</span>
+                                {{/jugado}}
+                                {{^jugado}}
+                                <span class="badge bg-warning text-dark">Pendiente</span>
+                                
+                                {{#admin}}
+                                <form action="/admin/partido/simular" method="post" class="d-inline-block ms-2 m-0">
+                                    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                                    <input type="hidden" name="partidoId" value="{{id}}" />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary shadow-sm" title="Simular Resultado Aleatorio">🎲 Jugar</button>
+                                </form>
+                                {{/admin}}
+                                
+                                {{/jugado}}
+                            </td>
+                            <td class="text-start fw-bold">{{equipoVisitante.nombreEquipo}}</td>
+                        </tr>
+                        {{/torneo.partidos}}
+                        
+                        {{^torneo.partidos}}
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted">
+                                <em>Aún no se ha generado el calendario. El torneo debe estar "En Curso".</em>
+                            </td>
+                        </tr>
+                        {{/torneo.partidos}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </main>
 
 {{> footer}}
