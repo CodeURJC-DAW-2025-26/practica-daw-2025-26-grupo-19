@@ -20,7 +20,7 @@ public class Equipo {
     @Column(nullable = false)
     private String EncodedPassword;
 
-    private String Email;
+    private String email;
     
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>(); 
@@ -50,14 +50,25 @@ public class Equipo {
     
     public Equipo() {}
 
-    public Equipo(String username, String Email, String EncodedPassword, String nombreEquipo, String... roles) {
+    public Equipo(String username, String email, String EncodedPassword, String nombreEquipo, String... roles) {
         this.username = username;
         this.EncodedPassword = EncodedPassword;
-        this.Email = Email;
+        this.email = email;
         this.nombreEquipo = nombreEquipo;
         this.roles = List.of(roles);
     }
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
     
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
     @Lob
     private Blob imagen;
 
@@ -152,11 +163,11 @@ public class Equipo {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
 }

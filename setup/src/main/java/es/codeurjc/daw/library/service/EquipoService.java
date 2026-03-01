@@ -68,4 +68,26 @@ public class EquipoService {
     public void save(Equipo equipo) {
         equipoRepository.save(equipo);
     }
+
+    public void updateResetPasswordToken(String token, String email) throws Exception {
+    Optional<Equipo> equipoOpt = equipoRepository.findByEmail(email);
+    if (equipoOpt.isPresent()) {
+        Equipo equipo = equipoOpt.get();
+        equipo.setResetPasswordToken(token);
+        equipoRepository.save(equipo);
+    } else {
+        throw new Exception("No se encontró ningún equipo con el email " + email);
+    }
+}
+
+public Optional<Equipo> getByResetPasswordToken(String token) {
+    return equipoRepository.findByResetPasswordToken(token);
+}
+
+public void updatePassword(Equipo equipo, String newPassword) {
+    // Recuerda inyectar PasswordEncoder en el servicio o pasarlo desde el controlador
+    equipo.setEncodedPassword(newPassword);
+    equipo.setResetPasswordToken(null);
+    equipoRepository.save(equipo);
+}
 }

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -48,6 +51,9 @@ import es.codeurjc.daw.library.service.PartidoService;
 
 @Controller
 public class WebController {
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Autowired
     private TorneoRepository torneoRepository;
@@ -543,4 +549,60 @@ public class WebController {
 
         return "redirect:/profile";
     }
+
+    // Muestra el formulario para pedir el email
+@GetMapping("/forgot-password")
+public String showForgotPasswordForm() {
+    return "forgot-password";
+}
+
+@PostMapping("/forgot-password")
+public String processForgotPassword(HttpServletRequest request, Model model, @RequestParam String email) {
+    String token = UUID.randomUUID().toString();
+    try {
+        equipoService.updateResetPasswordToken(token, email);
+        
+        String resetLink = "https://localhost:8443/reset-password?token=" + token;
+        
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setSubject("Enlace para restablecer contraseña de FutbolManager");
+        message.setText("Hola,\n\nHas solicitado restablecer tu contraseña. Haz clic en el siguiente enlace para cambiarla:\n" + resetLink);
+        
+        mailSender.send(message);
+        model.addAttribute("message", "Te hemos enviado un enlace a tu correo.");
+        
+    } catch (Exception e) {
+        // ESTO ES CLAVE: Imprimirá el error real en tu consola
+        e.printStackTrace(); 
+        model.addAttribute("error", "Error al procesar la solicitud: " + e.getMessage());
+    }
+    return "forgot-password";
+}
+
+// Muestra el formulario para escribir la nueva contraseña si el token es válido
+@GetMapping("/reset-password")
+public String showResetPasswordForm(@RequestParam(value = "token") String token, Model model) {
+    Optional<Equipo> equipoOpt = equipoService.getByResetPasswordToken(token);
+    if (equipoOpt.isEmpty()) {
+        model.addAttribute("error", "Enlace inválido o caducado.");
+        return "login"; // Redirigir o mostrar vista de error
+    }
+    model.addAttribute("token", token);
+    return "reset-password";
+}
+
+@PostMapping("/reset-password")
+public String processResetPassword(@RequestParam String token, @RequestParam String password, Model model) {
+    Optional<Equipo> equipoOpt = equipoService.getByResetPasswordToken(token);
+    if (equipoOpt.isPresent()) {
+        // Usas el passwordEncoder que ya tienes inyectado en WebController
+        String encodedPassword = passwordEncoder.encode(password);
+        equipoService.updatePassword(equipoOpt.get(), encodedPassword);
+        model.addAttribute("message", "Has cambiado tu contraseña exitosamente.");
+    } else {
+        model.addAttribute("error", "Token inválido.");
+    }
+    return "login";
+}
 }

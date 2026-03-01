@@ -12,4 +12,5 @@ public interface EquipoRepository extends JpaRepository<Equipo, Long> {
 
         Optional<Equipo> findByUsername(String username);
 
+        Optional<Equipo> findByResetPasswordToken(String resetPasswordToken);
 }
