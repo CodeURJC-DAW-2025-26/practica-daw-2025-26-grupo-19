@@ -90,11 +90,11 @@ public class WebController {
         // 2. Buscamos Torneos de tipo "ELIMINATORIA"
         model.addAttribute("copas", torneoRepository.findByTipo("ELIMINATORIA"));
 
-        // 3. Top 5 de Jugadores con más goles
-        model.addAttribute("goleadores", jugadorRepository.findTop5ByOrderByGolesDesc());
+        // 3. Top 5 de Jugadores con más goles (Lógica en el Servicio)
+        model.addAttribute("goleadores", jugadorService.getTop5GoleadoresConPorcentaje());
 
-        // 4. Top 5 de Jugadores con más asistencias
-        model.addAttribute("asistentes", jugadorRepository.findTop5ByOrderByAsistenciasDesc());
+        // 4. Top 5 de Jugadores con más asistencias (Lógica en el Servicio)
+        model.addAttribute("asistentes", jugadorService.getTop5AsistentesConPorcentaje());
 
         return "index";
 
