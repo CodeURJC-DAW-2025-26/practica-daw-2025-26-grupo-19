@@ -170,6 +170,12 @@ public class WebController {
         Optional<Torneo> torneoOpt = torneoService.findById(torneoId);
         if (torneoOpt.isPresent()) {
             Torneo torneo = torneoOpt.get();
+            
+            // If the admin changes to "EN_CURSO" and the tournament was in "INSCRIPCIONES", we generate a calendar
+            if ("EN_CURSO".equals(estado) && "INSCRIPCIONES".equals(torneo.getEstado())) {
+                torneoService.generarCalendario(torneo);
+            }
+            
             torneo.setEstado(estado);
             torneoService.save(torneo);
         }
