@@ -1,74 +1,69 @@
 package es.codeurjc.daw.library.service;
-/*
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
 
-import javax.sql.rowset.serial.SerialBlob;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.daw.library.model.Equipo;
-import es.codeurjc.daw.library.repository.ImageRepository;
+import es.codeurjc.daw.library.model.Jugador;
+import es.codeurjc.daw.library.model.Partido;
+import es.codeurjc.daw.library.repository.JugadorRepository;
+import es.codeurjc.daw.library.repository.PartidoRepository;
 
 @Service
 public class PartidoService {
 
     @Autowired
-    private ImageRepository imageRepository;
+    private PartidoRepository partidoRepository;
 
-    public Equipo getImage(long id) {
-        return imageRepository.findById(id).orElseThrow();
+    @Autowired
+    private JugadorRepository jugadorRepository;
+
+    public Optional<Partido> findById(Long id) {
+        return partidoRepository.findById(id);
     }
 
-    public Equipo createImage(InputStream inputStream) throws IOException {
+    // Toda la lógica de negocio se viene aquí
+    public void simularPartido(Partido partido) {
+        if (!partido.isJugado()) {
+            int golesLocal = (int) (Math.random() * 6);
+            int golesVisitante = (int) (Math.random() * 6);
 
-        Equipo image = new Equipo();
+            partido.setGolesLocal(golesLocal);
+            partido.setGolesVisitante(golesVisitante);
+            partido.setJugado(true);
 
-        try {
-            image.setImageFile(new SerialBlob(inputStream.readAllBytes()));
-        } catch (Exception e) {
-            throw new IOException("Failed to create image", e);
-        }
+            partidoRepository.save(partido);
 
-        imageRepository.save(image);
-
-        return image;
-    }
-
-    public Resource getImageFile(long id) throws SQLException {
-
-        Equipo image = imageRepository.findById(id).orElseThrow();
-
-        if (image.getImageFile() != null) {
-            return new InputStreamResource(image.getImageFile().getBinaryStream());
-        } else {
-            throw new RuntimeException("Image file not found");
+            repartirGolesYAsistencias(partido.getEquipoLocal(), golesLocal);
+            repartirGolesYAsistencias(partido.getEquipoVisitante(), golesVisitante);
         }
     }
 
-    public Equipo replaceImageFile(long id, InputStream inputStream) throws IOException {
-
-        Equipo image = imageRepository.findById(id).orElseThrow();
-
-        try {
-            image.setImageFile(new SerialBlob(inputStream.readAllBytes()));
-        } catch (Exception e) {
-            throw new IOException("Failed to create image", e);
-        }
-
-        imageRepository.save(image);
+    private void repartirGolesYAsistencias(Equipo equipo, int golesTotales) {
+        List<Jugador> plantilla = equipo.getJugadores();
         
-        return image;
-    }
+        if (plantilla == null || plantilla.isEmpty() || golesTotales == 0) {
+            return;
+        }
 
-    public Equipo deleteImage(long id) {
-        Equipo image = imageRepository.findById(id).orElseThrow();
-        imageRepository.deleteById(id);
-        return image;
+        for (int i = 0; i < golesTotales; i++) {
+            int indiceGoleador = (int) (Math.random() * plantilla.size());
+            Jugador goleador = plantilla.get(indiceGoleador);
+            goleador.setGoles(goleador.getGoles() + 1);
+            jugadorRepository.save(goleador);
+
+            if (Math.random() > 0.4) {
+                int indiceAsistente = (int) (Math.random() * plantilla.size());
+                Jugador asistente = plantilla.get(indiceAsistente);
+                
+                if (!asistente.getId().equals(goleador.getId())) {
+                    asistente.setAsistencias(asistente.getAsistencias() + 1);
+                    jugadorRepository.save(asistente);
+                }
+            }
+        }
     }
 }
-    */

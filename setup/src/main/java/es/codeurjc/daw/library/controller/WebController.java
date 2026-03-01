@@ -44,6 +44,7 @@ import es.codeurjc.daw.library.repository.PartidoRepository;
 import es.codeurjc.daw.library.service.TorneoService;
 import es.codeurjc.daw.library.service.EquipoService;
 import es.codeurjc.daw.library.service.JugadorService;
+import es.codeurjc.daw.library.service.PartidoService;
 
 @Controller
 public class WebController {
@@ -71,6 +72,9 @@ public class WebController {
 
     @Autowired
     private PartidoRepository partidoRepository;
+
+    @Autowired
+    private PartidoService partidoService;
 
     // Global method to determine if the user is logged in to any page
     @ModelAttribute
@@ -497,23 +501,9 @@ public class WebController {
 
         if (partidoOpt.isPresent()) {
             Partido partido = partidoOpt.get();
-
-            // Comprobamos que el partido esté pendiente
-            if (!partido.isJugado()) {
-                // Generamos goles aleatorios entre 0 y 5 para cada equipo
-                int golesLocal = (int) (Math.random() * 6);
-                int golesVisitante = (int) (Math.random() * 6);
-
-                // Actualizamos los datos del partido
-                partido.setGolesLocal(golesLocal);
-                partido.setGolesVisitante(golesVisitante);
-                partido.setJugado(true); // Marcamos el partido como jugado
-
-                // Guardamos en la base de datos
-                partidoRepository.save(partido);
-            }
-
-            // Redirigimos de vuelta a la página del torneo para ver los cambios al instante
+            
+            partidoService.simularPartido(partido);
+            
             return "redirect:/torneo/" + partido.getTorneo().getId();
         }
 
