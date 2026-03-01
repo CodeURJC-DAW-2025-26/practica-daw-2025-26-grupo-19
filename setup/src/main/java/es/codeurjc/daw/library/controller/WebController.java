@@ -40,6 +40,7 @@ import es.codeurjc.daw.library.model.Torneo;
 import es.codeurjc.daw.library.repository.EquipoRepository;
 import es.codeurjc.daw.library.repository.JugadorRepository;
 import es.codeurjc.daw.library.repository.TorneoRepository;
+import es.codeurjc.daw.library.repository.PartidoRepository;
 import es.codeurjc.daw.library.service.TorneoService;
 import es.codeurjc.daw.library.service.EquipoService;
 import es.codeurjc.daw.library.service.JugadorService;
@@ -67,6 +68,9 @@ public class WebController {
 
     @Autowired
     private JugadorService jugadorService;
+
+    @Autowired
+    private PartidoRepository partidoRepository;
 
     // Método global para saber si el usuario está logueado en cualquier página
     @ModelAttribute
@@ -533,6 +537,36 @@ public class WebController {
         return "redirect:/admin/teams";
     }
 
+
+    @PostMapping("/admin/partido/simular")
+    public String simularPartido(@RequestParam Long partidoId) {
+        Optional<Partido> partidoOpt = partidoRepository.findById(partidoId);
+        
+        if (partidoOpt.isPresent()) {
+            Partido partido = partidoOpt.get();
+            
+            // Comprobamos que el partido esté pendiente
+            if (!partido.isJugado()) {
+                // Generamos goles aleatorios entre 0 y 5 para cada equipo
+                int golesLocal = (int) (Math.random() * 6);
+                int golesVisitante = (int) (Math.random() * 6);
+                
+                // Actualizamos los datos del partido
+                partido.setGolesLocal(golesLocal);
+                partido.setGolesVisitante(golesVisitante);
+                partido.setJugado(true); // Marcamos el partido como jugado
+                
+                // Guardamos en la base de datos
+                partidoRepository.save(partido);
+            }
+            
+            // Redirigimos de vuelta a la página del torneo para ver los cambios al instante
+            return "redirect:/torneo/" + partido.getTorneo().getId();
+        }
+        
+        // Si hay algún error y no se encuentra el partido, vuelve al dashboard
+        return "redirect:/admin-dashboard";
+    }
 
 
 
