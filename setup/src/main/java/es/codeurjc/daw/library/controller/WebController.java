@@ -44,7 +44,6 @@ import es.codeurjc.daw.library.service.TorneoService;
 import es.codeurjc.daw.library.service.EquipoService;
 import es.codeurjc.daw.library.service.JugadorService;
 
-
 @Controller
 public class WebController {
 
@@ -238,7 +237,6 @@ public class WebController {
             model.addAttribute("jugadores", jugadores);
             model.addAttribute("totalJugadores", jugadores.size());
 
-           
             return "profile";
         }
 
@@ -246,7 +244,8 @@ public class WebController {
     }
 
     @PostMapping("/equipo/jugador/nuevo")
-    public String nuevoJugador(Model model, HttpServletRequest request, @RequestParam String nombre, @RequestParam String posicion,
+    public String nuevoJugador(Model model, HttpServletRequest request, @RequestParam String nombre,
+            @RequestParam String posicion,
             @RequestParam int dorsal, @RequestParam("image") MultipartFile image) throws IOException, SQLException {
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
@@ -265,7 +264,7 @@ public class WebController {
                 return "redirect:/profile?error=dorsal";
             }
             // Si llegamos aqui no hay dorsal repetido
-            
+
             Jugador nuevoJugador = new Jugador(nombre, posicion, dorsal, equipo);
             byte[] bytes = image.getBytes();
             Blob blob = new SerialBlob(bytes);
@@ -366,8 +365,6 @@ public class WebController {
             model.addAttribute("jugadores", jugadores);
             model.addAttribute("totalJugadores", jugadores.size());
 
-
-
             return "equipo-detalle"; // Nueva plantilla HTML que vamos a crear
         }
 
@@ -392,8 +389,6 @@ public class WebController {
         return "redirect:/admin-dashboard";
     }
 
-
-    
     @PostMapping("/admin/leagues/new")
     public String createLeague(@RequestParam String nombre,
             @RequestParam int maxParticipantes,
@@ -438,7 +433,7 @@ public class WebController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @GetMapping("/equipo/{id}/image")
     public ResponseEntity<Resource> downloadUserImage(@PathVariable long id) throws SQLException {
         Optional<Equipo> op = equipoService.findById(id);
@@ -460,7 +455,7 @@ public class WebController {
         }
     }
 
-        @GetMapping("/jugador/{id}/image")
+    @GetMapping("/jugador/{id}/image")
     public ResponseEntity<Resource> downloadPlayerImage(@PathVariable long id) throws SQLException {
         Optional<Jugador> op = jugadorService.findById(id);
 
@@ -481,18 +476,19 @@ public class WebController {
         }
     }
 
-   // 1. Mostrar la página de equipos
+    // 1. Mostrar la página de equipos
     @GetMapping("/admin/teams")
     public String adminTeams(Model model, HttpServletRequest request) {
         if (!request.isUserInRole("ADMIN")) {
             return "redirect:/";
         }
-        
+
         // Si venimos de un intento de borrado fallido, mostramos el error
         if (request.getParameter("error") != null) {
-            model.addAttribute("error", "Acción denegada: No puedes eliminar a un administrador ni a tu propio equipo.");
+            model.addAttribute("error",
+                    "Acción denegada: No puedes eliminar a un administrador ni a tu propio equipo.");
         }
-        
+
         model.addAttribute("equipos", equipoRepository.findAll());
         return "admin-teams";
     }
@@ -501,32 +497,435 @@ public class WebController {
     @PostMapping("/admin/teams/delete")
     public String deleteTeam(@RequestParam Long teamId, HttpServletRequest request) {
         Optional<Equipo> equipoOpt = equipoRepository.findById(teamId);
-        
+
         if (equipoOpt.isPresent()) {
             Equipo equipo = equipoOpt.get();
-            
+
             // Obtenemos el nombre del usuario que está conectado ahora mismo
             String currentUsername = request.getUserPrincipal().getName();
-            
-            
-            String teamManager = equipo.getUsername(); 
-            boolean isTargetAdmin = equipo.getRoles().contains("ADMIN"); 
-            
-            // VALIDACIÓN: Si el equipo es tuyo, o el dueño es otro ADMIN, cancelamos el borrado
+
+            String teamManager = equipo.getUsername();
+            boolean isTargetAdmin = equipo.getRoles().contains("ADMIN");
+
+            // VALIDACIÓN: Si el equipo es tuyo, o el dueño es otro ADMIN, cancelamos el
+            // borrado
             if (teamManager.equals(currentUsername) || isTargetAdmin) {
                 return "redirect:/admin/teams?error=true";
             }
-            
+
             // Si pasa la validación, desvinculamos de los torneos...
             for (Torneo torneo : equipo.getTorneos()) {
                 torneo.getEquipos().remove(equipo);
                 torneoService.save(torneo);
             }
-            
+
             equipoRepository.delete(equipo);
         }
-        
+
         return "redirect:/admin/teams";
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @PostMapping("/equipo/editar")
+    public String editarEquipo(Model model, HttpServletRequest request,
+            @RequestParam String nombreEquipo,
+            @RequestParam String email,
+            @RequestParam("image") MultipartFile image) throws IOException, SQLException {
+
+        Principal principal = request.getUserPrincipal();
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        String username = principal.getName();
+        Optional<Equipo> equipoOpt = equipoService.findByUsername(username);
+
+        if (equipoOpt.isPresent()) {
+            Equipo equipo = equipoOpt.get();
+
+            equipo.setNombreEquipo(nombreEquipo);
+            equipo.setEmail(email);
+
+            if (!image.isEmpty()) {
+                byte[] bytes = image.getBytes();
+                Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+                equipo.setImagen(blob);
+                equipo.setHasImagen(true);
+            }
+
+            equipoService.save(equipo);
+        }
+
+        return "redirect:/profile";
+    }
 }

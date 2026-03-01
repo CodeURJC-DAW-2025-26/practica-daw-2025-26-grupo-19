@@ -36,10 +36,16 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal"
-                    data-bs-target="#addPlayerModal">
-                    <span class="me-2">➕</span> Añadir Jugador
-                </button>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-secondary d-flex align-items-center" data-bs-toggle="modal"
+                        data-bs-target="#editTeamModal">
+                        <span class="me-2">✏️</span> Editar Equipo
+                    </button>
+                    <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal"
+                        data-bs-target="#addPlayerModal">
+                        <span class="me-2">➕</span> Añadir Jugador
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -176,6 +182,42 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar Jugador</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editTeamModal" tabindex="-1" aria-labelledby="editTeamModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header header text-white bg-secondary">
+                <h5 class="modal-title fw-bold" id="editTeamModalLabel">Editar Mi Equipo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/equipo/editar" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nombreEquipoEdit" class="form-label fw-bold">Nombre del Equipo</label>
+                        <input type="text" class="form-control" id="nombreEquipoEdit" name="nombreEquipo" value="{{nombreEquipo}}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="emailEquipoEdit" class="form-label fw-bold">Correo de Contacto</label>
+                        <input type="email" class="form-control" id="emailEquipoEdit" name="email" value="{{email}}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Actualizar Escudo (Opcional)</label>
+                        <input type="file" class="form-control" name="image" accept="image/*">
+                        <div class="form-text">Si no subes ninguna imagen, se mantendrá el escudo actual.</div>
+                    </div>
+
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                 </div>
             </form>
         </div>
