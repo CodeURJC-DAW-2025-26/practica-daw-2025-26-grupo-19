@@ -174,34 +174,34 @@ Solo si ha cambiado.
 #### **Capturas de Pantalla Actualizadas**
 
 #### **1. Panel Admin / Admin Dashboard**
-![Admin Dashboard](images\admin-dashboard2.PNG)
+![Admin Dashboard](images/admin-dashboard2.PNG)
 
 > Página de admin que muestra un resumen del estado de la plataforma con métricas, con una sección para crear ligas y la gestión de competiciones las competiciones actuales, con botones para actualizar o borrar competiciones.
 
 
 #### **2. Equipos Admin / Admin Teams**
-![Admin teams](images\admin-teams2.PNG)
+![Admin teams](images/admin-teams2.PNG)
 
 > Página de admin que muestra los equipos activos con su estado actual con sus nombres, managers, email, jugadores. Además, permite borrar equipos con un botón.
 
 #### **3. Detalles torneos / Tournament detail**
-![Tournament detail](images\tournament-detail2.png)
+![Tournament detail](images/tournament-detail2.PNG)
 
 > Página de detalle de competición que muestra los partidos del torneo, organizando emparejamientos de las ligas. Además muestra los resultados de los partidos ya disputados, el estado de los encuentros pendientes e información general del torneo en un cuadro debajo del nombre del torneo jugado.
 
 #### **4. Perfil Equipo / Team Profile**
-![Manage Team](images\manage-team2.PNG)
+![Manage Team](images/manage-team2.PNG)
 
 > Página de gestión de equipo que muestra la identidad del club y las lista de la plantilla actual con tarjetas que muestran a los jugadores. Incluye un botón para añadir nuevos integrantes y otro para editar los datos del equipo, son desplegables que te permiten cambiar nombres, correo e imágenes. Sólo para usuarios registrados.
 
 #### **5. Registro usuario y equipo / User and team register**
-![Register](images\register2.PNG)
+![Register](images/register2.PNG)
 
 > Página de registro que permite crear cuentas con campos para credenciales propias y del equipo, además de que pide un escudo del equipo (campo obligatorio). Incluye validación de contraseña, botón de confirmación y un enlace de inicio de sesión para usuarios ya registrados.
 
 #### **6. Página principal / Home**
-![Home1](images\home3.png)
-![Home1](images\home2.png)
+![Home1](images/home3.PNG)
+![Home1](images/home2.PNG)
 
 > Página de inicio que muestra un banner principal con la llamada a la acción para crear equipos, seguido de secciones con tarjetas informativas sobre las ligas y torneos disponibles, además debajo del todo tenemos un panel con estadísticas interesantes. Incluye una barra de navegación superior y acceso a registro/login para usuarios no autenticados. 
 
@@ -256,7 +256,7 @@ Nota: Hay 3 más, con la misma contraseña y cambiando el número del final por 
 
 Diagrama mostrando las entidades, sus campos y relaciones:
 
-![Diagrama Entidad-Relación](images\DiagramaBBDD.PNG)
+![Diagrama Entidad-Relación](images/DiagramaBBDD.PNG)
 
 > Descripción: El diagrama define la estructura de gestión de torneos de fútbol. Administra equipos, jugadores, competiciones y partidos en los que participan los equipos. 
 Entre las entidades principales, encontramos:
