@@ -191,19 +191,51 @@ Solo si han cambiado.
    cd [nombre-repositorio]
    ```
 
-2. **AQUÍ INDICAR LO SIGUIENTES PASOS**
+2. **Iniciar BBDD**
+Por defecto el proyecto requiere una base de datos MySQL disponible en localhost con la siguiente configuración:
+* Esquema: `futbolmanager`
+* Usuario: `root`
+* Contraseña: `password`
+
+Se puede arrancar usando docker con el comando:
+
+   ```bash
+   docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=futbolmanager -p 3306:3306 -d mysql:9.2
+   cd [nombre-repositorio]
+   ```
+
+3. **Iniciar la aplicación**
+
+Se inicia con este comando:
+```
+mvn spring-boot:run
+
+
+Se puede acceder a través de la ruta: [https://localhost:8443](https://localhost:8443)
+```
 
 #### **Credenciales de prueba**
-- **Usuario Admin**: usuario: `admin`, contraseña: `admin`
-- **Usuario Registrado**: usuario: `user`, contraseña: `user`
+- **Usuario Admin**: usuario: `admin`, contraseña: `adminpass`
+- **Usuario Registrado**: usuario: `user1`, contraseña: `pass`
+- **Usuario Registrado**: usuario: `user2`, contraseña: `pass`
+Nota: Hay 3 más, con la misma contraseña y cambiando el número del final por un 3,4 o 5.
 
 ### **Diagrama de Entidades de Base de Datos**
 
 Diagrama mostrando las entidades, sus campos y relaciones:
 
-![Diagrama Entidad-Relación](images/database-diagram.png)
+![Diagrama Entidad-Relación](images\DiagramaBBDD.PNG)
 
-> [Descripción opcional: Ej: "El diagrama muestra las 4 entidades principales: Usuario, Producto, Pedido y Categoría, con sus respectivos atributos y relaciones 1:N y N:M."]
+> Descripción: El diagrama define la estructura de gestión de torneos de fútbol. Administra equipos, jugadores, competiciones y partidos en los que participan los equipos. 
+Entre las entidades principales, encontramos:
+- **Equipo**: Entidad central, actúa como usuario registrado también. Almacena información del club y maneja las credenciales de acceso al sistema.
+- **Jugador**: Representa a cada miembro de la plantilla del equipo. Cada jugador pertenece a un único club o equipo y almacena nombre, dorsal, posición, goles y asistencias.
+- **Torneo**: Son las competiciones creadas en la plataforma. Controla atributos como estado, tipo de torneo y máximo de participantes.
+- **Partido**: Registra enfrentamientos entre equipos. Conecta dos equipos dentro de un torneo enfrentándolos. Registra fecha, resultado y un indicador de si el encuentro ya concluyó.
+Además hay tablas de relación:
+- **Torneo_Equipo**: Tabla intermedia para controlar los ManyToMany entre torneos y equipos. Permite que un equipo se inscriba en varias competiciones y que los torneos alberguen a varios equipos.
+- **Equipo_Rol**: Gestiona los roles asociados a una cuenta de equipo.
+
 
 ### **Diagrama de Clases y Templates**
 
@@ -214,7 +246,21 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ### **Participación de Miembros en la Práctica 1**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - Víctor Omar Llantoy Núñez del Arco**
+
+Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender), implementación de las gráficas (charts de bootstrap, con integración por javascript), desarrollo de perfil del equipo entero junto a todas sus funcionalidades entre las que destacan borrado de jugadores, creación de jugadores y edición de equipo. Además prestó apoyo en el desarrollo de registro y detalles del front.
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| [Profile and add players](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/33ed4f4ed2c93a09b86e3b9cc430e2050f2d936b)  | [webcontroller.java and profile.html](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
+|2| [Delete players](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/187985943e5b823dce5ca70ea4269b08ee28bd5d)  | [WebController.java and profile.html](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
+|3| [Edit team](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/05a405de9ae8f7b737190163f37ef231362b8886)  | [WebController.java and profile.html](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
+|4| [email passwords recovery](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/6b91c6eab18a8ce01460a2bd0fc4d22b73e5db84)  | [forgot-password.html (and more)](setup/src/main/resources/templates/forgot-password.html)   |
+|5| [charts implemented](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/f15748f0219d84b854eb8f9350c94d6cbef05e5a)  | [charts.js](setup/src/main/resources/static/js/charts.js)   |
+
+---
+
+#### **Alumno 2 - Adam El Kassmi Serroukh**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -228,7 +274,7 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 3 - Santiago Sanchez-Merino Pérez**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -242,33 +288,6 @@ Diagrama de clases de la aplicación con diferenciación por colores o secciones
 
 ---
 
-#### **Alumno 3 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 4 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
 
 ## 🛠 **Práctica 2: Incorporación de una API REST a la aplicación web, despliegue con Docker y despliegue remoto**
 
