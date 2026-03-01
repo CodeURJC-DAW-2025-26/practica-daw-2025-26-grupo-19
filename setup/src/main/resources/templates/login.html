@@ -8,7 +8,7 @@
                     <div class="text-center mb-4">
                         <div
                             class="card-icon-custom card-icon-lg d-inline-flex align-items-center justify-content-center mb-3">
-                            <span>🔑</span>
+                            <img src="/assets/images/inicioSesion.png" alt="Icono de inicio de sesión" style="width: 70px; height: auto;">
                         </div>
                         <h1 class="h2 fw-bold">Iniciar Sesión</h1>
                         <p class="text-muted">Accede a tu cuenta de FutbolManager</p>
@@ -21,16 +21,18 @@
                     {{/error}}
 
                     <form action="/login" method="post">
-                        <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Usuario</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="usuario" required>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="usuario"
+                                required>
                         </div>
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Tu contraseña" required>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Tu contraseña" required>
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -41,8 +43,9 @@
                     </form>
 
                     <div class="text-center mt-3">
-                        
-                        <p class="text-muted mb-0">¿No tienes cuenta? <a href="/register" class="text-primary text-decoration-none">Regístrate</a></p>
+
+                        <p class="text-muted mb-0">¿No tienes cuenta? <a href="/register"
+                                class="text-primary text-decoration-none">Regístrate</a></p>
                     </div>
                 </div>
             </div>
