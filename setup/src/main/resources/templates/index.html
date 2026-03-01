@@ -135,69 +135,63 @@
     </div>
   </section>
 
+<div id="datosOcultos" style="display: none;">
+    {{#goleadores}}
+    <span class="goleador-item" data-nombre="{{nombre}}" data-equipo="{{nombreEquipo}}" data-goles="{{goles}}"></span>
+    {{/goleadores}}
 
-    <section class="mb-5">
-    <div class="d-flex align-items-center gap-3 mb-4">
-      <span class="section-icon fs-2">🎯</span>
-      <h2 class="display-6 fw-bold mb-0">Estadísticas</h2>
-    </div>
-    <div class="row g-4">
-      
-      <div class="col-lg-6">
-        <div class="card shadow h-100">
-          <div class="card-body">
-            <h5 class="card-title mb-4">Top 5 Goleadores</h5>
-            
-            <div class="bg-light rounded p-4 mb-3">
-              {{#goleadores}}
-              <div class="mb-3">
-                <div class="d-flex justify-content-between small mb-1">
-                  <span class="fw-semibold">{{nombre}} <span class="text-muted fw-normal">({{nombreEquipo}})</span></span>
-                  <span class="fw-bold text-primary">{{goles}} goles</span>
-                </div>
-                <div class="progress" style="height: 12px;">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: {{porcentaje}}%;" aria-valuenow="{{porcentaje}}" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-              {{/goleadores}}
-              
-              {{^goleadores}}
-              <p class="text-muted text-center mb-0 small">No hay datos de goleadores todavía.</p>
-              {{/goleadores}}
-            </div>
+    {{#asistentes}}
+    <span class="asistente-item" data-nombre="{{nombre}}" data-equipo="{{nombreEquipo}}" data-asistencias="{{asistencias}}"></span>
+    {{/asistentes}}
+</div>
+
+<section class="mb-5">
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <span class="section-icon fs-2">🎯</span>
+    <h2 class="display-6 fw-bold mb-0">Estadísticas</h2>
+  </div>
+  <div class="row g-4">
+    
+    <div class="col-lg-6">
+      <div class="card shadow h-100">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Top 5 Goleadores</h5>
+          <canvas id="graficoGoleadores" height="200"></canvas>
+          
+          {{^goleadores}}
+          <div class="text-center mt-4">
+             <span class="fs-1">⚽</span>
+             <p class="text-muted mt-2">No hay datos de goleadores todavía.</p>
           </div>
+          <style>#graficoGoleadores { display: none !important; }</style>
+          {{/goleadores}}
         </div>
       </div>
+    </div>
 
-      <div class="col-lg-6">
-        <div class="card shadow h-100">
-          <div class="card-body">
-            <h5 class="card-title mb-4">Top 5 Asistentes</h5>
-            
-            <div class="bg-light rounded p-4 mb-3">
-              {{#asistentes}}
-              <div class="mb-3">
-                <div class="d-flex justify-content-between small mb-1">
-                  <span class="fw-semibold">{{nombre}} <span class="text-muted fw-normal">({{nombreEquipo}})</span></span>
-                  <span class="fw-bold text-warning">{{asistencias}} asistencias</span>
-                </div>
-                <div class="progress" style="height: 12px;">
-                  <div class="progress-bar bg-warning" role="progressbar" style="width: {{porcentaje}}%;" aria-valuenow="{{porcentaje}}" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-              {{/asistentes}}
-              
-              {{^asistentes}}
-              <p class="text-muted text-center mb-0 small">No hay datos de asistentes todavía.</p>
-              {{/asistentes}}
-            </div>
+    <div class="col-lg-6">
+      <div class="card shadow h-100">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Top 5 Asistentes</h5>
+          <canvas id="graficoAsistentes" height="200"></canvas>
+
+          {{^asistentes}}
+          <div class="text-center mt-4">
+             <span class="fs-1">👟</span>
+             <p class="text-muted mt-2">No hay datos de asistentes todavía.</p>
           </div>
+          <style>#graficoAsistentes { display: none !important; }</style>
+          {{/asistentes}}
         </div>
       </div>
-
     </div>
-  </section>
 
+  </div>
+</section>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/charts.js"></script>
 
 </main>
 
