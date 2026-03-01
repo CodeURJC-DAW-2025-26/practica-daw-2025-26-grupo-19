@@ -1,4 +1,4 @@
-package es.codeurjc.daw.library.controller; 
+package es.codeurjc.daw.library.controller;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -72,7 +72,7 @@ public class WebController {
     @Autowired
     private PartidoRepository partidoRepository;
 
-    // Método global para saber si el usuario está logueado en cualquier página
+    // Global method to determine if the user is logged in to any page
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
@@ -91,13 +91,13 @@ public class WebController {
 
         model.addAttribute("ligas", torneoRepository.findByTipo("LIGA"));
 
-        // 2. Buscamos Torneos de tipo "ELIMINATORIA"
+        // 2. We look for "ELIMINATORY" type tournaments
         model.addAttribute("copas", torneoRepository.findByTipo("ELIMINATORIA"));
 
-        // 3. Top 5 de Jugadores con más goles (Lógica en el Servicio)
+        // 3. Top 5 Players with the Most Goals (Logic in Service)
         model.addAttribute("goleadores", jugadorService.getTop5GoleadoresConPorcentaje());
 
-        // 4. Top 5 de Jugadores con más asistencias (Lógica en el Servicio)
+        // 4. Top 5 Players with the Most Assists (Logic in Service)
         model.addAttribute("asistentes", jugadorService.getTop5AsistentesConPorcentaje());
 
         return "index";
@@ -129,13 +129,13 @@ public class WebController {
             @RequestParam String confirmPassword,
             Model model, @RequestParam("image") MultipartFile image) throws IOException, SQLException {
 
-        // 1. Validar que las contraseñas coinciden
+        // 1. Verify that the passwords match
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Las contraseñas no coinciden.");
             return "register";
         }
 
-        // 2. Validar que el usuario no existe ya
+        // 2. Validate that the user does not already exist
         if (equipoRepository.findByUsername(username).isPresent()) {
             model.addAttribute("error", "El nombre de usuario ya está en uso.");
             return "register";
@@ -146,10 +146,10 @@ public class WebController {
             return "register";
         }
 
-        // 3. Crear el nuevo usuario y cifrar la contraseña
+        // 3. Create the new user and encrypt the password
         String encodedPassword = passwordEncoder.encode(password);
 
-        // Se inicializa el Equipo con el ROL de "USER"
+        // The team is initialized with the "USER" role
         Equipo nuevoEquipo = new Equipo(username, email, encodedPassword, nombreEquipo, "USER");
 
         byte[] bytes = image.getBytes();
@@ -174,12 +174,13 @@ public class WebController {
         Optional<Torneo> torneoOpt = torneoService.findById(torneoId);
         if (torneoOpt.isPresent()) {
             Torneo torneo = torneoOpt.get();
-            
-            // If the admin changes to "EN_CURSO" and the tournament was in "INSCRIPCIONES", we generate a calendar
+
+            // If the admin changes to "EN_CURSO" and the tournament was in "INSCRIPCIONES",
+            // we generate a calendar
             if ("EN_CURSO".equals(estado) && "INSCRIPCIONES".equals(torneo.getEstado())) {
                 torneoService.generarCalendario(torneo);
             }
-            
+
             torneo.setEstado(estado);
             torneoService.save(torneo);
         }
@@ -200,7 +201,7 @@ public class WebController {
             Torneo torneo = torneoOpt.get();
             Equipo equipo = equipoOpt.get();
 
-            // Validar que el torneo está en periodo de inscripción y no está lleno
+            // Verify that the tournament is open for registration and is not full
             boolean enInscripcion = "INSCRIPCIONES".equals(torneo.getEstado());
             boolean hayEspacio = torneo.getEquipos().size() < torneo.getMaxParticipantes();
             boolean yaInscrito = torneo.getEquipos().contains(equipo);
@@ -221,7 +222,7 @@ public class WebController {
         }
 
         String username = principal.getName();
-        // Usamos el servicio en lugar del repositorio directamente
+        // We use the service instead of the repository directly
         Optional<Equipo> equipoOpt = equipoService.findByUsername(username);
 
         if (equipoOpt.isPresent()) {
@@ -241,7 +242,7 @@ public class WebController {
             model.addAttribute("id", equipo.getId());
             model.addAttribute("hasImagen", equipo.isHasImagen());
 
-            // Delegamos la lógica de ordenación al servicio
+            // We delegate the ordering logic to the service
             List<Jugador> jugadores = equipoService.getJugadoresOrdenadosPorDorsal(equipo);
 
             model.addAttribute("jugadores", jugadores);
@@ -273,7 +274,7 @@ public class WebController {
             if (equipoService.isDorsalRepetido(equipo, dorsal)) {
                 return "redirect:/profile?error=dorsal";
             }
-            // Si llegamos aqui no hay dorsal repetido
+            // If we get here, there are no repeated numbers.
 
             Jugador nuevoJugador = new Jugador(nombre, posicion, dorsal, equipo);
             byte[] bytes = image.getBytes();
@@ -302,54 +303,7 @@ public class WebController {
         if (torneoOpt.isPresent()) {
             Torneo torneo = torneoOpt.get();
 
-            // Lista donde guardaremos las estadísticas de cada equipo
-            List<EstadisticasEquipo> clasificacion = new ArrayList<>();
-
-            for (Equipo equipo : torneo.getEquipos()) {
-                EstadisticasEquipo stats = new EstadisticasEquipo(equipo);
-
-                for (Partido partido : torneo.getPartidos()) {
-                    // Solo contamos los partidos que ya se han jugado
-                    if (partido.isJugado()) {
-                        boolean esLocal = partido.getEquipoLocal().getId().equals(equipo.getId());
-                        boolean esVisitante = partido.getEquipoVisitante().getId().equals(equipo.getId());
-
-                        // Si el equipo participó en este partido
-                        if (esLocal || esVisitante) {
-                            stats.setJugados(stats.getJugados() + 1);
-
-                            // Detectamos cuántos goles metió y cuántos le metieron
-                            int golesFavor = esLocal ? partido.getGolesLocal() : partido.getGolesVisitante();
-                            int golesContra = esLocal ? partido.getGolesVisitante() : partido.getGolesLocal();
-
-                            stats.setGolesFavor(stats.getGolesFavor() + golesFavor);
-                            stats.setGolesContra(stats.getGolesContra() + golesContra);
-
-                            // Calculamos puntos y resultados (3 pts victoria, 1 pt empate)
-                            if (golesFavor > golesContra) {
-                                stats.setVictorias(stats.getVictorias() + 1);
-                                stats.setPuntos(stats.getPuntos() + 3);
-                            } else if (golesFavor == golesContra) {
-                                stats.setEmpates(stats.getEmpates() + 1);
-                                stats.setPuntos(stats.getPuntos() + 1);
-                            } else {
-                                stats.setDerrotas(stats.getDerrotas() + 1);
-                            }
-                        }
-                    }
-                }
-                clasificacion.add(stats);
-            }
-
-            // Ordenamos la clasificación: primero el que tenga más Puntos, luego Diferencia
-            // de Goles
-            clasificacion.sort((a, b) -> {
-                if (a.getPuntos() != b.getPuntos()) {
-                    return Integer.compare(b.getPuntos(), a.getPuntos()); // Mayor a menor
-                } else {
-                    return Integer.compare(b.getDiferenciaGoles(), a.getDiferenciaGoles());
-                }
-            });
+            List<EstadisticasEquipo> clasificacion = torneo.getClasificacion();
 
             model.addAttribute("torneo", torneo);
             model.addAttribute("clasificacion", clasificacion);
@@ -371,7 +325,7 @@ public class WebController {
             model.addAttribute("email", equipo.getEmail()); // Información de contacto
             model.addAttribute("id", equipo.getId());
             model.addAttribute("hasImagen", equipo.isHasImagen());
-            
+
             // Lista de jugadores
             List<Jugador> jugadores = equipo.getJugadores();
             model.addAttribute("jugadores", jugadores);
@@ -384,7 +338,7 @@ public class WebController {
         return "redirect:/";
     }
 
-    // NUEVO: Eliminar liga
+    // Eliminar liga
     @PostMapping("/admin/leagues/delete")
     public String deleteLeague(@RequestParam Long torneoId) {
         Optional<Torneo> torneoOpt = torneoService.findById(torneoId);
@@ -537,406 +491,35 @@ public class WebController {
         return "redirect:/admin/teams";
     }
 
-
     @PostMapping("/admin/partido/simular")
     public String simularPartido(@RequestParam Long partidoId) {
         Optional<Partido> partidoOpt = partidoRepository.findById(partidoId);
-        
+
         if (partidoOpt.isPresent()) {
             Partido partido = partidoOpt.get();
-            
+
             // Comprobamos que el partido esté pendiente
             if (!partido.isJugado()) {
                 // Generamos goles aleatorios entre 0 y 5 para cada equipo
                 int golesLocal = (int) (Math.random() * 6);
                 int golesVisitante = (int) (Math.random() * 6);
-                
+
                 // Actualizamos los datos del partido
                 partido.setGolesLocal(golesLocal);
                 partido.setGolesVisitante(golesVisitante);
                 partido.setJugado(true); // Marcamos el partido como jugado
-                
+
                 // Guardamos en la base de datos
                 partidoRepository.save(partido);
             }
-            
+
             // Redirigimos de vuelta a la página del torneo para ver los cambios al instante
             return "redirect:/torneo/" + partido.getTorneo().getId();
         }
-        
+
         // Si hay algún error y no se encuentra el partido, vuelve al dashboard
         return "redirect:/admin-dashboard";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @PostMapping("/equipo/editar")
     public String editarEquipo(Model model, HttpServletRequest request,

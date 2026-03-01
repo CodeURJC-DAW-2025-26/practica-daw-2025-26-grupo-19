@@ -120,6 +120,7 @@ public class Torneo {
     }
 
     public List<EstadisticasEquipo> getClasificacion() {
+        // List where we will store the statistics for each team
         List<EstadisticasEquipo> clasificacion = new ArrayList<>();
         
         if (this.equipos == null) return clasificacion;
@@ -129,18 +130,23 @@ public class Torneo {
             
             if (this.partidos != null) {
                 for (Partido partido : this.partidos) {
+                    // We only count the matches that have already been played
                     if (partido.isJugado()) {
                         boolean esLocal = partido.getEquipoLocal().getId().equals(equipo.getId());
                         boolean esVisitante = partido.getEquipoVisitante().getId().equals(equipo.getId());
 
+                        // If the team participated in this match
                         if (esLocal || esVisitante) {
                             stats.setJugados(stats.getJugados() + 1);
+
+                            // Detectamos cuántos goles metió y cuántos le metieron
                             int golesFavor = esLocal ? partido.getGolesLocal() : partido.getGolesVisitante();
                             int golesContra = esLocal ? partido.getGolesVisitante() : partido.getGolesLocal();
 
                             stats.setGolesFavor(stats.getGolesFavor() + golesFavor);
                             stats.setGolesContra(stats.getGolesContra() + golesContra);
 
+                            // Calculamos puntos y resultados (3 pts victoria, 1 pt empate)
                             if (golesFavor > golesContra) {
                                 stats.setVictorias(stats.getVictorias() + 1);
                                 stats.setPuntos(stats.getPuntos() + 3);
@@ -157,7 +163,7 @@ public class Torneo {
             clasificacion.add(stats);
         }
 
-        // Ordenar por puntos y diferencia de goles
+        // Ordenar la clasificacion por puntos y diferencia de goles
         clasificacion.sort((a, b) -> {
             if (a.getPuntos() != b.getPuntos()) {
                 return Integer.compare(b.getPuntos(), a.getPuntos());
