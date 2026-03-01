@@ -2,14 +2,14 @@
 
 <main class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h2 fw-bold mb-0">👥 Equipos Registrados</h1>
+        <h1 class="h2 fw-bold mb-0">Equipos Registrados</h1>
         <a href="/admin-dashboard" class="btn btn-outline-secondary fw-bold shadow-sm">
             ← Volver al Dashboard
         </a>
     </div>
     {{#error}}
     <div class="alert alert-danger shadow-sm mb-4 border-0 border-start border-5 border-danger" role="alert">
-        <strong>❌ Operación cancelada:</strong> {{error}}
+        <strong>Operación cancelada:</strong> {{error}}
     </div>
     {{/error}}
     <div class="card shadow border-0">
@@ -35,9 +35,7 @@
                             <td class="text-muted fw-bold">#{{id}}</td>
                             <td class="text-start fw-semibold">
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;">
-                                        🛡️
-                                    </div>
+
                                     {{nombreEquipo}}
                                 </div>
                             </td>
@@ -51,7 +49,7 @@
                                     <input type="hidden" name="_csrf" value="{{csrfToken}}" />
                                     <input type="hidden" name="teamId" value="{{id}}" />
                                     <button type="submit" class="btn btn-sm btn-danger" title="Eliminar Equipo">
-                                        🗑️ Eliminar
+                                        Eliminar
                                     </button>
                                 </form>
                             </td>

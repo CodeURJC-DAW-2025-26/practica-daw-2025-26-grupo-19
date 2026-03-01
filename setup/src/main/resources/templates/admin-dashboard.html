@@ -50,7 +50,7 @@
   <div class="row g-4">
     <div class="col-md-5">
       <div class="card shadow h-100">
-        <div class="card-header bg-white fw-bold py-3">➕ Crear Nueva Liga</div>
+        <div class="card-header bg-white fw-bold py-3">Crear Nueva Liga</div>
         <div class="card-body">
           <form action="/admin/leagues/new" method="post" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="{{csrfToken}}" />
@@ -80,7 +80,7 @@
     
     <div class="col-md-7">
       <div class="card shadow h-100">
-        <div class="card-header bg-white fw-bold py-3">⚙️ Gestionar Competiciones</div>
+        <div class="card-header bg-white fw-bold py-3">Gestionar Competiciones</div>
         <div class="card-body p-0">
           <div class="table-responsive">
             <table class="table table-hover mb-0 align-middle">
@@ -109,10 +109,12 @@
                         <button type="submit" class="btn btn-sm btn-dark">Actualizar</button>
                       </form>
 
-                      <form action="/admin/leagues/delete" method="post" class="m-0" onsubmit="return confirm('⚠️ ¿Estás totalmente seguro de que deseas eliminar esta liga? Esta acción no se puede deshacer y borrará la clasificación y equipos asociados.');">
+                      <form action="/admin/leagues/delete" method="post" class="m-0" onsubmit="return confirm('¿Estás totalmente seguro de que deseas eliminar esta liga? Esta acción no se puede deshacer y borrará la clasificación y equipos asociados.');">
                         <input type="hidden" name="_csrf" value="{{csrfToken}}" />
                         <input type="hidden" name="torneoId" value="{{id}}" />
-                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar Liga">🗑️</button>
+                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar Liga">
+                          <img src="/assets/images/basura.png" alt="Icono de eliminar" style="width: 10px; height: auto;">
+                        </button>
                       </form>
                     </div>
                     <small class="text-muted d-block mt-1">Actualmente: <strong>{{estado}}</strong></small>
