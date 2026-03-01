@@ -1,4 +1,4 @@
-package es.codeurjc.daw.library.controller; // Ajusta el paquete si cambiaste el nombre del proyecto
+package es.codeurjc.daw.library.controller; 
 
 import java.io.IOException;
 import java.security.Principal;
@@ -359,7 +359,9 @@ public class WebController {
             // Datos básicos del equipo
             model.addAttribute("nombreEquipo", equipo.getNombreEquipo());
             model.addAttribute("email", equipo.getEmail()); // Información de contacto
-
+            model.addAttribute("id", equipo.getId());
+            model.addAttribute("hasImagen", equipo.isHasImagen());
+            
             // Lista de jugadores
             List<Jugador> jugadores = equipo.getJugadores();
             model.addAttribute("jugadores", jugadores);

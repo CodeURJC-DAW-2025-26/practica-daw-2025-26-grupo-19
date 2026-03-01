@@ -9,15 +9,15 @@
         <div class="card-body d-flex align-items-center gap-4">
             
             <div>
-                {{#hasEscudo}}
-                <img src="data:image/png;base64,{{escudoBase64}}" alt="Escudo de {{nombreEquipo}}" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #eee;">
-                {{/hasEscudo}}
+                {{#hasImagen}}
+                <img src="/equipo/{{id}}/image" alt="Escudo de {{nombreEquipo}}" name="image" class="rounded-circle bg-white shadow-sm" style="width: 130px; height: 130px; object-fit: contain; padding: 8px; border: 3px solid #eee;">
+                {{/hasImagen}}
                 
-                {{^hasEscudo}}
-                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center text-secondary" style="width: 120px; height: 120px; font-size: 3rem; border: 3px solid #eee;">
+                {{^hasImagen}}
+                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center text-secondary shadow-sm" style="width: 130px; height: 130px; font-size: 3.5rem; border: 3px solid #eee;">
                     🛡️
                 </div>
-                {{/hasEscudo}}
+                {{/hasImagen}}
             </div>
             
             <div>
