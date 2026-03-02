@@ -43,7 +43,6 @@ public class WebSecurityConfig {
 						.requestMatchers("/error").permitAll()      // <-- AÑADE ESTO
     					.requestMatchers("/torneo/**").permitAll()
 						.requestMatchers("/equipo/**").permitAll()
-						.requestMatchers("/books/**").permitAll()
 						.requestMatchers("/assets/**").permitAll() // Allow access to static resources
 						.requestMatchers("/favicon.ico").permitAll()
 						.requestMatchers("/css/**").permitAll()
@@ -60,10 +59,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/torneo/inscribir").hasAnyRole("USER", "ADMIN")
 						.requestMatchers("/equipo/jugador/nuevo").hasAnyRole("USER", "ADMIN")	
 						.requestMatchers("/equipo/jugador/*/borrar").hasAnyRole("USER", "ADMIN")						
-						.requestMatchers("/editbook").hasAnyRole("USER")
 						.requestMatchers("/equipo/*").permitAll()
-						.requestMatchers("/editbook/*").hasAnyRole("USER")
-						.requestMatchers("/removebook/*").hasAnyRole("ADMIN")
 						.requestMatchers("/profile/**").hasAnyRole("USER", "ADMIN"))
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
