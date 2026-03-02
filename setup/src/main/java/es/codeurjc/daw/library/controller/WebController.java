@@ -302,12 +302,28 @@ public class WebController {
         return "redirect:/profile";
     }
 
-    @PostMapping("/equipo/jugador/{id}/borrar")
-    public String borrarJugador(@PathVariable Long id) {
+@PostMapping("/equipo/jugador/{id}/borrar")
+    public String despedirJugador(@PathVariable Long id, HttpServletRequest request) {
         Optional<Jugador> jugadorOpt = jugadorRepository.findById(id);
+        
         if (jugadorOpt.isPresent()) {
-            jugadorRepository.delete(jugadorOpt.get());
+            Jugador jugador = jugadorOpt.get();
+            
+            String currentUsername = request.getUserPrincipal().getName();
+            
+           
+            String duenoDelJugador = jugador.getEquipo().getUsername(); 
+            
+            boolean isAdmin = request.isUserInRole("ADMIN");
+            
+            if (!currentUsername.equals(duenoDelJugador) && !isAdmin) {
+                return "error"; 
+            }
+            
+            jugadorRepository.delete(jugador);
         }
+        
+        // Si todo va bien, devolvemos al usuario a su perfil
         return "redirect:/profile";
     }
 
