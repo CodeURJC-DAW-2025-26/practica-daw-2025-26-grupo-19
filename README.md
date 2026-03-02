@@ -162,7 +162,7 @@ Diagrama que muestra cómo se navega entre las diferentes páginas de la aplicac
 ## 🛠 **Práctica 1: Web con HTML generado en servidor y AJAX**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](https://www.youtube.com/watch?v=x91MPoITQ3I)**
+📹 **[Enlace al vídeo en YouTube](https://youtu.be/e5fJCqbjLXQ)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Navegación y Capturas de Pantalla**
@@ -294,7 +294,7 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 
 #### **Alumno 2 - Adam El Kassmi Serroukh**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+[me encargue en general de montar la base del proyecto y creacion de ligas, entre otras cosas hice arreglos en el codigo y me encargue de la pagina del administrador y sus funcionalidades, ayudar a compañeros con partes del proyecto y por ultimos montar el video final]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
