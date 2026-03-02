@@ -312,11 +312,11 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Match Generation Logic](URL_commit_1)  | [WebController.java & TorneoService.java](URL_archivo_1)   |
-|2| [Display Match Schelude in HTLM](URL_commit_2)  | [torneo.html & Partido.java](URL_archivo_2)   |
-|3| [Simulate the matches](URL_commit_3)  | [WebController.java](URL_archivo_3)   |
-|4| [Fix Image Upload](URL_commit_4)  | [DatabaseInitializer.java](URL_archivo_4)   |
-|5| [Remove duplicat code](URL_commit_5)  | [WebController.java & Torneo.java](URL_archivo_5)   |
+|1| [Match Generation Logic](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/3333d80f660c67c76debe1928ba7cfb8f8a9ca4e)  | [WebController.java & TorneoService.java](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
+|2| [Display Match Schelude in HTLM](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/2e581152946f1c62c7a9851bcaa8ca04c63db922)  | [torneo.html & Partido.java](setup/src/main/resources/templates/torneo.html)   |
+|3| [Simulate the matches](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/fc2a0c8b6bf686a1a2d25756ef8c736ea339a234)  | [WebController.java](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
+|4| [Fix Image Upload](setup/src/main/java/es/codeurjc/daw/library/service/DatabaseInitializer.java)  | [DatabaseInitializer.java](setup/src/main/java/es/codeurjc/daw/library/service/DatabaseInitializer.java)   |
+|5| [Remove duplicat code](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/2856e43e83aa4a93b27818d56662b0408a9e765a)  | [WebController.java & Torneo.java](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
 
 ---
 
