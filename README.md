@@ -1,4 +1,4 @@
-# [Nombre de la Aplicación]
+# FutbolManager
 
 ## 👥 Miembros del Equipo
 | Nombre y Apellidos | Correo URJC | Usuario GitHub |
@@ -273,7 +273,7 @@ Además hay tablas de relación:
 
 Diagrama de clases de la aplicación con diferenciación por colores o secciones:
 
-
+![Diagrama Clases y Templates](images/DiagramaClases.PNG)
 
 
 ### **Participación de Miembros en la Práctica 1**
