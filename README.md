@@ -298,11 +298,11 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [struct defined](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/6958378849e422fe99a9af849f13bb9273d337b4)  | [Archivo1](URL_archivo_1)   |
+|2| [register and log in fixed](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/1aed972722df13eb4a7f0a7e2fec187b5663ed52)  | [Archivo2](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
+|3| [admin-dashborad ready](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/3f57811417d9676174274800ef19e206035fd204)  | [Archivo3](URL_archivo_3)   |
+|4| [league created](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/98a329a7470f2cb72adb6161471f1ef18df02284)  | [Archivo4](URL_archivo_4)   |
+|5| [error page and list of teams admin](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/05ef8c1a6127fa363562106901c4e07ebac24870)  | [Archivo5](URL_archivo_5)   |
 
 ---
 
