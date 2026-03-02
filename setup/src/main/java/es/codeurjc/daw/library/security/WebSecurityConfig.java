@@ -40,7 +40,7 @@ public class WebSecurityConfig {
 						// PUBLIC PAGES
 						.requestMatchers("/").permitAll()
 						.requestMatchers("/images/**").permitAll()
-						.requestMatchers("/error").permitAll()      // <-- AÑADE ESTO
+						.requestMatchers("/error").permitAll()      
     					.requestMatchers("/torneo/**").permitAll()
 						.requestMatchers("/equipo/**").permitAll()
 						.requestMatchers("/assets/**").permitAll() // Allow access to static resources
@@ -53,7 +53,6 @@ public class WebSecurityConfig {
 						.requestMatchers("/jugador/**").permitAll()
 						
 						// PRIVATE PAGES
-						.requestMatchers("/newbook").hasAnyRole("USER")
 						.requestMatchers("/admin-dashboard").hasAnyRole("ADMIN")
 						.requestMatchers("/admin/**").hasAnyRole("ADMIN")
 						.requestMatchers("/torneo/inscribir").hasAnyRole("USER", "ADMIN")
