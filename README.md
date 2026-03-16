@@ -308,15 +308,15 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 
 #### **Alumno 3 - Santiago Sanchez-Merino Pérez**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+[Me encargue del serivicio y carga de las imagenes de bases de datos, acerca de la simulacion de partidos tanto el backend como la incorporacion a su .html, de crear la logica de generacion de partidos]
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Match Generation Logic](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/3333d80f660c67c76debe1928ba7cfb8f8a9ca4e)  | [WebController.java & TorneoService.java](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
+|2| [Display Match Schelude in HTLM](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/2e581152946f1c62c7a9851bcaa8ca04c63db922)  | [torneo.html & Partido.java](setup/src/main/resources/templates/torneo.html)   |
+|3| [Simulate the matches](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/fc2a0c8b6bf686a1a2d25756ef8c736ea339a234)  | [WebController.java](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
+|4| [Fix Image Upload](setup/src/main/java/es/codeurjc/daw/library/service/DatabaseInitializer.java)  | [DatabaseInitializer.java](setup/src/main/java/es/codeurjc/daw/library/service/DatabaseInitializer.java)   |
+|5| [Remove duplicat code](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/2856e43e83aa4a93b27818d56662b0408a9e765a)  | [WebController.java & Torneo.java](setup/src/main/java/es/codeurjc/daw/library/controller/WebController.java)   |
 
 ---
 
