@@ -37,6 +37,7 @@ public class WebSecurityConfig {
 
 		http
 				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers("/api/**").permitAll()
 						// PUBLIC PAGES
 						.requestMatchers("/").permitAll()
 						.requestMatchers("/images/**").permitAll()
