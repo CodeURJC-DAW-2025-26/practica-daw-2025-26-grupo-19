@@ -16,7 +16,7 @@ import es.codeurjc.daw.library.dto.EquipoMapper;
 import es.codeurjc.daw.library.service.EquipoService;
 
 @RestController
-@RequestMapping("/api/equipos")
+@RequestMapping("/api/v1/equipos")
 public class EquipoRestController {
 
     @Autowired
