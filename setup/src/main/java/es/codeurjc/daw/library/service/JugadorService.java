@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import es.codeurjc.daw.library.model.Equipo;
 import es.codeurjc.daw.library.model.Jugador;
 import es.codeurjc.daw.library.repository.JugadorRepository;
 
@@ -46,6 +47,10 @@ public class JugadorService {
         return resultado;
     }
 
+    public void save(Jugador jugador) {
+        jugadorRepository.save(jugador);
+    }
+
     public List<Map<String, Object>> getTop5AsistentesConPorcentaje() {
         List<Jugador> topAsistentes = jugadorRepository.findTop5ByOrderByAsistenciasDesc();
         List<Map<String, Object>> resultado = new ArrayList<>();
@@ -65,4 +70,9 @@ public class JugadorService {
         }
         return resultado;
     }
+
+    public void deleteById(Long id) {
+        jugadorRepository.deleteById(id);
+    }
+
 }
