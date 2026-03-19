@@ -11,6 +11,8 @@ import es.codeurjc.daw.library.repository.TorneoRepository;
 import es.codeurjc.daw.library.model.Equipo;
 import es.codeurjc.daw.library.model.Partido;
 import java.time.LocalDateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class TorneoService {
@@ -64,6 +66,10 @@ public class TorneoService {
         
         // Save the changes to the database
         repository.save(torneo);
+    }
+
+    public Page<Torneo> getTorneos(Pageable pageable) {
+        return repository.findAll(pageable); 
     }
 
 }

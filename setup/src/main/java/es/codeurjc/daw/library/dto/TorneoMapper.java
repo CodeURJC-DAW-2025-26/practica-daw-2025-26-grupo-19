@@ -14,6 +14,8 @@ public interface TorneoMapper {
     
     List<TorneoBasicDTO> toDTOs(Collection<Torneo> torneos);
 
+    TorneoBasicDTO toBasicDTO(Torneo torneo);
+
     @Mapping(target = "equipos", ignore = true)
     @Mapping(target = "partidos", ignore = true)
     Torneo toDomain(TorneoBasicDTO torneoDTO);

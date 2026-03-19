@@ -19,6 +19,8 @@ import es.codeurjc.daw.library.service.TorneoService;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/api/v1/torneos")
@@ -31,10 +33,15 @@ public class TorneoRestController {
     private TorneoMapper mapper;
 
     // 1. OBTENER TODOS LOS TORNEOS (Devuelve DTOs Básicos sin listas extensas para ser eficiente)
-    @GetMapping("/")
-    public Collection<TorneoBasicDTO> getAllTorneos() {
-        return mapper.toDTOs(torneoService.findAll());
-    }
+@GetMapping("/")
+    public Page<TorneoBasicDTO> getTorneos(Pageable pageable) {
+        
+        // 1. Obtenemos una página de entidades Torneo desde el servicio
+        Page<Torneo> torneosPage = torneoService.getTorneos(pageable);
+        
+        // 2. Convertimos la página de Torneo a página de TorneoBasicDTO usando el mapper
+        return torneosPage.map(mapper::toBasicDTO);    
+}
 
     // 2. OBTENER UN TORNEO POR ID (Devuelve DTO Completo con equipos inscritos y partidos)
     @GetMapping("/{id}")
