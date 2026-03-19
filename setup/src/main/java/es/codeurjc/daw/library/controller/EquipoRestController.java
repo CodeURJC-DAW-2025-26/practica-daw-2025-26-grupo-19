@@ -6,17 +6,21 @@ import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
+
 
 import es.codeurjc.daw.library.model.Equipo;
 import es.codeurjc.daw.library.dto.EquipoDTO;
 import es.codeurjc.daw.library.dto.EquipoBasicDTO;
 import es.codeurjc.daw.library.dto.EquipoMapper;
+import es.codeurjc.daw.library.dto.RegisterDTO;
 import es.codeurjc.daw.library.service.EquipoService;
 
 @RestController
-@RequestMapping("/api/equipos")
+@RequestMapping("/api/v1/equipos")
 public class EquipoRestController {
 
     @Autowired
@@ -24,6 +28,9 @@ public class EquipoRestController {
 
     @Autowired
     private EquipoMapper mapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // 1. OBTENER TODOS (Devuelve DTOs Básicos sin listas para ser eficiente)
     @GetMapping("/")
@@ -81,4 +88,32 @@ public class EquipoRestController {
         return mapper.toDTO(equipo);
     }
     */
+
+    @PostMapping("/register")
+    public ResponseEntity<EquipoBasicDTO> registrarEquipo(@RequestBody RegisterDTO registroDTO) {
+
+        // 1. Creamos la entidad Equipo usando el constructor que ya tienes en tu modelo
+        // IMPORTANTE: Encriptamos la contraseña antes de guardarla y asignamos el rol "USER"
+        Equipo equipo = new Equipo(
+            registroDTO.username(),
+            registroDTO.email(),
+            passwordEncoder.encode(registroDTO.password()), 
+            registroDTO.nombreEquipo(),
+            "USER" 
+        );
+
+        // 2. Guardamos en la base de datos
+        equipoService.save(equipo); // (Usa createEquipo(equipo) si lo cambiaste en el servicio)
+
+        // 3. Pasamos la entidad a DTO para devolverla (y así no devolvemos la contraseña ni los roles)
+        // Nota: Asegúrate de usar el método de tu mapper que devuelva el DTO básico
+        EquipoBasicDTO savedEquipoDTO = mapper.toBasicDTO(equipo); 
+
+        // 4. Creamos la URI del nuevo recurso
+        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(savedEquipoDTO.id()).toUri();
+
+        // 5. Devolvemos el 201 Created con los datos del usuario recién registrado
+        return ResponseEntity.created(location).body(savedEquipoDTO);
+    }
+
 }

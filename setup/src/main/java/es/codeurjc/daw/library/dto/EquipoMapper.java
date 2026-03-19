@@ -11,6 +11,8 @@ import es.codeurjc.daw.library.model.Equipo;
 public interface EquipoMapper {
 
     EquipoDTO toDTO(Equipo equipo);
+
+    EquipoBasicDTO toBasicDTO(Equipo equipo);
     
     List<EquipoBasicDTO> toDTOs(Collection<Equipo> equipos);
 
