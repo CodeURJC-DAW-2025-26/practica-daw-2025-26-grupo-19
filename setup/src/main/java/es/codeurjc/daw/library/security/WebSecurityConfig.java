@@ -65,7 +65,7 @@ public class WebSecurityConfig {
 			.authorizeHttpRequests(authorize -> authorize
                     .requestMatchers(HttpMethod.POST,"/api/v1/**").permitAll()
 					.requestMatchers(HttpMethod.DELETE,"/api/v1/**").permitAll()
-					.requestMatchers(HttpMethod.PUT,"/api/v1/**").hasRole("USER")
+					.requestMatchers(HttpMethod.PUT,"/api/v1/**").permitAll()
 					.anyRequest().permitAll() 
 			);
 		

@@ -9,7 +9,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import es.codeurjc.daw.library.model.Equipo;
+import javax.sql.rowset.serial.SerialBlob;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+
 import es.codeurjc.daw.library.model.Jugador;
 import es.codeurjc.daw.library.repository.JugadorRepository;
 
@@ -73,6 +78,25 @@ public class JugadorService {
 
     public void deleteById(Long id) {
         jugadorRepository.deleteById(id);
+    }
+
+    public void saveImage(long id, MultipartFile imageFile) throws IOException, SQLException {
+        Jugador jugador = this.findById(id).orElseThrow(); // Asume que el equipo existe
+        
+        Blob imageBlob = new SerialBlob(imageFile.getBytes());
+        jugador.setImagen(imageBlob);
+        jugador.setHasImagen(true);
+        
+        this.save(jugador); 
+    }
+
+    public void deleteImage(long id) {
+        Jugador jugador = this.findById(id).orElseThrow();
+        
+        jugador.setImagen(null);
+        jugador.setHasImagen(false);
+        
+        this.save(jugador);
     }
 
 }

@@ -1,7 +1,6 @@
 package es.codeurjc.daw.library.controller;
 
 import java.net.URI;
-import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -17,7 +16,6 @@ import es.codeurjc.daw.library.dto.TorneoBasicDTO;
 import es.codeurjc.daw.library.dto.TorneoMapper;
 import es.codeurjc.daw.library.service.TorneoService;
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentContextPath;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

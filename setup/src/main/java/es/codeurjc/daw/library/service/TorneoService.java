@@ -6,9 +6,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.sql.rowset.serial.SerialBlob;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+
+
 import es.codeurjc.daw.library.model.Torneo;
 import es.codeurjc.daw.library.repository.TorneoRepository;
 import es.codeurjc.daw.library.model.Equipo;
+import es.codeurjc.daw.library.model.Jugador;
 import es.codeurjc.daw.library.model.Partido;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
@@ -70,6 +78,25 @@ public class TorneoService {
 
     public Page<Torneo> getTorneos(Pageable pageable) {
         return repository.findAll(pageable); 
+    }
+
+    public void saveImage(long id, MultipartFile imageFile) throws IOException, SQLException {
+        Torneo torneo  = this.findById(id).orElseThrow(); // Asume que el equipo existe
+        
+        Blob imageBlob = new SerialBlob(imageFile.getBytes());
+        torneo.setImagen(imageBlob);
+        torneo.setHasImagen(true);
+        
+        this.save(torneo); 
+    }
+
+    public void deleteImage(long id) {
+        Torneo torneo = this.findById(id).orElseThrow();
+        
+        torneo.setImagen(null);
+        torneo.setHasImagen(false);
+        
+        this.save(torneo);
     }
 
 }

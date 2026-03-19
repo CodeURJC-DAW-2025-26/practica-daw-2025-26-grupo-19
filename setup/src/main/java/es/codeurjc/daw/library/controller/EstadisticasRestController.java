@@ -14,7 +14,7 @@ import es.codeurjc.daw.library.dto.JugadorMapper;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/estadisticas")
+@RequestMapping("/api/v1/estadisticas")
 public class EstadisticasRestController {
 
     @Autowired
