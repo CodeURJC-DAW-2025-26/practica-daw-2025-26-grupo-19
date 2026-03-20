@@ -11,7 +11,10 @@ import es.codeurjc.daw.library.model.Jugador;
 public interface JugadorMapper {
 
     JugadorDTO toDTO(Jugador jugador);
-    
+
+    JugadorBasicDTO toBasicDTO(Jugador Jugador);
+
+
     List<JugadorBasicDTO> toDTOs(Collection<Jugador> jugadores);
 
     @Mapping(target = "equipo", ignore = true)

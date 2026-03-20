@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,11 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 
 import es.codeurjc.daw.library.model.Equipo;
+import es.codeurjc.daw.library.model.Jugador;
 import es.codeurjc.daw.library.dto.EquipoDTO;
 import es.codeurjc.daw.library.dto.EquipoBasicDTO;
 import es.codeurjc.daw.library.dto.EquipoMapper;
+import es.codeurjc.daw.library.dto.JugadorDTO;
 import es.codeurjc.daw.library.dto.RegisterDTO;
 import es.codeurjc.daw.library.service.EquipoService;
 
@@ -33,10 +37,13 @@ public class EquipoRestController {
     private PasswordEncoder passwordEncoder;
 
     // 1. OBTENER TODOS (Devuelve DTOs Básicos sin listas para ser eficiente)
-    @GetMapping("/")
-    public Collection<EquipoBasicDTO> getAllEquipos() {
-        return mapper.toDTOs(equipoService.findAll());
-    }
+@GetMapping("/")
+    public Page<EquipoDTO> getJugadores(Pageable pageable) {
+        
+        Page<Equipo> equipoPage = equipoService.getEquipos(pageable);
+        
+        return equipoPage.map(mapper::toDTO);    
+}
 
     // 2. OBTENER UNO POR ID (Devuelve DTO Completo con jugadores y torneos)
     @GetMapping("/{id}")
