@@ -25,7 +25,7 @@ import org.springframework.data.domain.Pageable;
 @Service
 public class TorneoService {
 
-@Autowired
+    @Autowired
     private TorneoRepository repository;
 
     public Optional<Torneo> findById(long id) {
@@ -74,6 +74,25 @@ public class TorneoService {
         
         // Save the changes to the database
         repository.save(torneo);
+    }
+
+    // AJAX
+    public List<Torneo> getTorneos(int from, int to) {
+        List<Torneo> torneos = repository.findAll();
+
+        // If they ask us for a number that doesnt exist
+        if(from >= torneos.size()) {
+            return List.of();
+        }
+
+        // If they ask us for more than the limit
+        if(to > torneos.size()) {
+            to = torneos.size();
+        }
+
+        torneos = torneos.subList(from, to);
+
+        return torneos;
     }
 
     public Page<Torneo> getTorneos(Pageable pageable) {

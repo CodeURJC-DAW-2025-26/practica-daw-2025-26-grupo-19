@@ -108,6 +108,8 @@ public class WebSecurityConfig {
 						.requestMatchers("/reset-password/**").permitAll()
 						.requestMatchers("/jugador/**").permitAll()
 						.requestMatchers("/equipo/*").permitAll()
+						.requestMatchers("/torneos").permitAll() 
+                        .requestMatchers("/showLoadMore").permitAll()
 						
 						// PÁGINAS PRIVADAS
 						.requestMatchers("/admin-dashboard").hasAnyRole("ADMIN")
