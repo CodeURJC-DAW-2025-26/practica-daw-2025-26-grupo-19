@@ -5,14 +5,18 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.codeurjc.daw.library.model.Jugador;
+import es.codeurjc.daw.library.model.Torneo;
 import es.codeurjc.daw.library.dto.JugadorBasicDTO;
 import es.codeurjc.daw.library.dto.JugadorDTO;
 import es.codeurjc.daw.library.dto.JugadorMapper;
+import es.codeurjc.daw.library.dto.TorneoBasicDTO;
 import es.codeurjc.daw.library.service.JugadorService;
 
 @RestController
@@ -26,10 +30,13 @@ public class JugadorRestController {
     private JugadorMapper mapper;
 
     // 1. OBTENER TODOS (Devuelve DTOs Básicos sin listas para ser eficiente)
-    @GetMapping("/")
-    public Collection<JugadorBasicDTO> getAllPlayers() {
-        return mapper.toDTOs(jugadorService.findAll());
-    }
+@GetMapping("/")
+    public Page<JugadorDTO> getJugadores(Pageable pageable) {
+        
+        Page<Jugador> jugadorPage = jugadorService.getJugadores(pageable);
+        
+        return jugadorPage.map(mapper::toDTO);    
+}
 
     // 2. OBTENER UNO POR ID (Devuelve DTO Completo)
     @GetMapping("/{id}")

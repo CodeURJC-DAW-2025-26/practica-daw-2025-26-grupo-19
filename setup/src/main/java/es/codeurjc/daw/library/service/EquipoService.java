@@ -1,15 +1,13 @@
 package es.codeurjc.daw.library.service;
 
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sql.rowset.serial.SerialBlob;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import es.codeurjc.daw.library.model.Equipo;
 import es.codeurjc.daw.library.model.Jugador;
@@ -95,23 +93,7 @@ public void updatePassword(Equipo equipo, String newPassword) {
     equipoRepository.save(equipo);
 }
 
-public void saveImage(long id, MultipartFile imageFile) throws IOException, SQLException {
-        Equipo equipo = this.findById(id).orElseThrow(); // Asume que el equipo existe
-        
-        Blob imageBlob = new SerialBlob(imageFile.getBytes());
-        equipo.setImagen(imageBlob);
-        equipo.setHasImagen(true);
-        
-        this.save(equipo); 
-    }
-
-    public void deleteImage(long id) {
-        Equipo equipo = this.findById(id).orElseThrow();
-        
-        equipo.setImagen(null);
-        equipo.setHasImagen(false);
-        
-        this.save(equipo);
-    }
-
+public Page<Equipo> getEquipos(Pageable pageable) {
+		return equipoRepository.findAll(pageable);
+}
 }
