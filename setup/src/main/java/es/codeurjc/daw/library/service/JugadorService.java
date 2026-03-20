@@ -1,17 +1,22 @@
 package es.codeurjc.daw.library.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.sql.rowset.serial.SerialBlob;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.sql.Blob;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import es.codeurjc.daw.library.model.Equipo;
 import es.codeurjc.daw.library.model.Jugador;
 import es.codeurjc.daw.library.repository.JugadorRepository;
 
@@ -80,5 +85,25 @@ public class JugadorService {
     public Page<Jugador> getJugadores(Pageable pageable) {
 		return jugadorRepository.findAll(pageable);
 	}
+
+    
+    public void saveImage(long id, MultipartFile imageFile) throws IOException, SQLException {
+        Jugador jugador = this.findById(id).orElseThrow(); // Asume que el equipo existe
+        
+        Blob imageBlob = new SerialBlob(imageFile.getBytes());
+        jugador.setImagen(imageBlob);
+        jugador.setHasImagen(true);
+        
+        this.save(jugador); 
+    }
+
+    public void deleteImage(long id) {
+        Jugador jugador = this.findById(id).orElseThrow();
+        
+        jugador.setImagen(null);
+        jugador.setHasImagen(false);
+        
+        this.save(jugador);
+    }
 
 }
