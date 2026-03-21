@@ -16,5 +16,6 @@ public interface PartidoMapper {
     @Mapping(target = "torneo", ignore = true)
     @Mapping(target = "equipoLocal", ignore = true)
     @Mapping(target = "equipoVisitante", ignore = true)
+    @Mapping(target = "fecha", source = "fechaFormateada", dateFormat = "dd/MM/yyyy HH:mm")
     Partido toDomain(PartidoBasicDTO partidoDTO);
 }

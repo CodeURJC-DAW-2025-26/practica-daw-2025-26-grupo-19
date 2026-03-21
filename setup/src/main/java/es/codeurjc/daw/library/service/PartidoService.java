@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.daw.library.model.Equipo;
@@ -21,11 +23,27 @@ public class PartidoService {
     @Autowired
     private JugadorRepository jugadorRepository;
 
+    // 1. OBTAIN ALL
+    public Page<Partido> getPartidos(Pageable pageable) {
+        return partidoRepository.findAll(pageable);
+    }
+
+    // 2. OBTAIN BY ID
     public Optional<Partido> findById(Long id) {
         return partidoRepository.findById(id);
     }
 
-    // Toda la lógica de negocio se viene aquí
+    // 3. SAVE/ UPDATE
+    public void save(Partido partido) {
+        partidoRepository.save(partido);
+    }
+
+    // 4. DELETE
+    public void deleteById(Long id) {
+        partidoRepository.deleteById(id);
+    }
+
+    // 5. SIMULATE MATCH
     public void simularPartido(Partido partido) {
         if (!partido.isJugado()) {
             int golesLocal = (int) (Math.random() * 6);
