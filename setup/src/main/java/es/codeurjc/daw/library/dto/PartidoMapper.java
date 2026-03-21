@@ -18,4 +18,11 @@ public interface PartidoMapper {
     @Mapping(target = "equipoVisitante", ignore = true)
     @Mapping(target = "fecha", source = "fechaFormateada", dateFormat = "dd/MM/yyyy HH:mm")
     Partido toDomain(PartidoBasicDTO partidoDTO);
+
+    // NUEVO: Método para convertir el Request de Postman a Entidad (con la regla de la fecha)
+    @Mapping(target = "torneo", ignore = true)
+    @Mapping(target = "equipoLocal", ignore = true)
+    @Mapping(target = "equipoVisitante", ignore = true)
+    @Mapping(target = "fecha", source = "fechaFormateada", dateFormat = "dd/MM/yyyy HH:mm")
+    Partido requestToDomain(PartidoRequestDTO requestDTO);
 }
