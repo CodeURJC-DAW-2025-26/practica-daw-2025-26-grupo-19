@@ -122,4 +122,8 @@ public void saveImage(long id, MultipartFile imageFile) throws IOException, SQLE
         this.save(equipo);
     }
 
+    public void deleteById(Long id) {
+        equipoRepository.deleteById(id);
+    }
+
 }

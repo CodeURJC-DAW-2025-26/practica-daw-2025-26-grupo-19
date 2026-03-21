@@ -55,21 +55,16 @@ public class EquipoRestController {
     // 3. CREAR UN EQUIPO
     @PostMapping("/")
     public ResponseEntity<EquipoDTO> createEquipo(@RequestBody EquipoBasicDTO equipoDTO) {
-        // Convertimos el DTO a Entidad
         Equipo equipo = mapper.toDomain(equipoDTO);
         
-        // (Nota: Aquí encriptarías la contraseña si viaja en el DTO antes de guardar)
         
-        // Guardamos usando el servicio (que trabaja con entidades)
         equipoService.save(equipo);
         
-        // Generamos la URL del nuevo recurso creado
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(equipo.getId())
                 .toUri();
         
-        // Devolvemos 201 Created con el DTO del equipo creado
         return ResponseEntity.created(location).body(mapper.toDTO(equipo));
     }
 
@@ -87,20 +82,16 @@ public class EquipoRestController {
         }
     }
 
-    /* // 5. BORRAR UN EQUIPO (Descomenta si añades deleteById a tu EquipoService)
     @DeleteMapping("/{id}")
     public EquipoDTO deleteEquipo(@PathVariable long id) {
         Equipo equipo = equipoService.findById(id).orElseThrow();
         equipoService.deleteById(id);
         return mapper.toDTO(equipo);
     }
-    */
 
     @PostMapping("/register")
     public ResponseEntity<EquipoBasicDTO> registrarEquipo(@RequestBody RegisterDTO registroDTO) {
 
-        // 1. Creamos la entidad Equipo usando el constructor que ya tienes en tu modelo
-        // IMPORTANTE: Encriptamos la contraseña antes de guardarla y asignamos el rol "USER"
         Equipo equipo = new Equipo(
             registroDTO.username(),
             registroDTO.email(),
@@ -109,17 +100,13 @@ public class EquipoRestController {
             "USER" 
         );
 
-        // 2. Guardamos en la base de datos
-        equipoService.save(equipo); // (Usa createEquipo(equipo) si lo cambiaste en el servicio)
+        
+        equipoService.save(equipo); 
 
-        // 3. Pasamos la entidad a DTO para devolverla (y así no devolvemos la contraseña ni los roles)
-        // Nota: Asegúrate de usar el método de tu mapper que devuelva el DTO básico
         EquipoBasicDTO savedEquipoDTO = mapper.toBasicDTO(equipo); 
 
-        // 4. Creamos la URI del nuevo recurso
         URI location = fromCurrentRequest().path("/{id}").buildAndExpand(savedEquipoDTO.id()).toUri();
 
-        // 5. Devolvemos el 201 Created con los datos del usuario recién registrado
         return ResponseEntity.created(location).body(savedEquipoDTO);
     }
 
