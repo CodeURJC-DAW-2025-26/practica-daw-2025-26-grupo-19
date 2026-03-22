@@ -1,15 +1,18 @@
 package es.codeurjc.daw.library.controller;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
@@ -22,6 +25,8 @@ import es.codeurjc.daw.library.dto.EquipoMapper;
 import es.codeurjc.daw.library.dto.JugadorDTO;
 import es.codeurjc.daw.library.dto.RegisterDTO;
 import es.codeurjc.daw.library.service.EquipoService;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @RestController
 @RequestMapping("/api/v1/equipos")
@@ -48,7 +53,7 @@ public class EquipoRestController {
     // 2. OBTENER UNO POR ID (Devuelve DTO Completo con jugadores y torneos)
     @GetMapping("/{id}")
     public EquipoDTO getEquipoById(@PathVariable long id) {
-        Equipo equipo = equipoService.findById(id).orElseThrow();
+        Equipo equipo = equipoService.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El equipo con ID " + id + " no existe"));
         return mapper.toDTO(equipo);
     }
 
@@ -69,19 +74,45 @@ public class EquipoRestController {
     }
 
     // 4. ACTUALIZAR UN EQUIPO
-    @PutMapping("/{id}")
-    public EquipoDTO replaceEquipo(@PathVariable long id, @RequestBody EquipoBasicDTO newEquipoDTO) {
-        if (equipoService.findById(id).isPresent()) {
-            Equipo newEquipo = mapper.toDomain(newEquipoDTO);
-            newEquipo.setId(id); // Mantenemos el ID original
-            equipoService.save(newEquipo);
-            
-            return mapper.toDTO(newEquipo);
-        } else {
-            throw new NoSuchElementException();
-        }
-    }
+@PutMapping("/{id}")
+    public ResponseEntity<EquipoDTO> replaceEquipo(@PathVariable long id, @RequestBody EquipoBasicDTO newEquipoDTO, Principal principal) {
+        
+        // 1. Recuperamos el equipo existente de la base de datos
+        Equipo equipoExistente = equipoService.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Equipo no encontrado"));
 
+        if (principal == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Debes iniciar sesión para editar un equipo");
+        }
+
+
+        Equipo equipoLogueado = equipoService.findByUsername(principal.getName())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario no válido"));
+
+        // Verificamos si el equipo que intenta editar es el dueño de esa ID o si es Administrador
+        boolean esDueño = equipoExistente.getId().equals(equipoLogueado.getId());
+        boolean esAdmin = equipoLogueado.getRoles().contains("ADMIN");
+
+        if (!esDueño && !esAdmin) {
+            throw new ResponseStatusException(
+                HttpStatus.FORBIDDEN, 
+                "Acceso denegado: Solo puedes editar tu propio perfil de equipo."
+            );
+        }
+
+        
+        equipoExistente.setUsername(newEquipoDTO.username());
+        equipoExistente.setEmail(newEquipoDTO.email());
+        equipoExistente.setNombreEquipo(newEquipoDTO.nombreEquipo());
+        
+
+        // 3. Guardamos los cambios
+        equipoService.save(equipoExistente);
+        
+        // 4. Devolvemos el DTO actualizado
+        return ResponseEntity.ok(mapper.toDTO(equipoExistente));
+    }
+    @Transactional
     @DeleteMapping("/{id}")
     public EquipoDTO deleteEquipo(@PathVariable long id) {
         Equipo equipo = equipoService.findById(id).orElseThrow();
