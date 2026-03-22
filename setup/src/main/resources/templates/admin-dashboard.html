@@ -94,8 +94,8 @@
               <tbody>
                 {{#torneosAdmin}}
                 <tr>
-                  <td class="fw-semibold">{{nombre}}</td>
-                  <td>{{equipos.size}} / {{maxParticipantes}}</td>
+                  <td class="fw-semibold">{{name}}</td>
+                  <td>{{teams.size}} / {{maxParticipants}}</td>
                   <td>
                     <div class="d-flex align-items-center gap-2 mb-1">
                       <form action="/admin/leagues/status" method="post" class="d-flex align-items-center gap-2 m-0">
@@ -117,7 +117,7 @@
                         </button>
                       </form>
                     </div>
-                    <small class="text-muted d-block mt-1">Actualmente: <strong>{{estado}}</strong></small>
+                    <small class="text-muted d-block mt-1">Actualmente: <strong>{{status}}</strong></small>
                   </td>
                 </tr>
                 {{/torneosAdmin}}

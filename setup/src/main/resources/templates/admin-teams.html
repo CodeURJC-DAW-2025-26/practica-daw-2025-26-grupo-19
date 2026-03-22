@@ -36,13 +36,13 @@
                             <td class="text-start fw-semibold">
                                 <div class="d-flex align-items-center gap-2">
 
-                                    {{nombreEquipo}}
+                                    {{teamName}}
                                 </div>
                             </td>
                             <td><span class="badge bg-secondary">{{username}}</span></td>
                             <td>{{email}}</td>
                             <td>
-                                <span class="fw-bold text-primary">{{jugadores.size}}</span>
+                                <span class="fw-bold text-primary">{{players.size}}</span>
                             </td>
                             <td>
                                 <form action="/admin/teams/delete" method="post" class="m-0" onsubmit="return confirm('⚠️ ¿Estás totalmente seguro de que deseas eliminar este equipo? Se borrarán también todos sus jugadores y se le desinscribirá de todos los torneos.');">

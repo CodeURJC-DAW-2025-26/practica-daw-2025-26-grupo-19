@@ -14,30 +14,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import es.codeurjc.daw.library.model.Equipo;
-import es.codeurjc.daw.library.model.Jugador;
-import es.codeurjc.daw.library.model.Torneo;
-import es.codeurjc.daw.library.service.EquipoService;
-import es.codeurjc.daw.library.service.JugadorService;
-import es.codeurjc.daw.library.service.TorneoService;
+import es.codeurjc.daw.library.model.Team;
+import es.codeurjc.daw.library.model.Player;
+import es.codeurjc.daw.library.model.Tournament;
+import es.codeurjc.daw.library.service.TeamService;
+import es.codeurjc.daw.library.service.PlayerService;
+import es.codeurjc.daw.library.service.TournamentService;
 
 @Controller
 public class ImageController {
     @Autowired
-    private TorneoService torneoService;
+    private TournamentService tournamentService;
 
     @Autowired
-    private EquipoService equipoService;
+    private TeamService teamService;
 
     @Autowired
-    private JugadorService jugadorService;
+    private PlayerService playerService;
 
-    @GetMapping("/torneo/{id}/image")
+    @GetMapping("/tournament/{id}/image")
     public ResponseEntity<Resource> downloadImage(@PathVariable long id) throws SQLException {
-        Optional<Torneo> op = torneoService.findById(id);
+        Optional<Tournament> op = tournamentService.findById(id);
 
-        if (op.isPresent() && op.get().getImagen() != null) {
-            Blob image = op.get().getImagen();
+        if (op.isPresent() && op.get().getImage() != null) {
+            Blob image = op.get().getImage();
             Resource imageFile = new InputStreamResource(image.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory
@@ -50,12 +50,12 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/equipo/{id}/image")
+    @GetMapping("/team/{id}/image")
     public ResponseEntity<Resource> downloadUserImage(@PathVariable long id) throws SQLException {
-        Optional<Equipo> op = equipoService.findById(id);
+        Optional<Team> op = teamService.findById(id);
 
-        if (op.isPresent() && op.get().getImagen() != null) {
-            Blob image = op.get().getImagen();
+        if (op.isPresent() && op.get().getImage() != null) {
+            Blob image = op.get().getImage();
             Resource imageFile = new InputStreamResource(image.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory
@@ -68,12 +68,12 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/jugador/{id}/image")
+    @GetMapping("/player/{id}/image")
     public ResponseEntity<Resource> downloadPlayerImage(@PathVariable long id) throws SQLException {
-        Optional<Jugador> op = jugadorService.findById(id);
+        Optional<Player> op = playerService.findById(id);
 
-        if (op.isPresent() && op.get().getImagen() != null) {
-            Blob image = op.get().getImagen();
+        if (op.isPresent() && op.get().getImage() != null) {
+            Blob image = op.get().getImage();
             Resource imageFile = new InputStreamResource(image.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory

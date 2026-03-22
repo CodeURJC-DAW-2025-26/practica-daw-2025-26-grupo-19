@@ -2,19 +2,19 @@
 <div class="col-md-6 col-lg-4">
   <div class="card h-100 shadow">
     <div class="card-body">
-      <a href="/torneo/{{id}}" class="text-decoration-none text-dark">
+      <a href="/tournament/{{id}}" class="text-decoration-none text-dark">
               
         <div class="d-flex align-items-center gap-3 mb-3">
-          {{#hasImagen}}
-          <img src="/torneo/{{id}}/image" alt="Logo {{nombre}}" class="rounded-circle shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
-          {{/hasImagen}}
-          {{^hasImagen}}
+          {{#hasImage}}
+          <img src="/tournament/{{id}}/image" alt="Logo {{name}}" class="rounded-circle shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+          {{/hasImage}}
+          {{^hasImage}}
           <div class="card-icon-custom">🏆</div>
-          {{/hasImagen}}
+          {{/hasImage}}
               
           <div>
-            <h5 class="card-title mb-1">{{nombre}}</h5>
-            <span class="badge bg-success">{{estado}}</span>
+            <h5 class="card-title mb-1">{{name}}</h5>
+            <span class="badge bg-success">{{status}}</span>
           </div>
         </div>
 
@@ -27,28 +27,28 @@
               </tr>
             </thead>
             <tbody>
-              {{#clasificacion}}
+              {{#standings}}
               <tr>
-                <td class="fw-semibold">{{equipo.nombreEquipo}}</td>
-                <td class="text-center fw-bold text-primary">{{puntos}}</td>
+                <td class="fw-semibold">{{team.teamName}}</td>
+                <td class="text-center fw-bold text-primary">{{points}}</td>
               </tr>
-              {{/clasificacion}}
+              {{/standings}}
             </tbody>
           </table>
         </div>
               
-        {{^clasificacion}}
+        {{^standings}}
         <div class="text-center py-2 text-muted">
           <p class="small mb-0">0 equipos inscritos</p>
         </div>
-        {{/clasificacion}}
+        {{/standings}}
 
         <hr>
         <div class="d-flex justify-content-between align-items-center mb-2">
-          <span class="small fw-bold text-muted">{{equipos.size}} de {{maxParticipantes}} plazas</span>
+          <span class="small fw-bold text-muted">{{teams.size}} de {{maxParticipants}} plazas</span>
                 
           {{#logged}}
-          <form action="/torneo/inscribir" method="post" class="m-0">
+          <form action="/tournament/enroll" method="post" class="m-0">
               <input type="hidden" name="_csrf" value="{{csrfToken}}" />
               <input type="hidden" name="torneoId" value="{{id}}" />
               <button type="submit" class="btn btn-sm btn-primary">¡Inscribir a mi equipo!</button>

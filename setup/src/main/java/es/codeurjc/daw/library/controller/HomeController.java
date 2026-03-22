@@ -11,52 +11,52 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import es.codeurjc.daw.library.model.Torneo;
-import es.codeurjc.daw.library.service.JugadorService;
-import es.codeurjc.daw.library.service.TorneoService;
+import es.codeurjc.daw.library.model.Tournament;
+import es.codeurjc.daw.library.service.PlayerService;
+import es.codeurjc.daw.library.service.TournamentService;
 
 @Controller
 public class HomeController {
     @Autowired
-    private JugadorService jugadorService;
+    private PlayerService playerService;
 
     @Autowired
-    private TorneoService torneoService;
+    private TournamentService tournamentService;
 
     @GetMapping("/")
     public String index(Model model) {
-        // AYAX
+        // AJAX
         boolean showButton = true;
-        int torneosShown = 0;
+        int tournamentsShown = 0;
         int numResults = 3;
 
-            // Torneos shown initially
-        List<Torneo> torneos = torneoService.getTorneos(torneosShown, numResults);
+            // Tournaments shown initially
+        List<Tournament> tournaments = tournamentService.getTournaments(tournamentsShown, numResults);
 
-        List<Torneo> totalTorneos = torneoService.findAll();
+        List<Tournament> allTournaments = tournamentService.findAll();
 
-            // Not show button LoadMore if there arent left anymore leagues
-        if(numResults >= totalTorneos.size()) {
+            // Don't show LoadMore button if there aren't any more leagues
+        if(numResults >= allTournaments.size()) {
             showButton = false;
         } 
 
-        model.addAttribute("ligas", torneos);
+        model.addAttribute("ligas", tournaments);
         model.addAttribute("showButton", showButton);
 
         // 3. Top 5 Players with the Most Goals (Logic in Service)
-        model.addAttribute("goleadores", jugadorService.getTop5GoleadoresConPorcentaje());
+        model.addAttribute("goleadores", playerService.getTop5ScorersWithPercentage());
 
         // 4. Top 5 Players with the Most Assists (Logic in Service)
-        model.addAttribute("asistentes", jugadorService.getTop5AsistentesConPorcentaje());
+        model.addAttribute("asistentes", playerService.getTop5AssistersWithPercentage());
 
         return "index";
     }
 
-    @GetMapping("/torneos")
+    @GetMapping("/tournaments")
     public String moreLeagues(Model model, @RequestParam int from, @RequestParam int to) {
-        List<Torneo> moreTorneos = torneoService.getTorneos(from, to);
+        List<Tournament> moreTournaments = tournamentService.getTournaments(from, to);
 
-        model.addAttribute("moreTorneos", moreTorneos);
+        model.addAttribute("moreTorneos", moreTournaments);
 
         return("torneos");
     }
@@ -64,10 +64,10 @@ public class HomeController {
     @GetMapping("/showLoadMore")
     @ResponseBody
     public Map<String, Boolean> showLoadMore(@RequestParam int to) {
-        List<Torneo> totalTorneos = torneoService.findAll();
+        List<Tournament> allTournaments = tournamentService.findAll();
         boolean showButton = true;
 
-        if(to >= totalTorneos.size()) {
+        if(to >= allTournaments.size()) {
             showButton = false;
         }
 

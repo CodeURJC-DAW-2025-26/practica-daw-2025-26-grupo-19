@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.codeurjc.daw.library.service.EquipoService;
+import es.codeurjc.daw.library.service.TeamService;
 import es.codeurjc.daw.library.dto.ForgotPasswordRequestDTO;
 import es.codeurjc.daw.library.dto.MessageResponseDTO;
 
@@ -23,29 +23,29 @@ public class EmailRestController {
     private JavaMailSender mailSender;
 
     @Autowired
-    private EquipoService equipoService;
+    private TeamService teamService;
 
     @PostMapping("/forgot-password")
     public ResponseEntity<MessageResponseDTO> sendResetPasswordEmail(@RequestBody ForgotPasswordRequestDTO requestDTO) {
         
         String email = requestDTO.email();
 
-        // Validación básica
+        // Basic validation
         if (email == null || email.isBlank()) {
             return ResponseEntity.badRequest().body(new MessageResponseDTO("El campo email es obligatorio."));
         }
 
         try {
-            // 1. Generamos el token
+            // 1. Generate the token
             String token = UUID.randomUUID().toString();
             
-            // 2. Guardamos el token asociado al equipo
-            equipoService.updateResetPasswordToken(token, email);
+            // 2. Save the token associated with the team
+            teamService.updateResetPasswordToken(token, email);
             
-            // 3. Preparamos el enlace
+            // 3. Prepare the link
             String resetLink = "https://localhost:8443/reset-password?token=" + token;
             
-            // 4. Configuramos y enviamos el correo
+            // 4. Configure and send the email
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(email);
             message.setSubject("Enlace para restablecer contraseña de FutbolManager");
@@ -53,12 +53,12 @@ public class EmailRestController {
             
             mailSender.send(message);
             
-            // 5. Devolvemos respuesta HTTP 200 OK con nuestro DTO
+            // 5. Return HTTP 200 OK response with our DTO
             return ResponseEntity.ok(new MessageResponseDTO("Te hemos enviado un enlace a tu correo."));
             
         } catch (Exception e) {
             e.printStackTrace();
-            // Devolvemos HTTP 500 con el mensaje de error usando el DTO
+            // Return HTTP 500 with error message using the DTO
             return ResponseEntity.internalServerError().body(new MessageResponseDTO("Error al procesar la solicitud: " + e.getMessage()));
         }
     }

@@ -9,23 +9,23 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h1 class="display-5 fw-bold mb-1">{{torneo.nombre}}</h1>
+                    <h1 class="display-5 fw-bold mb-1">{{torneo.name}}</h1>
                     <div class="d-flex gap-2 mt-2">
-                        <span class="badge bg-primary">{{torneo.tipo}}</span>
-                        <span class="badge bg-success">{{torneo.estado}}</span>
-                        <span class="badge bg-info text-dark">Plazas: {{torneo.equipos.size}} /
-                            {{torneo.maxParticipantes}}</span>
+                        <span class="badge bg-primary">{{torneo.type}}</span>
+                        <span class="badge bg-success">{{torneo.status}}</span>
+                        <span class="badge bg-info text-dark">Plazas: {{torneo.teams.size}} /
+                            {{torneo.maxParticipants}}</span>
                     </div>
                 </div>
 
                 <div class="text-center d-none d-md-block">
-                    {{#torneo.hasImagen}}
-                    <img src="/torneo/{{torneo.id}}/image" alt="Logo {{torneo.nombre}}" class="rounded shadow-sm"
+                    {{#torneo.hasImage}}
+                    <img src="/tournament/{{torneo.id}}/image" alt="Logo {{torneo.name}}" class="rounded shadow-sm"
                         style="width: 100px; height: 100px; object-fit: cover;">
-                    {{/torneo.hasImagen}}
-                    {{^torneo.hasImagen}}
+                    {{/torneo.hasImage}}
+                    {{^torneo.hasImage}}
                     <span style="font-size: 4rem;">🏆</span>
-                    {{/torneo.hasImagen}}
+                    {{/torneo.hasImage}}
                 </div>
             </div>
         </div>
@@ -55,19 +55,19 @@
                         {{#clasificacion}}
                         <tr>
                             <td class="text-start ps-4 fw-semibold">
-                                <a href="/equipo/{{equipo.id}}"
+                                <a href="/team/{{team.id}}"
                                     class="text-decoration-none text-dark fw-bold table-link">
-                                    {{equipo.nombreEquipo}}
+                                    {{team.teamName}}
                                 </a>
                             </td>
-                            <td class="fw-bold text-primary fs-5">{{puntos}}</td>
-                            <td>{{jugados}}</td>
-                            <td>{{victorias}}</td>
-                            <td>{{empates}}</td>
-                            <td>{{derrotas}}</td>
-                            <td>{{golesFavor}}</td>
-                            <td>{{golesContra}}</td>
-                            <td>{{diferenciaGoles}}</td>
+                            <td class="fw-bold text-primary fs-5">{{points}}</td>
+                            <td>{{matchesPlayed}}</td>
+                            <td>{{wins}}</td>
+                            <td>{{draws}}</td>
+                            <td>{{losses}}</td>
+                            <td>{{goalsFor}}</td>
+                            <td>{{goalsAgainst}}</td>
+                            <td>{{goalDifference}}</td>
                         </tr>
                         {{/clasificacion}}
 
@@ -101,38 +101,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#torneo.partidos}}
+                        {{#torneo.matches}}
                         <tr>
-                            <td class="text-start ps-4 text-muted small fw-semibold">{{fechaFormateada}}</td>
-                            <td class="text-end fw-bold">{{equipoLocal.nombreEquipo}}</td>
+                            <td class="text-start ps-4 text-muted small fw-semibold">{{formattedDate}}</td>
+                            <td class="text-end fw-bold">{{homeTeam.teamName}}</td>
                             <td>
-                                {{#jugado}}
-                                <span class="badge bg-dark fs-6">{{golesLocal}} - {{golesVisitante}}</span>
-                                {{/jugado}}
-                                {{^jugado}}
+                                {{#played}}
+                                <span class="badge bg-dark fs-6">{{homeGoals}} - {{awayGoals}}</span>
+                                {{/played}}
+                                {{^played}}
                                 <span class="badge bg-warning text-dark">Pendiente</span>
                                 
                                 {{#admin}}
-                                <form action="/admin/partido/simular" method="post" class="d-inline-block ms-2 m-0">
+                                <form action="/admin/match/simulate" method="post" class="d-inline-block ms-2 m-0">
                                     <input type="hidden" name="_csrf" value="{{csrfToken}}" />
                                     <input type="hidden" name="partidoId" value="{{id}}" />
                                     <button type="submit" class="btn btn-sm btn-outline-primary shadow-sm" title="Simular Resultado Aleatorio">Jugar</button>
                                 </form>
                                 {{/admin}}
                                 
-                                {{/jugado}}
+                                {{/played}}
                             </td>
-                            <td class="text-start fw-bold">{{equipoVisitante.nombreEquipo}}</td>
+                            <td class="text-start fw-bold">{{awayTeam.teamName}}</td>
                         </tr>
-                        {{/torneo.partidos}}
+                        {{/torneo.matches}}
                         
-                        {{^torneo.partidos}}
+                        {{^torneo.matches}}
                         <tr>
                             <td colspan="4" class="text-center py-5 text-muted">
                                 <em>Aún no se ha generado el calendario. El torneo debe estar "En Curso".</em>
                             </td>
                         </tr>
-                        {{/torneo.partidos}}
+                        {{/torneo.matches}}
                     </tbody>
                 </table>
             </div>

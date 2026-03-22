@@ -6,7 +6,7 @@ async function loadMore() {
     const from = NUM_RESULTS * (loadMoreRequest+1);
     const to = from+NUM_RESULTS;
 
-    let response = await fetch(`/torneos?from=${from}&to=${to}`);
+    let response = await fetch(`/tournaments?from=${from}&to=${to}`);
     let responseTxt = await response.text();
 
     let leaguesDiv = document.getElementById('leaguesDiv');

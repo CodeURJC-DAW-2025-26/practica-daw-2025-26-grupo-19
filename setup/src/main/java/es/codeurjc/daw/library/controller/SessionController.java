@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import es.codeurjc.daw.library.model.Equipo;
-import es.codeurjc.daw.library.repository.EquipoRepository;
-import es.codeurjc.daw.library.service.EquipoService;
+import es.codeurjc.daw.library.model.Team;
+import es.codeurjc.daw.library.repository.TeamRepository;
+import es.codeurjc.daw.library.service.TeamService;
 
 @Controller
 public class SessionController {
@@ -34,10 +34,10 @@ public class SessionController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private EquipoRepository equipoRepository;
+    private TeamRepository teamRepository;
 
     @Autowired
-    private EquipoService equipoService;
+    private TeamService teamService;
 
     @GetMapping("/login")
     public String login() {
@@ -71,7 +71,7 @@ public class SessionController {
         }
 
         // 2. Validate that the user does not already exist
-        if (equipoRepository.findByUsername(username).isPresent()) {
+        if (teamRepository.findByUsername(username).isPresent()) {
             model.addAttribute("error", "El nombre de usuario ya está en uso.");
             return "register";
         }
@@ -81,7 +81,7 @@ public class SessionController {
             return "register";
         }
 
-        if (equipoRepository.findByEmail(email).isPresent()) {
+        if (teamRepository.findByEmail(email).isPresent()) {
             model.addAttribute("error", "El email ya está en uso.");
             return "register";
         }
@@ -90,14 +90,14 @@ public class SessionController {
         String encodedPassword = passwordEncoder.encode(password);
 
         // The team is initialized with the "USER" role
-        Equipo nuevoEquipo = new Equipo(username, email, encodedPassword, nombreEquipo, "USER");
+        Team newTeam = new Team(username, email, encodedPassword, nombreEquipo, "USER");
 
         byte[] bytes = image.getBytes();
         Blob blob = new SerialBlob(bytes);
-        nuevoEquipo.setImagen(blob);
-        nuevoEquipo.setHasImagen(true);
+        newTeam.setImage(blob);
+        newTeam.setHasImage(true);
 
-        equipoRepository.save(nuevoEquipo);
+        teamRepository.save(newTeam);
 
         return "redirect:/login";
     }
@@ -111,7 +111,7 @@ public class SessionController {
     public String processForgotPassword(HttpServletRequest request, Model model, @RequestParam String email) {
         String token = UUID.randomUUID().toString();
         try {
-            equipoService.updateResetPasswordToken(token, email);
+            teamService.updateResetPasswordToken(token, email);
             
             String resetLink = "https://localhost:8443/reset-password?token=" + token;
             
@@ -132,10 +132,10 @@ public class SessionController {
 
     @GetMapping("/reset-password")
     public String showResetPasswordForm(@RequestParam(value = "token") String token, Model model) {
-        Optional<Equipo> equipoOpt = equipoService.getByResetPasswordToken(token);
-        if (equipoOpt.isEmpty()) {
+        Optional<Team> teamOpt = teamService.getByResetPasswordToken(token);
+        if (teamOpt.isEmpty()) {
             model.addAttribute("error", "Enlace inválido o caducado.");
-            return "login"; // Redirigir o mostrar vista de error
+            return "login"; // Redirect or show error view
         }
         model.addAttribute("token", token);
         return "reset-password";
@@ -143,10 +143,10 @@ public class SessionController {
 
     @PostMapping("/reset-password")
     public String processResetPassword(@RequestParam String token, @RequestParam String password, Model model) {
-        Optional<Equipo> equipoOpt = equipoService.getByResetPasswordToken(token);
-        if (equipoOpt.isPresent()) {
+        Optional<Team> teamOpt = teamService.getByResetPasswordToken(token);
+        if (teamOpt.isPresent()) {
             String encodedPassword = passwordEncoder.encode(password);
-            equipoService.updatePassword(equipoOpt.get(), encodedPassword);
+            teamService.updatePassword(teamOpt.get(), encodedPassword);
             model.addAttribute("message", "Has cambiado tu contraseña exitosamente.");
         } else {
             model.addAttribute("error", "Token inválido.");

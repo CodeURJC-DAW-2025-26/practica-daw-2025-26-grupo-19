@@ -16,32 +16,32 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import es.codeurjc.daw.library.model.Equipo;
-import es.codeurjc.daw.library.model.Jugador;
-import es.codeurjc.daw.library.model.Torneo;
-import es.codeurjc.daw.library.service.EquipoService;
-import es.codeurjc.daw.library.service.JugadorService;
-import es.codeurjc.daw.library.service.TorneoService;
+import es.codeurjc.daw.library.model.Team;
+import es.codeurjc.daw.library.model.Player;
+import es.codeurjc.daw.library.model.Tournament;
+import es.codeurjc.daw.library.service.TeamService;
+import es.codeurjc.daw.library.service.PlayerService;
+import es.codeurjc.daw.library.service.TournamentService;
 
 @RestController
 @RequestMapping("/api/v1/images")
 public class ImageRestController {
 
     @Autowired
-    private EquipoService equipoService;
+    private TeamService teamService;
 
     @Autowired
-    private JugadorService jugadorService;
+    private PlayerService playerService;
 
     @Autowired
-    private TorneoService torneoService;
+    private TournamentService tournamentService;
 
     @GetMapping("/tournament/{id}/image")
     public ResponseEntity<Resource> downloadTournamentImage(@PathVariable long id) throws SQLException {
-        Optional<Torneo> op = torneoService.findById(id);
+        Optional<Tournament> op = tournamentService.findById(id);
 
-        if (op.isPresent() && op.get().getImagen() != null) {
-            Blob image = op.get().getImagen();
+        if (op.isPresent() && op.get().getImage() != null) {
+            Blob image = op.get().getImage();
             Resource imageFile = new InputStreamResource(image.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory
@@ -58,10 +58,10 @@ public class ImageRestController {
    
     @PostMapping("/tournament/{id}/image")
     public ResponseEntity<Object> uploadTournamentImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException, SQLException {
-        Optional<Torneo> tournamentOptional = torneoService.findById(id);
+        Optional<Tournament> tournamentOptional = tournamentService.findById(id);
 
         if (tournamentOptional.isPresent()) {
-            torneoService.saveImage(id, imageFile); 
+            tournamentService.saveImage(id, imageFile); 
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
             return ResponseEntity.created(location).build();
@@ -72,10 +72,10 @@ public class ImageRestController {
 
     @PutMapping("/tournament/{id}/image")
     public ResponseEntity<Object> replaceTournamentImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException, SQLException {
-        Optional<Torneo> tournamentOptional = torneoService.findById(id);
+        Optional<Tournament> tournamentOptional = tournamentService.findById(id);
 
         if (tournamentOptional.isPresent()) {
-            torneoService.saveImage(id, imageFile); 
+            tournamentService.saveImage(id, imageFile); 
 
             return ResponseEntity.noContent().build(); 
         } else {
@@ -85,10 +85,10 @@ public class ImageRestController {
 
     @DeleteMapping("/tournament/{id}/image")
     public ResponseEntity<Object> deleteTournamentImage(@PathVariable long id) {
-        Optional<Torneo> tournamentOptional = torneoService.findById(id);
+        Optional<Tournament> tournamentOptional = tournamentService.findById(id);
 
         if (tournamentOptional.isPresent()) {
-            torneoService.deleteImage(id);
+            tournamentService.deleteImage(id);
 
             return ResponseEntity.noContent().build(); 
         } else {
@@ -96,12 +96,12 @@ public class ImageRestController {
         }
     }
 
-    @GetMapping("/jugador/{id}/image")
+    @GetMapping("/player/{id}/image")
     public ResponseEntity<Resource> downloadPlayerImage(@PathVariable long id) throws SQLException {
-        Optional<Jugador> op = jugadorService.findById(id);
+        Optional<Player> op = playerService.findById(id);
 
-        if (op.isPresent() && op.get().getImagen() != null) {
-            Blob image = op.get().getImagen();
+        if (op.isPresent() && op.get().getImage() != null) {
+            Blob image = op.get().getImage();
             Resource imageFile = new InputStreamResource(image.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory
@@ -115,12 +115,12 @@ public class ImageRestController {
         }
     }
 
-    @PostMapping("/jugador/{id}/image")
+    @PostMapping("/player/{id}/image")
     public ResponseEntity<Object> uploadPlayerImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException, SQLException {
-        Optional<Jugador> playerOptional = jugadorService.findById(id);
+        Optional<Player> playerOptional = playerService.findById(id);
 
         if (playerOptional.isPresent()) {
-            jugadorService.saveImage(id, imageFile); 
+            playerService.saveImage(id, imageFile); 
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
             return ResponseEntity.created(location).build();
@@ -129,12 +129,12 @@ public class ImageRestController {
         }
     }
 
-    @PutMapping("/jugador/{id}/image")
+    @PutMapping("/player/{id}/image")
     public ResponseEntity<Object> replacePlayerImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException, SQLException {
-        Optional<Jugador> playerOptional = jugadorService.findById(id);
+        Optional<Player> playerOptional = playerService.findById(id);
 
         if (playerOptional.isPresent()) {
-            jugadorService.saveImage(id, imageFile); 
+            playerService.saveImage(id, imageFile); 
 
             return ResponseEntity.noContent().build(); 
         } else {
@@ -142,12 +142,12 @@ public class ImageRestController {
         }
     }
 
-    @DeleteMapping("/jugador/{id}/image")
+    @DeleteMapping("/player/{id}/image")
     public ResponseEntity<Object> deletePlayerImage(@PathVariable long id) {
-        Optional<Jugador> playerOptional = jugadorService.findById(id);
+        Optional<Player> playerOptional = playerService.findById(id);
 
         if (playerOptional.isPresent()) {
-            jugadorService.deleteImage(id);
+            playerService.deleteImage(id);
 
             return ResponseEntity.noContent().build(); 
         } else {
@@ -156,12 +156,12 @@ public class ImageRestController {
     }
 
 
-    @GetMapping("/equipos/{id}/image")
-    public ResponseEntity<Resource> downloadEquipoImage(@PathVariable long id) throws SQLException {
-        Optional<Equipo> op = equipoService.findById(id);
+    @GetMapping("/teams/{id}/image")
+    public ResponseEntity<Resource> downloadTeamImage(@PathVariable long id) throws SQLException {
+        Optional<Team> op = teamService.findById(id);
 
-        if (op.isPresent() && op.get().getImagen() != null) {
-            Blob image = op.get().getImagen();
+        if (op.isPresent() && op.get().getImage() != null) {
+            Blob image = op.get().getImage();
             Resource imageFile = new InputStreamResource(image.getBinaryStream());
 
             MediaType mediaType = MediaTypeFactory
@@ -176,12 +176,12 @@ public class ImageRestController {
         }
     }
 
-    @PostMapping("/equipos/{id}/image")
-    public ResponseEntity<Object> uploadEquipoImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException, SQLException {
-        Optional<Equipo> equipoOptional = equipoService.findById(id);
+    @PostMapping("/teams/{id}/image")
+    public ResponseEntity<Object> uploadTeamImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException, SQLException {
+        Optional<Team> teamOptional = teamService.findById(id);
 
-        if (equipoOptional.isPresent()) {
-            equipoService.saveImage(id, imageFile); 
+        if (teamOptional.isPresent()) {
+            teamService.saveImage(id, imageFile); 
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
             return ResponseEntity.created(location).build();
@@ -190,12 +190,12 @@ public class ImageRestController {
         }
     }
 
-    @PutMapping("/equipos/{id}/image")
-    public ResponseEntity<Object> replaceEquipoImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException, SQLException {
-        Optional<Equipo> equipoOptional = equipoService.findById(id);
+    @PutMapping("/teams/{id}/image")
+    public ResponseEntity<Object> replaceTeamImage(@PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException, SQLException {
+        Optional<Team> teamOptional = teamService.findById(id);
 
-        if (equipoOptional.isPresent()) {
-            equipoService.saveImage(id, imageFile); 
+        if (teamOptional.isPresent()) {
+            teamService.saveImage(id, imageFile); 
 
             return ResponseEntity.noContent().build(); 
         } else {
@@ -203,12 +203,12 @@ public class ImageRestController {
         }
     }
 
-    @DeleteMapping("/equipos/{id}/image")
-    public ResponseEntity<Object> deleteEquipoImage(@PathVariable long id) {
-        Optional<Equipo> equipoOptional = equipoService.findById(id);
+    @DeleteMapping("/teams/{id}/image")
+    public ResponseEntity<Object> deleteTeamImage(@PathVariable long id) {
+        Optional<Team> teamOptional = teamService.findById(id);
 
-        if (equipoOptional.isPresent()) {
-            equipoService.deleteImage(id);
+        if (teamOptional.isPresent()) {
+            teamService.deleteImage(id);
 
             return ResponseEntity.noContent().build(); 
         } else {

@@ -10,7 +10,7 @@
             
             <div>
                 {{#hasImagen}}
-                <img src="/equipo/{{id}}/image" alt="Escudo de {{nombreEquipo}}" name="image" class="rounded-circle bg-white shadow-sm" style="width: 130px; height: 130px; object-fit: contain; padding: 8px; border: 3px solid #eee;">
+                <img src="/team/{{id}}/image" alt="Escudo de {{nombreEquipo}}" name="image" class="rounded-circle bg-white shadow-sm" style="width: 130px; height: 130px; object-fit: contain; padding: 8px; border: 3px solid #eee;">
                 {{/hasImagen}}
                 
                 {{^hasImagen}}
@@ -45,9 +45,9 @@
                     <tbody>
                         {{#jugadores}}
                         <tr>
-                            <td class="fw-bold fs-5">{{dorsal}}</td>
-                            <td class="text-start fw-semibold">{{nombre}}</td>
-                            <td><span class="badge bg-secondary">{{posicion}}</span></td>
+                            <td class="fw-bold fs-5">{{jerseyNumber}}</td>
+                            <td class="text-start fw-semibold">{{name}}</td>
+                            <td><span class="badge bg-secondary">{{position}}</span></td>
                         </tr>
                         {{/jugadores}}
                         

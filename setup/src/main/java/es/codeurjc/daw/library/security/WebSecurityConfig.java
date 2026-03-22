@@ -63,24 +63,21 @@ public class WebSecurityConfig {
 		
 		http
 			.authorizeHttpRequests(authorize -> authorize
-                    //.requestMatchers(HttpMethod.POST,"/api/v1/**").permitAll()
-					//.requestMatchers(HttpMethod.DELETE,"/api/v1/**").permitAll()
-					//.requestMatchers(HttpMethod.PUT,"/api/v1/**").permitAll()
-					//tournaments
-					.requestMatchers(HttpMethod.GET,"/api/v1/torneos/**").permitAll()
-					.requestMatchers(HttpMethod.POST,"/api/v1/torneos/").hasAnyRole("ADMIN")
-					.requestMatchers(HttpMethod.DELETE,"/api/v1/torneos/**").hasAnyRole("ADMIN")
-					.requestMatchers(HttpMethod.PUT,"/api/v1/torneos/**").hasAnyRole("ADMIN")
+                    //tournaments
+					.requestMatchers(HttpMethod.GET,"/api/v1/tournaments/**").permitAll()
+					.requestMatchers(HttpMethod.POST,"/api/v1/tournaments/").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.DELETE,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.PUT,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
 					//players
-					.requestMatchers(HttpMethod.GET,"/api/v1/jugadores/**").hasAnyRole("ADMIN")
-					.requestMatchers(HttpMethod.POST,"/api/v1/jugadores/").hasAnyRole("USER")
-					.requestMatchers(HttpMethod.DELETE,"/api/v1/jugadores/**").hasAnyRole("ADMIN","USER")
-					.requestMatchers(HttpMethod.PUT,"/api/v1/jugadores/**").hasAnyRole("ADMIN","USER")
+					.requestMatchers(HttpMethod.GET,"/api/v1/players/**").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.POST,"/api/v1/players/").hasAnyRole("USER")
+					.requestMatchers(HttpMethod.DELETE,"/api/v1/players/**").hasAnyRole("ADMIN","USER")
+					.requestMatchers(HttpMethod.PUT,"/api/v1/players/**").hasAnyRole("ADMIN","USER")
 					//matches
-					.requestMatchers(HttpMethod.GET, "/api/v1/partidos/**").permitAll()
-					.requestMatchers(HttpMethod.POST, "/api/v1/partidos/**").hasAnyRole("ADMIN")
-					.requestMatchers(HttpMethod.PUT, "/api/v1/partidos/**").hasAnyRole("ADMIN")
-					.requestMatchers(HttpMethod.DELETE, "/api/v1/partidos/**").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.GET, "/api/v1/matches/**").permitAll()
+					.requestMatchers(HttpMethod.POST, "/api/v1/matches/**").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.PUT, "/api/v1/matches/**").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.DELETE, "/api/v1/matches/**").hasAnyRole("ADMIN")
 
 
 					.anyRequest().permitAll() 
@@ -99,23 +96,20 @@ public class WebSecurityConfig {
 		return http.build();
 	}
 
-	// ==========================================
-	// CONFIGURACIÓN DE SEGURIDAD WEB (COOKIES/SESIÓN)
-	// ==========================================
 	@Bean
-	@Order(2) // Orden 2: Capturará cualquier petición que no sea de la API
+	@Order(2) // Order 2: Will capture any request that is not from the API
 	public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
 
 		http.authenticationProvider(authenticationProvider());
 
 		http
 				.authorizeHttpRequests(authorize -> authorize
-						// PÁGINAS PÚBLICAS
+						// PUBLIC PAGES
 						.requestMatchers("/").permitAll()
 						.requestMatchers("/images/**").permitAll()
 						.requestMatchers("/error").permitAll()      
-    					.requestMatchers("/torneo/**").permitAll()
-						.requestMatchers("/equipo/**").permitAll()
+    					.requestMatchers("/tournament/**").permitAll()
+						.requestMatchers("/team/**").permitAll()
 						.requestMatchers("/assets/**").permitAll()
 						.requestMatchers("/favicon.ico").permitAll()
 						.requestMatchers("/css/**").permitAll()
@@ -123,17 +117,16 @@ public class WebSecurityConfig {
 						.requestMatchers("/forgot-password/**").permitAll()
 						.requestMatchers("/register").permitAll()
 						.requestMatchers("/reset-password/**").permitAll()
-						.requestMatchers("/jugador/**").permitAll()
-						.requestMatchers("/equipo/*").permitAll()
-						.requestMatchers("/torneos").permitAll() 
+						.requestMatchers("/player/**").permitAll()
+						.requestMatchers("/tournaments").permitAll() 
                         .requestMatchers("/showLoadMore").permitAll()
 						
-						// PÁGINAS PRIVADAS
+						// PRIVATE PAGES
 						.requestMatchers("/admin-dashboard").hasAnyRole("ADMIN")
 						.requestMatchers("/admin/**").hasAnyRole("ADMIN")
-						.requestMatchers("/torneo/inscribir").hasAnyRole("USER", "ADMIN")
-						.requestMatchers("/equipo/jugador/nuevo").hasAnyRole("USER", "ADMIN")	
-						.requestMatchers("/equipo/jugador/*/borrar").hasAnyRole("USER", "ADMIN")						
+						.requestMatchers("/tournament/enroll").hasAnyRole("USER", "ADMIN")
+						.requestMatchers("/team/player/new").hasAnyRole("USER", "ADMIN")	
+						.requestMatchers("/team/player/*/delete").hasAnyRole("USER", "ADMIN")						
 						.requestMatchers("/profile/**").hasAnyRole("USER", "ADMIN")
 						.anyRequest().authenticated()
 				)

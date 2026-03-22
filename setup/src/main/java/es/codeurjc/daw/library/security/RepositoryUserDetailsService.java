@@ -11,19 +11,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import es.codeurjc.daw.library.model.Equipo;
-import es.codeurjc.daw.library.repository.EquipoRepository;
+import es.codeurjc.daw.library.model.Team;
+import es.codeurjc.daw.library.repository.TeamRepository;
 
 @Service
 public class RepositoryUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private EquipoRepository userRepository;
+	private TeamRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		Equipo user = userRepository.findByUsername(username)
+		Team user = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
 		List<GrantedAuthority> roles = new ArrayList<>();

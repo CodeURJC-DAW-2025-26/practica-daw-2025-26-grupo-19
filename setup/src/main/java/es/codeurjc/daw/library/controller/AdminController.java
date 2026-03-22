@@ -17,64 +17,64 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import es.codeurjc.daw.library.model.Equipo;
-import es.codeurjc.daw.library.model.Partido;
-import es.codeurjc.daw.library.model.Torneo;
-import es.codeurjc.daw.library.repository.EquipoRepository;
-import es.codeurjc.daw.library.repository.PartidoRepository;
-import es.codeurjc.daw.library.service.PartidoService;
-import es.codeurjc.daw.library.service.TorneoService;
+import es.codeurjc.daw.library.model.Team;
+import es.codeurjc.daw.library.model.Match;
+import es.codeurjc.daw.library.model.Tournament;
+import es.codeurjc.daw.library.repository.TeamRepository;
+import es.codeurjc.daw.library.repository.MatchRepository;
+import es.codeurjc.daw.library.service.MatchService;
+import es.codeurjc.daw.library.service.TournamentService;
 
 @Controller
 public class AdminController {
     @Autowired
-    private TorneoService torneoService;
+    private TournamentService tournamentService;
 
     @Autowired
-    private EquipoRepository equipoRepository;
+    private TeamRepository teamRepository;
 
     @Autowired
-    private PartidoRepository partidoRepository;
+    private MatchRepository matchRepository;
 
     @Autowired
-    private PartidoService partidoService;
+    private MatchService matchService;
 
     @GetMapping("/admin-dashboard")
     public String adminDashboard(Model model, HttpServletRequest request) {
-        model.addAttribute("torneosAdmin", torneoService.findAll());
+        model.addAttribute("torneosAdmin", tournamentService.findAll());
         return "admin-dashboard";
     }
 
     @PostMapping("/admin/leagues/status")
     public String updateLeagueStatus(@RequestParam Long torneoId, @RequestParam String estado) {
-        Optional<Torneo> torneoOpt = torneoService.findById(torneoId);
-        if (torneoOpt.isPresent()) {
-            Torneo torneo = torneoOpt.get();
+        Optional<Tournament> tournamentOpt = tournamentService.findById(torneoId);
+        if (tournamentOpt.isPresent()) {
+            Tournament tournament = tournamentOpt.get();
 
             // If the admin changes to "EN_CURSO" and the tournament was in "INSCRIPCIONES",
             // we generate a calendar
-            if ("EN_CURSO".equals(estado) && "INSCRIPCIONES".equals(torneo.getEstado())) {
-                torneoService.generarCalendario(torneo);
+            if ("EN_CURSO".equals(estado) && "INSCRIPCIONES".equals(tournament.getStatus())) {
+                tournamentService.generateSchedule(tournament);
             }
 
-            torneo.setEstado(estado);
-            torneoService.save(torneo);
+            tournament.setStatus(estado);
+            tournamentService.save(tournament);
         }
         return "redirect:/admin-dashboard";
     }
 
     @PostMapping("/admin/leagues/delete")
     public String deleteLeague(@RequestParam Long torneoId) {
-        Optional<Torneo> torneoOpt = torneoService.findById(torneoId);
+        Optional<Tournament> tournamentOpt = tournamentService.findById(torneoId);
 
-        if (torneoOpt.isPresent()) {
-            Torneo torneo = torneoOpt.get();
+        if (tournamentOpt.isPresent()) {
+            Tournament tournament = tournamentOpt.get();
 
-            torneo.getEquipos().clear();
-            torneoService.save(torneo);
+            tournament.getTeams().clear();
+            tournamentService.save(tournament);
 
-            // Borramos definitivamente el torneo
-            torneoService.delete(torneoId);
+            // Delete the tournament
+            tournamentService.delete(torneoId);
         }
         return "redirect:/admin-dashboard";
     }
@@ -84,19 +84,19 @@ public class AdminController {
             @RequestParam int maxParticipantes,
             @RequestParam("imagen") MultipartFile imagen) throws IOException, SQLException {
 
-        // Validamos el número de participantes
+        // Validate the number of participants
         if (maxParticipantes >= 2 && maxParticipantes <= 20) {
-            Torneo torneo = new Torneo(nombre, "LIGA", "INSCRIPCIONES", maxParticipantes);
+            Tournament tournament = new Tournament(nombre, "LIGA", "INSCRIPCIONES", maxParticipantes);
 
-            // Comprobamos si el administrador ha subido un archivo de imagen
+            // Check if the admin has uploaded an image file
             if (!imagen.isEmpty()) {
                 byte[] bytes = imagen.getBytes();
                 Blob blob = new SerialBlob(bytes);
-                torneo.setImagen(blob);
-                torneo.setHasImagen(true);
+                tournament.setImage(blob);
+                tournament.setHasImage(true);
             }
 
-            torneoService.save(torneo);
+            tournamentService.save(tournament);
         }
 
         return "redirect:/admin-dashboard";
@@ -108,57 +108,57 @@ public class AdminController {
             return "redirect:/";
         }
 
-        // Si venimos de un intento de borrado fallido, mostramos el error
+        // If coming from a failed delete attempt, show the error
         if (request.getParameter("error") != null) {
             model.addAttribute("error",
                     "Acción denegada: No puedes eliminar a un administrador ni a tu propio equipo.");
         }
 
-        model.addAttribute("equipos", equipoRepository.findAll());
+        model.addAttribute("equipos", teamRepository.findAll());
         return "admin-teams";
     }
 
     @PostMapping("/admin/teams/delete")
     public String deleteTeam(@RequestParam Long teamId, HttpServletRequest request) {
-        Optional<Equipo> equipoOpt = equipoRepository.findById(teamId);
+        Optional<Team> teamOpt = teamRepository.findById(teamId);
 
-        if (equipoOpt.isPresent()) {
-            Equipo equipo = equipoOpt.get();
+        if (teamOpt.isPresent()) {
+            Team team = teamOpt.get();
 
-            // Obtenemos el nombre del usuario que está conectado ahora mismo
+            // Get the currently logged-in username
             String currentUsername = request.getUserPrincipal().getName();
 
-            String teamManager = equipo.getUsername();
-            boolean isTargetAdmin = equipo.getRoles().contains("ADMIN");
+            String teamManager = team.getUsername();
+            boolean isTargetAdmin = team.getRoles().contains("ADMIN");
 
-            // VALIDACIÓN: Si el equipo es tuyo, o el dueño es otro ADMIN, cancelamos el borrado
+            // VALIDATION: If the team is yours, or the owner is another ADMIN, cancel the deletion
             if (teamManager.equals(currentUsername) || isTargetAdmin) {
                 return "redirect:/admin/teams?error=true";
             }
 
-            // Si pasa la validación, desvinculamos de los torneos...
-            for (Torneo torneo : equipo.getTorneos()) {
-                torneo.getEquipos().remove(equipo);
-                torneoService.save(torneo);
+            // If validation passes, unlink from tournaments...
+            for (Tournament tournament : team.getTournaments()) {
+                tournament.getTeams().remove(team);
+                tournamentService.save(tournament);
             }
 
-            equipoRepository.delete(equipo);
+            teamRepository.delete(team);
         }
 
         return "redirect:/admin/teams";
     }
 
-    @PostMapping("/admin/partido/simular")
-    public String simularPartido(@RequestParam Long partidoId) {
-        Optional<Partido> partidoOpt = partidoRepository.findById(partidoId);
+    @PostMapping("/admin/match/simulate")
+    public String simulateMatch(@RequestParam Long partidoId) {
+        Optional<Match> matchOpt = matchRepository.findById(partidoId);
 
-        if (partidoOpt.isPresent()) {
-            Partido partido = partidoOpt.get();
-            partidoService.simularPartido(partido);
-            return "redirect:/torneo/" + partido.getTorneo().getId();
+        if (matchOpt.isPresent()) {
+            Match match = matchOpt.get();
+            matchService.simulateMatch(match);
+            return "redirect:/tournament/" + match.getTournament().getId();
         }
 
-        // Si hay algún error y no se encuentra el partido, vuelve al dashboard
+        // If there's an error and the match is not found, return to dashboard
         return "redirect:/admin-dashboard";
     }
 }
