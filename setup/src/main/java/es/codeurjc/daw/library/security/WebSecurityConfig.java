@@ -66,16 +66,21 @@ public class WebSecurityConfig {
                     //.requestMatchers(HttpMethod.POST,"/api/v1/**").permitAll()
 					//.requestMatchers(HttpMethod.DELETE,"/api/v1/**").permitAll()
 					//.requestMatchers(HttpMethod.PUT,"/api/v1/**").permitAll()
-					//torneos
+					//tournaments
 					.requestMatchers(HttpMethod.GET,"/api/v1/torneos/**").permitAll()
 					.requestMatchers(HttpMethod.POST,"/api/v1/torneos/").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.DELETE,"/api/v1/torneos/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.PUT,"/api/v1/torneos/**").hasAnyRole("ADMIN")
-					//jugadores
+					//players
 					.requestMatchers(HttpMethod.GET,"/api/v1/jugadores/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.POST,"/api/v1/jugadores/").hasAnyRole("USER")
 					.requestMatchers(HttpMethod.DELETE,"/api/v1/jugadores/**").hasAnyRole("ADMIN","USER")
 					.requestMatchers(HttpMethod.PUT,"/api/v1/jugadores/**").hasAnyRole("ADMIN","USER")
+					//matches
+					.requestMatchers(HttpMethod.GET, "/api/v1/partidos/**").permitAll()
+					.requestMatchers(HttpMethod.POST, "/api/v1/partidos/**").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.PUT, "/api/v1/partidos/**").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.DELETE, "/api/v1/partidos/**").hasAnyRole("ADMIN")
 
 
 					.anyRequest().permitAll() 
