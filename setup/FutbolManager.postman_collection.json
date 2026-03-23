@@ -1,0 +1,1049 @@
+{
+  "info": {
+    "_postman_id": "e0282272-8d30-45a4-98a1-62cc0f3d53de",
+    "name": "FutbolManager",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53264802",
+    "_collection_link": "https://go.postman.co/collection/53264802-e0282272-8d30-45a4-98a1-62cc0f3d53de?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"admin\", \"password\": \"adminpass\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"admin\", \"password\": \"adminpass\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Refresh",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"admin\", \"password\": \"adminpass\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/refresh",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "refresh"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Teams",
+      "item": [
+        {
+          "name": "All teams",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"admin\", \"password\": \"adminpass\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/teams/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "teams",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "One team",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\": \"admin\", \"password\": \"adminpass\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/teams/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "teams",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register a team",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"prueba\",\r\n    \"email\": \"pruebas@futbolmanager.com\",\r\n    \"password\": \"123456\", \r\n    \"teamName\": \"Mi Equipo de Prueba\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/teams/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "teams",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update team",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"admin\",\r\n    \"email\": \"admin@futbolmanager.com\",\r\n    \"teamName\": \"adminTeam\",\r\n    \"hasImage\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/teams/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "teams",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a team",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"admin\",\r\n    \"email\": \"admin@futbolmanager.com\",\r\n    \"teamName\": \"adminTeam\",\r\n    \"hasImage\": true\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/teams/7",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "teams",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Players",
+      "item": [
+        {
+          "name": "All players",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/players/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "players",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get One player",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/players/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "players",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a player",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Leo Messi\",\r\n    \"position\": \"Delantero\",\r\n    \"jerseyNumber\": 10,\r\n    \"goals\": 91,\r\n    \"assists\": 25,\r\n    \"hasImage\": true   \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/players/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "players",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update player",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Leo Messi\",\r\n    \"position\": \"Defensa\",\r\n    \"jerseyNumber\": 10,\r\n    \"goals\": 18,\r\n    \"assists\": 21,\r\n    \"hasImage\": true   \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/players/11",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "players",
+                "11"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Leo Messi\",\r\n    \"position\": \"Defensa\",\r\n    \"jerseyNumber\": 10,\r\n    \"goals\": 18,\r\n    \"assists\": 21,\r\n    \"hasImage\": true   \r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/players/11",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "players",
+                "11"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tournaments",
+      "item": [
+        {
+          "name": "All tournaments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tournaments/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tournaments",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get one tournament",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tournaments/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tournaments",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a tournament",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Champions League\",\r\n    \"type\": \"LIGA\",\r\n    \"status\": \"INSCRIPCIONES\",\r\n    \"maxParticipants\": 12,\r\n    \"hasImage\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tournaments/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tournaments",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update team",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Champions League\",\r\n    \"type\": \"LIGA\",\r\n    \"status\": \"EN CURSO\",\r\n    \"maxParticipants\": 16,\r\n    \"hasImage\": true\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tournaments/7",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tournaments",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Tournament",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/tournaments/7",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tournaments",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Tournament Schedule",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Champions League\",\r\n    \"type\": \"LIGA\",\r\n    \"status\": \"INSCRIPCIONES\",\r\n    \"maxParticipants\": 12,\r\n    \"hasImage\": true\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tournaments/1/schedule",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tournaments",
+                "1",
+                "schedule"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Matches",
+      "item": [
+        {
+          "name": "All matches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/matches/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matches",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a match",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/matches/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matches",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a match",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"formattedDate\": \"20/05/2024 18:00\",\r\n    \"homeGoals\": 0,\r\n    \"awayGoals\": 0,\r\n    \"played\": false,\r\n    \"tournamentId\": 1,\r\n    \"homeTeamId\": 1,\r\n    \"awayTeamId\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/matches/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matches",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update a match",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"formattedDate\": \"20/05/2024 18:00\",\r\n    \"homeGoals\": 1,\r\n    \"awayGoals\": 2,\r\n    \"played\": true,\r\n    \"tournamentId\": 1,\r\n    \"homeTeamId\": 1,\r\n    \"awayTeamId\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/matches/4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matches",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Simulate a match",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"formattedDate\": \"20/05/2024 18:00\",\r\n    \"homeGoals\": 0,\r\n    \"awayGoals\": 0,\r\n    \"played\": false,\r\n    \"tournamentId\": 1,\r\n    \"homeTeamId\": 1,\r\n    \"awayTeamId\": 2\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/matches/1/simulate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matches",
+                "1",
+                "simulate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a match",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/matches/4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matches",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Stats",
+      "item": [
+        {
+          "name": "Max Scorers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/scorers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "statistics",
+                "scorers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Max assisters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/statistics/assisters",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "statistics",
+                "assisters"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "forgot-password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"pruebas@futbolmanager.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/email/forgot-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "email",
+                "forgot-password"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "item": [
+        {
+          "name": "Get tournament image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/images/tournament/8/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "tournament",
+                "8",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Post tournament image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "20eb58d5-50f5-462a-a387-2ab30e361168",
+                  "src": "/C:/Users/victo/Downloads/logo.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/tournament/8/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "tournament",
+                "8",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Put tournament image",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "20eb58d5-50f5-462a-a387-2ab30e361168",
+                  "src": "/C:/Users/victo/Downloads/logo.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/tournament/2/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "tournament",
+                "2",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete tournament image",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "20eb58d5-50f5-462a-a387-2ab30e361168",
+                  "src": "/C:/Users/victo/Downloads/logo.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/tournament/8/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "tournament",
+                "8",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get player image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/images/player/1/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "player",
+                "1",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Post player image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "93444367-980b-4a22-af5f-4fc5a559d81b",
+                  "src": "/C:/Users/victo/Downloads/mark.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/player/1/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "player",
+                "1",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update player image",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "93444367-980b-4a22-af5f-4fc5a559d81b",
+                  "src": "/C:/Users/victo/Downloads/mark.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/player/1/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "player",
+                "1",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete player image",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "20eb58d5-50f5-462a-a387-2ab30e361168",
+                  "src": "/C:/Users/victo/Downloads/logo.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/player/1/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "player",
+                "1",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get team image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/images/teams/1/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "teams",
+                "1",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Post team image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "bbf9d98a-43ec-4d8e-bc3e-b3847241a62c",
+                  "src": "/C:/Users/victo/Downloads/escudo.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/teams/1/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "teams",
+                "1",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update team image",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "bbf9d98a-43ec-4d8e-bc3e-b3847241a62c",
+                  "src": "/C:/Users/victo/Downloads/escudo.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/teams/2/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "teams",
+                "2",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete team image",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imageFile",
+                  "type": "file",
+                  "uuid": "bbf9d98a-43ec-4d8e-bc3e-b3847241a62c",
+                  "src": "/C:/Users/victo/Downloads/escudo.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/images/teams/2/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "images",
+                "teams",
+                "2",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:8443/api/v1"
+    }
+  ]
+}
