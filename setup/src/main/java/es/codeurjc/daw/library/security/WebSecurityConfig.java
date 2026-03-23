@@ -50,7 +50,6 @@ public class WebSecurityConfig {
 		return authProvider;
 	}
 
-
 	@Bean
 	@Order(1) 
 	public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
@@ -63,41 +62,32 @@ public class WebSecurityConfig {
 		
 		http
 			.authorizeHttpRequests(authorize -> authorize
-                    //tournaments
 					.requestMatchers(HttpMethod.GET,"/api/v1/tournaments/**").permitAll()
 					.requestMatchers(HttpMethod.POST,"/api/v1/tournaments/").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.DELETE,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.PUT,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
-					//players
 					.requestMatchers(HttpMethod.GET,"/api/v1/players/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.POST,"/api/v1/players/").hasAnyRole("USER")
 					.requestMatchers(HttpMethod.DELETE,"/api/v1/players/**").hasAnyRole("ADMIN","USER")
 					.requestMatchers(HttpMethod.PUT,"/api/v1/players/**").hasAnyRole("ADMIN","USER")
-					//matches
 					.requestMatchers(HttpMethod.GET, "/api/v1/matches/**").permitAll()
 					.requestMatchers(HttpMethod.POST, "/api/v1/matches/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.PUT, "/api/v1/matches/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.DELETE, "/api/v1/matches/**").hasAnyRole("ADMIN")
-
-
 					.anyRequest().permitAll() 
 			);
 		
 		http.formLogin(formLogin -> formLogin.disable());
-
 		http.csrf(csrf -> csrf.disable());
-
 		http.httpBasic(httpBasic -> httpBasic.disable());
-
 		http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
 		http.addFilterBefore(new JwtRequestFilter(userDetailsService, jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
 
 	@Bean
-	@Order(2) // Order 2: Will capture any request that is not from the API
+	@Order(2) 
 	public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
 
 		http.authenticationProvider(authenticationProvider());
@@ -120,6 +110,9 @@ public class WebSecurityConfig {
 						.requestMatchers("/player/**").permitAll()
 						.requestMatchers("/tournaments").permitAll() 
                         .requestMatchers("/showLoadMore").permitAll()
+						
+						// --- RUTAS DE DOCUMENTACIÓN OPENAPI Y SWAGGER PERMITIDAS ---
+						.requestMatchers("/v3/api-docs/**", "/v3/api-docs.yaml", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 						
 						// PRIVATE PAGES
 						.requestMatchers("/admin-dashboard").hasAnyRole("ADMIN")
