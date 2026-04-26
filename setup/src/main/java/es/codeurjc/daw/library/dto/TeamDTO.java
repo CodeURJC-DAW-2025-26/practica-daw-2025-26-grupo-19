@@ -1,6 +1,8 @@
 package es.codeurjc.daw.library.dto;
 import java.util.List;
 
+import es.codeurjc.daw.library.model.Role;
+
 public record TeamDTO(
     Long id, 
     String username, 
@@ -8,5 +10,6 @@ public record TeamDTO(
     String teamName, 
     boolean hasImage,
     List<PlayerBasicDTO> players,
-    List<TournamentBasicDTO> tournaments
+    List<TournamentBasicDTO> tournaments,
+    List<Role> roles
 ) {}

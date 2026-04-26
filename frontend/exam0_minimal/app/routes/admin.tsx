@@ -36,7 +36,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
     const [showTournamentModal, setShowTournamentModal] = useState(false);
     const [editingTournament, setEditingTournament] = useState<any>(null);
 
-    if (!user || (!user.roles.includes("ADMIN") && !user.roles.includes("MANAGER"))) {
+    if (!user || (!user.roles.includes("ADMIN") && !user.roles.includes("USER"))) {
         return (
             <Container className="py-5 text-center">
                 <Alert variant="danger">
