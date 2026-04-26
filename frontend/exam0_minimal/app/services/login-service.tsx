@@ -1,6 +1,6 @@
 import type { UserDTO } from "~/dtos/UserDTO";
 
-const API_USERS_URL = "/api/v1/users";
+const API_USERS_URL = "/api/v1/teams";
 const API_AUTH_URL = "/api/v1/auth";
 
 export class HttpError extends Error {
@@ -13,7 +13,9 @@ export class HttpError extends Error {
 }
 
 export async function reqIsLogged(): Promise<UserDTO> {
-    const res = await fetch(`${API_USERS_URL}/me`);
+    const res = await fetch(`${API_USERS_URL}/me`, {
+        credentials: "include",
+    });
 
     if (!res.ok) {
         throw new HttpError(res.status);
@@ -27,6 +29,7 @@ export async function logIn(user: string, pass: string): Promise<void> {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: user, password: pass }),
+        credentials: "include",
     });
 
     if (!res.ok) {
@@ -37,6 +40,7 @@ export async function logIn(user: string, pass: string): Promise<void> {
 export async function logOut(): Promise<void> {
     const res = await fetch(`${API_AUTH_URL}/logout`, {
         method: "POST",
+        credentials: "include", 
     });
 
     if (!res.ok) {

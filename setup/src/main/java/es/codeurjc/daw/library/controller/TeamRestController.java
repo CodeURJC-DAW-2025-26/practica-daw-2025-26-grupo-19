@@ -140,5 +140,17 @@ public class TeamRestController {
 
         return ResponseEntity.created(location).body(savedTeamDTO);
     }
+    @GetMapping("/me")
+    public ResponseEntity<TeamDTO> getLoggedTeam(Principal principal) {
+        if (principal == null) {
+            // Si no hay sesión/token, devuelve 401 Unauthorized
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
+        // Buscamos el equipo usando el username del token
+        Team team = teamService.findByUsername(principal.getName())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+            
+        return ResponseEntity.ok(mapper.toDTO(team));
+    }
 }

@@ -20,7 +20,7 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
     const [loadingSchedule, setLoadingSchedule] = useState(false);
     const [msg, setMsg] = useState<string | null>(null);
 
-    const isAdmin = user && user.roles.includes("ADMIN");
+    const isAdmin = user && (user.roles?.includes("ADMIN") || user.username === "admin");
 
     const handleGenerateSchedule = async () => {
         setLoadingSchedule(true);

@@ -21,7 +21,7 @@ export const useUserStore = create<UserState>((set, get) => ({
             const user = await reqIsLogged();
             set({ user });
         } catch (error) {
-            if (error instanceof HttpError && error.status === 401) {
+            if (error instanceof HttpError && (error.status === 401 || error.status === 403)) {
                 set({ user: null, loginError: null });
                 return;
             }

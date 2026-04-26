@@ -9,6 +9,7 @@ export default [
         route("team/:id", "routes/equipo-detail.tsx"),
         route("admin", "routes/admin.tsx"),
         route("register", "routes/register.tsx"),
+        route("login", "routes/login.tsx"),
         route("*", "routes/not-found.tsx"),
     ]),
 ] satisfies RouteConfig;

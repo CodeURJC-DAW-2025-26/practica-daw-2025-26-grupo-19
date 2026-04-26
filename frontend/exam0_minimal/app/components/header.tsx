@@ -54,7 +54,7 @@ export default function Header() {
                             <Nav.Link as={Link} to="/">Inicio</Nav.Link>
                             <Nav.Link as={Link} to="/torneos">Torneos</Nav.Link>
                             <Nav.Link as={Link} to="/equipos">Equipos</Nav.Link>
-                            {user && user.roles.includes("ADMIN") && (
+                            {user && (user.roles?.includes("ADMIN") || user.username === "admin") && (
                                 <Nav.Link as={Link} to="/admin">Panel Gestión</Nav.Link>
                             )}
                         </Nav>
@@ -91,7 +91,8 @@ export default function Header() {
                             {user && (
                                 <Nav className="d-flex align-items-center gap-2">
                                     <Navbar.Text className="text-white">
-                                        {user.name}
+                                        {/* Adaptación: mostramos teamName, username o name según disponibilidad */}
+                                        {user.teamName || user.username || user.name}
                                     </Navbar.Text>
                                     <Form action={logoutFormAction} className="d-inline">
                                         <Button

@@ -1,6 +1,7 @@
-export interface UserDTO {
+ export interface UserDTO {
     id: number;
-    name: string;
     username: string;
-    roles: string[];
+    name?: string;      // Lo hacemos opcional
+    teamName?: string;  // Añadimos el campo que realmente manda el backend
+    roles?: string[];   // Lo hacemos opcional
 }
