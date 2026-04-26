@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.daw.library.model.Team;
+import es.codeurjc.daw.library.model.Role;
 import es.codeurjc.daw.library.repository.TeamRepository;
 import es.codeurjc.daw.library.service.TeamService;
 
@@ -90,7 +91,7 @@ public class SessionController {
         String encodedPassword = passwordEncoder.encode(password);
 
         // The team is initialized with the "USER" role
-        Team newTeam = new Team(username, email, encodedPassword, nombreEquipo, "USER");
+        Team newTeam = new Team(username, email, encodedPassword, nombreEquipo, Role.USER);
 
         byte[] bytes = image.getBytes();
         Blob blob = new SerialBlob(bytes);

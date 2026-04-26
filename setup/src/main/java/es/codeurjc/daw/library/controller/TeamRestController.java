@@ -18,6 +18,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 
 import es.codeurjc.daw.library.model.Team;
+import es.codeurjc.daw.library.model.Role;
 import es.codeurjc.daw.library.model.Player;
 import es.codeurjc.daw.library.dto.TeamDTO;
 import es.codeurjc.daw.library.dto.TeamBasicDTO;
@@ -91,7 +92,7 @@ public class TeamRestController {
 
         // Verify if the team trying to edit is the owner of that ID or is Admin
         boolean isOwner = existingTeam.getId().equals(loggedInTeam.getId());
-        boolean isAdmin = loggedInTeam.getRoles().contains("ADMIN");
+        boolean isAdmin = loggedInTeam.getRoles().contains(Role.ADMIN);
 
         if (!isOwner && !isAdmin) {
             throw new ResponseStatusException(
@@ -128,7 +129,7 @@ public class TeamRestController {
             registerDTO.email(),
             passwordEncoder.encode(registerDTO.password()), 
             registerDTO.teamName(),
-            "USER" 
+            Role.USER 
         );
 
         

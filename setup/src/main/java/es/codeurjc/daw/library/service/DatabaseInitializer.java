@@ -15,9 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.daw.library.model.Team;
+import es.codeurjc.daw.library.model.Role;
 import es.codeurjc.daw.library.model.Player;
 import es.codeurjc.daw.library.model.Match;
 import es.codeurjc.daw.library.model.Tournament;
+import es.codeurjc.daw.library.model.TournamentStatus;
+import es.codeurjc.daw.library.model.TournamentType;
 import es.codeurjc.daw.library.repository.TeamRepository;
 import es.codeurjc.daw.library.repository.PlayerRepository;
 import es.codeurjc.daw.library.repository.MatchRepository;
@@ -55,12 +58,12 @@ public class DatabaseInitializer {
         Blob defaultLeagueBlob = createBlobFromResource("static/assets/images/liga.jpg");
         Blob defaultPlayerBlob = createBlobFromResource("static/assets/images/jugador.jpg");
 
-        Team admin = new Team("admin", "admin@futbolmanager.com", passwordEncoder.encode("adminpass"), "Admin FC", "USER", "ADMIN");
-        Team aguilas = new Team("user1", "user1@futbolmanager.com", passwordEncoder.encode("pass"), "Águilas Rojas", "USER");
-        Team leones = new Team("user2", "user2@futbolmanager.com", passwordEncoder.encode("pass"), "Leones FC", "USER");
-        Team tigres = new Team("user3", "user3@futbolmanager.com", passwordEncoder.encode("pass"), "Tigres Unidos", "USER");
-        Team halcones = new Team("user4", "user4@futbolmanager.com", passwordEncoder.encode("pass"), "Halcones del Norte", "USER");
-        Team dragones = new Team("user5", "user5@futbolmanager.com", passwordEncoder.encode("pass"), "Dragones FC", "USER");
+        Team admin = new Team("admin", "admin@futbolmanager.com", passwordEncoder.encode("adminpass"), "Admin FC", Role.USER, Role.ADMIN);
+        Team aguilas = new Team("user1", "user1@futbolmanager.com", passwordEncoder.encode("pass"), "Águilas Rojas", Role.USER);
+        Team leones = new Team("user2", "user2@futbolmanager.com", passwordEncoder.encode("pass"), "Leones FC", Role.USER);
+        Team tigres = new Team("user3", "user3@futbolmanager.com", passwordEncoder.encode("pass"), "Tigres Unidos", Role.USER);
+        Team halcones = new Team("user4", "user4@futbolmanager.com", passwordEncoder.encode("pass"), "Halcones del Norte", Role.USER);
+        Team dragones = new Team("user5", "user5@futbolmanager.com", passwordEncoder.encode("pass"), "Dragones FC", Role.USER);
 
         // Assign the image to all generated teams
         for (Team t : Arrays.asList(admin, aguilas, leones, tigres, halcones, dragones)) {
@@ -72,13 +75,13 @@ public class DatabaseInitializer {
         teamRepository.saveAll(Arrays.asList(admin, aguilas, leones, tigres, halcones, dragones));
 
 
-        Tournament ligaPremium = new Tournament("Liga Premium", "LIGA", "En curso", 20);
+        Tournament ligaPremium = new Tournament("Liga Premium", TournamentType.LIGA, TournamentStatus.EN_CURSO, 20);
         ligaPremium.getTeams().addAll(Arrays.asList(aguilas, leones, tigres, halcones, dragones));
-        Tournament ligaNorte = new Tournament("Liga Regional Norte", "LIGA", "En curso",20);
-        Tournament ligaAmateur = new Tournament("Liga Amateur", "LIGA", "Inscripciones abiertas", 20);
-        Tournament copaCampeones = new Tournament("Copa de Campeones", "ELIMINATORIA", "En curso", 10);
+        Tournament ligaNorte = new Tournament("Liga Regional Norte", TournamentType.LIGA, TournamentStatus.EN_CURSO,20);
+        Tournament ligaAmateur = new Tournament("Liga Amateur", TournamentType.LIGA, TournamentStatus.INSCRIPCIONES_ABIERTAS, 20);
+        Tournament copaCampeones = new Tournament("Copa de Campeones", TournamentType.ELIMINATORIA, TournamentStatus.EN_CURSO, 10);
         copaCampeones.getTeams().addAll(Arrays.asList(aguilas, leones, tigres, halcones));
-        Tournament tournamentApertura = new Tournament("Torneo Apertura 2026", "LIGA", "Inscripciones abiertas",10);
+        Tournament tournamentApertura = new Tournament("Torneo Apertura 2026", TournamentType.LIGA, TournamentStatus.INSCRIPCIONES_ABIERTAS, 10);
 
         // Assign image to leagues/tournaments
         for (Tournament tor : Arrays.asList(ligaPremium, ligaNorte, ligaAmateur, copaCampeones, tournamentApertura)) {

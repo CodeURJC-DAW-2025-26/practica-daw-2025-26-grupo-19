@@ -19,7 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.daw.library.model.Team;
 import es.codeurjc.daw.library.model.Match;
+import es.codeurjc.daw.library.model.Role;
 import es.codeurjc.daw.library.model.Tournament;
+import es.codeurjc.daw.library.model.TournamentStatus;
+import es.codeurjc.daw.library.model.TournamentType;
 import es.codeurjc.daw.library.repository.TeamRepository;
 import es.codeurjc.daw.library.repository.MatchRepository;
 import es.codeurjc.daw.library.service.MatchService;
@@ -51,13 +54,15 @@ public class AdminController {
         if (tournamentOpt.isPresent()) {
             Tournament tournament = tournamentOpt.get();
 
+            TournamentStatus newStatus = TournamentStatus.valueOf(estado.toUpperCase());
+
             // If the admin changes to "EN_CURSO" and the tournament was in "INSCRIPCIONES",
             // we generate a calendar
-            if ("EN_CURSO".equals(estado) && "INSCRIPCIONES".equals(tournament.getStatus())) {
+            if (newStatus == TournamentStatus.EN_CURSO && tournament.getStatus() == TournamentStatus.INSCRIPCIONES_ABIERTAS) {
                 tournamentService.generateSchedule(tournament);
             }
 
-            tournament.setStatus(estado);
+            tournament.setStatus(newStatus);
             tournamentService.save(tournament);
         }
         return "redirect:/admin-dashboard";
@@ -86,7 +91,7 @@ public class AdminController {
 
         // Validate the number of participants
         if (maxParticipantes >= 2 && maxParticipantes <= 20) {
-            Tournament tournament = new Tournament(nombre, "LIGA", "INSCRIPCIONES", maxParticipantes);
+            Tournament tournament = new Tournament(nombre, TournamentType.LIGA, TournamentStatus.INSCRIPCIONES_ABIERTAS, maxParticipantes);
 
             // Check if the admin has uploaded an image file
             if (!imagen.isEmpty()) {
@@ -129,7 +134,7 @@ public class AdminController {
             String currentUsername = request.getUserPrincipal().getName();
 
             String teamManager = team.getUsername();
-            boolean isTargetAdmin = team.getRoles().contains("ADMIN");
+            boolean isTargetAdmin = team.getRoles().contains(Role.ADMIN);
 
             // VALIDATION: If the team is yours, or the owner is another ADMIN, cancel the deletion
             if (teamManager.equals(currentUsername) || isTargetAdmin) {

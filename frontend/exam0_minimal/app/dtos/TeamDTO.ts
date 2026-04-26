@@ -1,3 +1,10 @@
+import { TournamentStatus, TournamentType } from "./TournamentDTO";
+
+export enum Role {
+    USER = "USER",
+    ADMIN = "ADMIN"
+}
+
 export interface PlayerDTO {
     id: number;
     name: string;
@@ -12,8 +19,8 @@ export interface TournamentBasicDTO {
     id: number;
     name: string;
     state: string;
-    status: string;
-    type: string;
+    status: TournamentStatus;
+    type: TournamentType;
 }
 
 export interface TeamDTO {
@@ -22,6 +29,7 @@ export interface TeamDTO {
     teamName: string;
     email: string;
     hasImage: boolean;
+    roles?: Role[];
     players: PlayerDTO[];
     tournaments: TournamentBasicDTO[];
 }

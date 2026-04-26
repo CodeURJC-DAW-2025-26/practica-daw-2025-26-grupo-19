@@ -1,3 +1,14 @@
+export enum TournamentType {
+    LIGA = "LIGA",
+    ELIMINATORIA = "ELIMINATORIA"
+}
+
+export enum TournamentStatus{
+    INSCRIPCIONES = "INSCRIPCIONES",
+    EN_CURSO = "EN_CURSO",
+    FINALIZADO = "FINALIZADO"
+}
+
 export interface TeamBasicDTO {
     id: number;
     username: string;
@@ -20,8 +31,8 @@ export interface TournamentDTO {
     id: number;
     name: string;
     state: string;
-    status: string;
-    type: string;
+    status: TournamentStatus;
+    type: TournamentType;
     maxParticipants: number;
     hasImage: boolean;
     teams: TeamBasicDTO[];

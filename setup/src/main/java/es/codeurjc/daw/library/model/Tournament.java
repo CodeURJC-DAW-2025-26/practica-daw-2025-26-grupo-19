@@ -14,9 +14,11 @@ public class Tournament {
 
     private String name;
     
-    private String type; // "LIGA" or "ELIMINATORIA"
+    @Enumerated(EnumType.STRING)
+    private TournamentType type; // "LIGA" or "ELIMINATORIA"
     
-    private String status; // "INSCRIPCIONES", "EN_CURSO", "FINALIZADO"
+    @Enumerated(EnumType.STRING)
+    private TournamentStatus status; // "INSCRIPCIONES", "EN_CURSO", "FINALIZADO"
 
     private int maxParticipants;
 
@@ -64,7 +66,7 @@ public class Tournament {
 
     public Tournament() {}
 
-    public Tournament(String name, String type, String status, int maxParticipants) {
+    public Tournament(String name, TournamentType type, TournamentStatus status, int maxParticipants) {
         this.name = name;
         this.type = type;
         this.status = status;
@@ -87,19 +89,19 @@ public class Tournament {
         this.name = name;
     }
 
-    public String getType() {
+    public TournamentType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TournamentType type) {
         this.type = type;
     }
 
-    public String getStatus() {
+    public TournamentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TournamentStatus status) {
         this.status = status;
     }
 

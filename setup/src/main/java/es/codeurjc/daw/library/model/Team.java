@@ -24,7 +24,8 @@ public class Team {
     private String email;
     
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles = new ArrayList<>(); 
+    @Enumerated(EnumType.STRING)
+    private List<Role> roles = new ArrayList<>(); 
 
     
     @Column(unique = true, nullable = false)
@@ -51,7 +52,7 @@ public class Team {
     
     public Team() {}
 
-    public Team(String username, String email, String EncodedPassword, String teamName, String... roles) {
+    public Team(String username, String email, String EncodedPassword, String teamName, Role... roles) {
         this.username = username;
         this.EncodedPassword = EncodedPassword;
         this.email = email;
@@ -115,11 +116,11 @@ public class Team {
         this.EncodedPassword = EncodedPassword;
     }
 
-    public List<String> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
