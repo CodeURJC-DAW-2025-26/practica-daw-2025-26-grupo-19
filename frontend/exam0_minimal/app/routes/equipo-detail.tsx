@@ -27,7 +27,7 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
     const [team, setTeam] = useState<TeamDTO>(loaderData);
     const [showPlayerModal, setShowPlayerModal] = useState(false);
     const [editingPlayer, setEditingPlayer] = useState<PlayerDTO | null>(null);
-    const [playerError, setPlayerError] = useState<string | null>(null);
+    const [_playerError, setPlayerError] = useState<string | null>(null);
 
     const [showProfileModal, setShowProfileModal] = useState(false);
 
@@ -78,7 +78,7 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
             setShowPlayerModal(false);
             return { success: true, error: null };
         } catch (err) {
-            return { success: false, error: "Error al guardar jugador. Comprueba los datos." };
+            return { success: false, error: "Error saving player. Please check the data." };
         }
     }
 
@@ -88,11 +88,11 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
         _prevState: { success: boolean; error: string | null } | null,
         formData: FormData
     ) {
-        const imageFile = formData.get("escudoFile") as File | null;
+        const imageFile = formData.get("shieldFile") as File | null;
         const hasImageUpload = imageFile && imageFile.size > 0;
 
         const body = {
-            username: team.username,          // username fijo: no se edita para no romper la sesión
+            username: team.username, // fixed: username cannot change without breaking the session
             email: formData.get("email") as string,
             teamName: formData.get("teamName") as string,
             hasImage: hasImageUpload || team.hasImage,
@@ -106,7 +106,7 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
             setShowProfileModal(false);
             return { success: true, error: null };
         } catch (err) {
-            return { success: false, error: "Error al guardar los datos del perfil." };
+            return { success: false, error: "Error saving profile. Please try again." };
         }
     }
 
@@ -117,7 +117,7 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
         try {
             await deletePlayer(id);
             setTeam({ ...team, players: team.players.filter((p) => p.id !== id) });
-        } catch (e) {
+        } catch {
             alert("Error eliminando jugador.");
         }
     };
@@ -288,7 +288,7 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
                         <div className="alert alert-danger">{profileState.error}</div>
                     )}
                     <Form action={profileFormAction}>
-                        {/* Usuario: solo lectura, no se puede cambiar */}
+                        {/* Username: read-only — changing it would break the active session */}
                         <Form.Group className="mb-3">
                             <Form.Label>Nombre de usuario</Form.Label>
                             <Form.Control
@@ -338,7 +338,7 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
                             )}
                             <Form.Control
                                 type="file"
-                                name="escudoFile"
+                                name="shieldFile"
                                 accept="image/*"
                                 disabled={isProfilePending}
                             />

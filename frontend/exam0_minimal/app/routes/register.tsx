@@ -2,13 +2,11 @@ import { useActionState, useEffect } from "react";
 import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate, Link } from "react-router";
 import { registerTeam, uploadTeamImage } from "~/services/teams-service";
-// Importamos tu store de Zustand
 import { useUserStore } from "~/stores/user-store";
 
 export default function Register() {
     const navigate = useNavigate();
 
-    // Extraemos la función de login del store global
     const loginUser = useUserStore((state) => state.loginUser);
 
     async function performRegister(
@@ -27,21 +25,20 @@ export default function Register() {
         }
 
         try {
-            // PASO 1: Registrar el usuario en la Base de Datos
+            // Step 1: register the user in the database
             const newTeam = await registerTeam(username, email, password, teamName);
-            
-            // PASO 2: Si el usuario seleccionó un escudo válido, lo subimos
+
+            // Step 2: upload the shield image if the user selected one
             if (teamLogo && teamLogo.size > 0 && newTeam && newTeam.id) {
                 await uploadTeamImage(newTeam.id, teamLogo);
             }
 
-            // PASO 3: Iniciar sesión automáticamente
-            // Al usar tu store de Zustand, esto nos loguea y actualiza la barra de navegación (Header) de inmediato
+            // Step 3: auto-login so the navbar updates immediately
             await loginUser(username, password);
 
             return { success: true, error: null };
         } catch (error) {
-            console.error("Error en registro o login:", error);
+            console.error("Registration or login error:", error);
             return {
                 success: false,
                 error: "Error al registrar el usuario o iniciar sesión. Comprueba si el nombre/email ya existe.",
@@ -55,7 +52,7 @@ export default function Register() {
     });
 
     useEffect(() => {
-        // Si todo ha ido bien (registro + imagen + login), vamos a la página principal
+        // Redirect to home once registration + image upload + auto-login succeed
         if (state?.success) {
             navigate("/");
         }
@@ -69,7 +66,7 @@ export default function Register() {
 
                     {state?.error && <Alert variant="danger">{state.error}</Alert>}
 
-                    {/* Importante: encType="multipart/form-data" para poder enviar la imagen */}
+                    {/* encType required to submit the image file */}
                     <Form action={formAction} encType="multipart/form-data">
                         <Form.Group className="mb-3" controlId="formUsername">
                             <Form.Label>Nombre de Usuario</Form.Label>

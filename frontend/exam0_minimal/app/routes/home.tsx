@@ -32,7 +32,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     const navigate = useNavigate();
 
     let errorMessage =
-        error instanceof Error ? error.message : "Ha ocurrido un error inesperado";
+        error instanceof Error ? error.message : "An unexpected error occurred";
 
     return (
         <>

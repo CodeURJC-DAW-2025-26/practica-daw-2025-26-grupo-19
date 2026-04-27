@@ -20,7 +20,6 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
     const [loadingSchedule, setLoadingSchedule] = useState(false);
     const [msg, setMsg] = useState<string | null>(null);
     
-    // NUEVO: Estado para controlar cuántos partidos se muestran
     const [visibleMatchesCount, setVisibleMatchesCount] = useState(10);
 
     const isAdmin = user && (user.roles?.includes("ADMIN") || user.username === "admin");
@@ -32,7 +31,7 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
             const res = await generateSchedule(tournament.id);
             setTournament(res);
             setMsg("Calendario generado y partidos programados automáticamente.");
-        } catch (e) {
+        } catch {
             setMsg("Error al generar el calendario. Comprueba que el torneo tiene equipos.");
         } finally {
             setLoadingSchedule(false);
@@ -47,7 +46,7 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
             );
             setTournament({ ...tournament, matches: updatedMatches });
             setMsg("¡Partido jugado! Resultados actualizados.");
-        } catch (e) {
+        } catch {
             setMsg("Fallo calculando el resultado de este partido.");
         }
     };
@@ -57,12 +56,12 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
             const res = await enrollTeam(tournament.id);
             setTournament(res);
             setMsg("¡Te has inscrito en el torneo correctamente!");
-        } catch (e) {
+        } catch {
             setMsg("Error al inscribirte. Es posible que el torneo esté lleno o ya estés inscrito.");
         }
     };
 
-    // Clasificación calculada en el cliente
+    // Standings calculated client-side from played matches
     const standings = React.useMemo(() => {
         if (!tournament?.teams) return [];
 
@@ -105,7 +104,6 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
 
     const tournamentState = tournament.status;
     
-    // NUEVO: Cálculos para los partidos visibles
     const visibleMatches = tournament.matches?.slice(0, visibleMatchesCount) || [];
     const hasMoreMatches = tournament.matches && visibleMatchesCount < tournament.matches.length;
 
@@ -274,7 +272,6 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* NUEVO: Iteramos solo sobre visibleMatches */}
                                 {visibleMatches.map((m: MatchDTO) => (
                                     <tr key={m.id}>
                                         <td className="fw-medium text-end">

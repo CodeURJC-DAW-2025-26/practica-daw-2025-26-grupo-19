@@ -39,20 +39,18 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
     const [tournaments, setTournaments] = useState<any[]>(initialTournaments);
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
     
-    // Estados para Torneos
     const [showTournamentModal, setShowTournamentModal] = useState(false);
     const [editingTournament, setEditingTournament] = useState<any>(null);
 
-    // Estados para Equipos 
     const [teams, setTeams] = useState<any[]>(initialTeams);
     const [showTeamModal, setShowTeamModal] = useState(false);
     const [editingTeam, setEditingTeam] = useState<any>(null);
-    
+
     const [teamsPage, setTeamsPage] = useState(0);
     const [isLastTeams, setIsLastTeams] = useState<boolean>(initialIsLastTeams);
     const [isLoadingMoreTeams, setIsLoadingMoreTeams] = useState(false);
 
-    // Verificación de permisos básica
+    // Basic permissions check
     if (!user || (!user.roles?.includes("ADMIN") && !user.roles?.includes("USER"))) {
         return (
             <Container className="py-5 text-center">
@@ -74,13 +72,13 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
             setTeamsPage(nextPage);
             setIsLastTeams(data.last);
         } catch (err) {
-            console.error("Error cargando más equipos:", err);
+            console.error("Failed to load more teams:", err);
         } finally {
             setIsLoadingMoreTeams(false);
         }
     };
 
-    // --- MANEJO DE TORNEOS ---
+    // --- TOURNAMENT HANDLERS ---
     const handleEditTournamentClick = (t: any) => {
         setEditingTournament(t);
         setShowTournamentModal(true);
@@ -124,7 +122,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
             setShowTournamentModal(false);
             return { success: true, error: null };
         } catch (err) {
-            return { success: false, error: "Error al guardar torneo. Compruebe los datos." };
+            return { success: false, error: "Error saving tournament. Please check the data." };
         }
     }
 
@@ -145,7 +143,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
     };
 
 
-    // --- MANEJO DE EQUIPOS ---
+    // --- TEAM HANDLERS ---
     const handleEditTeamClick = (team: any) => {
         setEditingTeam(team);
         setShowTeamModal(true);
@@ -178,9 +176,9 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                 setShowTeamModal(false);
                 return { success: true, error: null };
             }
-            return { success: false, error: "No se ha seleccionado ningún equipo." };
+            return { success: false, error: "No team selected." };
         } catch (err) {
-            console.error("Fallo al actualizar:", err);
+            console.error("Failed to update team:", err);
             return { success: false, error: "Error al actualizar el equipo. Verifica que los datos sean únicos." };
         }
     }
@@ -323,7 +321,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                 </Tab>
             </Tabs>
 
-            {/* MODAL TORNEO */}
+            {/* TOURNAMENT MODAL */}
             <Modal show={showTournamentModal} onHide={() => setShowTournamentModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>{editingTournament ? "Editar Torneo" : "Nuevo Torneo"}</Modal.Title>
@@ -366,7 +364,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                 </Modal.Body>
             </Modal>
 
-            {/* MODAL EQUIPO */}
+            {/* TEAM MODAL */}
             <Modal show={showTeamModal} onHide={() => setShowTeamModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Editar Equipo</Modal.Title>

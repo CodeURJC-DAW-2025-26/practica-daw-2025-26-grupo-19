@@ -15,7 +15,7 @@ export async function clientLoader({}: Route.ClientLoaderArgs) {
     ]);
 
     const initialTournaments = (tournamentsPage?.content ?? []) as TournamentDTO[];
-    // Verificamos si es la última página (por defecto si vienen menos de 3 asumimos que no hay más)
+    // Assume no more pages if the backend marks it as last or fewer than 3 items were returned
     const isLastPage = tournamentsPage?.last ?? initialTournaments.length < 3;
 
     return {
@@ -30,29 +30,23 @@ export default function Index({ loaderData }: Route.ComponentProps) {
     const { initialTournaments, isLastPage, scorers, assisters } = loaderData;
     let { user } = useUserStore();
 
-    // Estados para controlar la paginación de torneos
     const [tournaments, setTournaments] = useState<TournamentDTO[]>(initialTournaments);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(!isLastPage);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-    // Función para cargar los siguientes 3 torneos
     const handleLoadMore = async () => {
         setIsLoadingMore(true);
         try {
             const nextPage = page + 1;
             const newPageData = await getTournaments(nextPage, 3);
             const newTournaments = (newPageData?.content ?? []) as TournamentDTO[];
-            
-            // Añadimos los nuevos a la lista existente
             setTournaments((prev) => [...prev, ...newTournaments]);
             setPage(nextPage);
-            
-            // Si el backend marca que es la última (last) o han llegado menos de 3, no hay más que cargar
             const isLast = newPageData?.last ?? newTournaments.length < 3;
             setHasMore(!isLast);
         } catch (error) {
-            console.error("Error al cargar más torneos:", error);
+            console.error("Failed to load more tournaments:", error);
         } finally {
             setIsLoadingMore(false);
         }
@@ -60,7 +54,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
 
     return (
         <>
-            {/* HERO */}
+
             <div className="bg-dark text-white py-5 text-center">
                 <Container>
                     <h1 className="display-4 fw-bold">⚽ FutbolManager</h1>
@@ -83,7 +77,6 @@ export default function Index({ loaderData }: Route.ComponentProps) {
                 </Container>
             </div>
 
-            {/* TORNEOS DESTACADOS */}
             <Container className="my-5">
                 <h2 className="text-center mb-4">Competiciones Destacadas</h2>
                 {tournaments.length === 0 ? (
@@ -117,7 +110,6 @@ export default function Index({ loaderData }: Route.ComponentProps) {
                             ))}
                         </Row>
                         
-                        {/* Botón de Cargar Más */}
                         {hasMore && (
                             <div className="text-center mt-4">
                                 <Button 
@@ -133,7 +125,6 @@ export default function Index({ loaderData }: Route.ComponentProps) {
                 )}
             </Container>
 
-            {/* ESTADÍSTICAS */}
             {(scorers.length > 0 || assisters.length > 0) && (
                 <Container className="my-5">
                     <h2 className="text-center mb-4">Estadísticas Globales</h2>
