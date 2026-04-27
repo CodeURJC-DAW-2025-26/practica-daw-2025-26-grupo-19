@@ -38,7 +38,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
                     </p>
                     {user ? (
                     // Si el usuario existe (está logueado), mostramos el botón al Perfil
-                    <Link to="/team/1" className="btn btn-primary btn-lg mt-3 me-2">
+                    <Link to={`/team/${user.id}`} className="btn btn-success btn-lg mt-3 me-2">
                         Ver mi perfil
                     </Link>
                 ) : (
