@@ -21,7 +21,6 @@ export async function deleteTeam(id: number): Promise<void> {
     if (!res.ok) throw new Error("Error deleting team");
 }
 
-// MODIFICADO: Ahora devuelve Promise<any> en lugar de Promise<void> y retorna res.json()
 export async function registerTeam(
     username: string,
     email: string,
@@ -35,11 +34,9 @@ export async function registerTeam(
     });
     if (!res.ok) throw new Error("Error registering team");
     
-    // Retornamos el JSON para poder acceder al id (ej: res.json().id) en el front
     return await res.json(); 
 }
 
-// --- PLAYERS ---
 
 export async function addPlayer(playerData: {
     name: string;
@@ -98,4 +95,19 @@ export async function uploadPlayerImage(playerId: number, imageFile: File): Prom
         body: formData,
     });
     if (!res.ok) throw new Error("Error uploading player image");
+}
+export async function updateTeam(id: number, teamData: {
+    username: string;
+    email: string;
+    teamName: string;
+    hasImage: boolean;
+}): Promise<any> {
+    const res = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(teamData),
+        credentials: "include", 
+    });
+    if (!res.ok) throw new Error("Error updating team");
+    return await res.json();
 }

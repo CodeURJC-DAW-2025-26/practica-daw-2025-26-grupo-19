@@ -104,9 +104,7 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
     return (
         <Container className="py-5">
             <div className="mb-4 d-flex align-items-center gap-3">
-                <Button variant="outline-secondary" onClick={() => navigate("/equipos")}>
-                    &larr; Volver
-                </Button>
+
                 <h1 className="mb-0 d-flex align-items-center gap-3">
                     {team.hasImage && (
                         <img

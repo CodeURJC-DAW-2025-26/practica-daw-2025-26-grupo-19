@@ -11,7 +11,12 @@ import {
     deleteTournament,
     uploadTournamentImage,
 } from "~/services/tournaments-service";
-import { getTeams, deleteTeam } from "~/services/teams-service";
+import { 
+    getTeams, 
+    deleteTeam, 
+    updateTeam, 
+    uploadTeamImage 
+} from "~/services/teams-service";
 import { useUserStore } from "~/stores/user-store";
 
 export async function clientLoader({}: Route.ClientLoaderArgs) {
@@ -33,9 +38,16 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
     const [tournaments, setTournaments] = useState<any[]>(initialTournaments);
     const [teams, setTeams] = useState<any[]>(initialTeams);
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
+    
+    // Estados para Torneos
     const [showTournamentModal, setShowTournamentModal] = useState(false);
     const [editingTournament, setEditingTournament] = useState<any>(null);
 
+    // Estados para Equipos
+    const [showTeamModal, setShowTeamModal] = useState(false);
+    const [editingTeam, setEditingTeam] = useState<any>(null);
+
+    // Verificación de permisos básica
     if (!user || (!user.roles?.includes("ADMIN") && !user.roles?.includes("USER"))) {
         return (
             <Container className="py-5 text-center">
@@ -48,18 +60,19 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
         );
     }
 
-    const handleEditClick = (t: any) => {
+    // --- MANEJO DE TORNEOS ---
+    const handleEditTournamentClick = (t: any) => {
         setEditingTournament(t);
         setShowTournamentModal(true);
     };
 
-    const handleCreateClick = () => {
+    const handleCreateTournamentClick = () => {
         setEditingTournament(null);
         setShowTournamentModal(true);
     };
 
     async function saveTournamentAction(
-        _prevState: { success: boolean; error: string | null } | null,
+        _prevState: any,
         formData: FormData
     ) {
         const imageFile = formData.get("imageFile") as File | null;
@@ -78,7 +91,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                 if (hasImageUpload) {
                     await uploadTournamentImage(editingTournament.id, imageFile!);
                 }
-                setTournaments(tournaments.map((t) => (t.id === editingTournament.id ? res : t)));
+                setTournaments(tournaments.map((t) => (t.id === editingTournament.id ? { ...res, ...body } : t)));
                 setStatusMessage("Torneo actualizado correctamente.");
             } else {
                 const res = await addTournament(body);
@@ -111,23 +124,71 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
         }
     };
 
+
+    // --- MANEJO DE EQUIPOS ---
+    const handleEditTeamClick = (team: any) => {
+        setEditingTeam(team);
+        setShowTeamModal(true);
+    };
+
+    async function saveTeamAction(
+        _prevState: any,
+        formData: FormData
+    ) {
+        const teamLogo = formData.get("teamLogo") as File | null;
+        const hasImageUpload = teamLogo && teamLogo.size > 0;
+        
+        const body = {
+            username: formData.get("username") as string,
+            email: formData.get("email") as string,
+            teamName: formData.get("teamName") as string,
+            // Importante: Enviamos hasImage para evitar el error 400 del backend
+            hasImage: hasImageUpload || (editingTeam ? editingTeam.hasImage : false),
+        };
+
+        try {
+            if (editingTeam) {
+                await updateTeam(editingTeam.id, body);
+                
+                if (hasImageUpload) {
+                    await uploadTeamImage(editingTeam.id, teamLogo!);
+                }
+                
+                setTeams(teams.map((t) => (t.id === editingTeam.id ? { ...t, ...body } : t)));
+                setStatusMessage("Equipo actualizado correctamente.");
+                setShowTeamModal(false);
+                return { success: true, error: null };
+            }
+            return { success: false, error: "No se ha seleccionado ningún equipo." };
+        } catch (err) {
+            console.error("Fallo al actualizar:", err);
+            return { success: false, error: "Error al actualizar el equipo. Verifica que los datos sean únicos." };
+        }
+    }
+
+    const [teamState, teamFormAction, isTeamPending] = useActionState(
+        saveTeamAction,
+        null
+    );
+
     const handleDeleteTeam = async (id: number) => {
-        if (!window.confirm("¿Seguro que deseas eliminar este equipo y usuario?")) return;
+        if (!window.confirm("¿Estás seguro de eliminar este equipo? Esta acción no se puede deshacer.")) return;
         try {
             await deleteTeam(id);
             setTeams(teams.filter((t) => t.id !== id));
-            setStatusMessage("Equipo eliminado correctamente.");
+            setStatusMessage("Equipo eliminado con éxito.");
         } catch (e) {
-            alert("Error al eliminar equipo.");
+            alert("No se pudo eliminar el equipo.");
         }
     };
+
 
     return (
         <Container className="py-5">
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h1>Panel de Gestión</h1>
-                <Badge bg="primary" className="fs-6">
-                    Sesión: {user.username}
+                <h1>Panel de Administración</h1>
+                <Badge bg="dark" className="p-2">
+                    Usuario: {user.username}
                 </Badge>
             </div>
 
@@ -137,19 +198,19 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                 </Alert>
             )}
 
-            <Tabs defaultActiveKey="tournaments" id="admin-tabs" className="mb-4">
-                {/* PESTAÑA DE TORNEOS */}
-                <Tab eventKey="tournaments" title="Torneos (Admin)">
-                    <Card className="shadow-sm border-0">
+            <Tabs defaultActiveKey="teams" className="mb-4 shadow-sm p-2 bg-white rounded">
+                {/* TAB TORNEOS */}
+                <Tab eventKey="tournaments" title="Torneos">
+                    <Card className="border-0 shadow-sm">
                         <Card.Header className="bg-white d-flex justify-content-between align-items-center py-3">
-                            <h5 className="mb-0">Gestión de Torneos</h5>
+                            <h5 className="mb-0">Gestión de Competiciones</h5>
                             {user.roles.includes("ADMIN") && (
-                                <Button variant="success" size="sm" onClick={handleCreateClick}>
-                                    Crear Torneo
+                                <Button variant="success" size="sm" onClick={handleCreateTournamentClick}>
+                                    Añadir Torneo
                                 </Button>
                             )}
                         </Card.Header>
-                        <Table responsive hover className="mb-0 align-middle">
+                        <Table hover responsive className="mb-0 align-middle">
                             <thead className="table-light">
                                 <tr>
                                     <th>ID</th>
@@ -163,33 +224,15 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                                 {tournaments.map((t) => (
                                     <tr key={t.id}>
                                         <td>{t.id}</td>
-                                        <td>{t.name}</td>
-                                        <td>{t.type}</td>
+                                        <td className="fw-bold">{t.name}</td>
+                                        <td><Badge bg="secondary">{t.type}</Badge></td>
                                         <td>{t.status || t.state}</td>
-                                        <td className="text-end text-nowrap">
-                                            <Link
-                                                to={`/tournament/${t.id}`}
-                                                className="btn btn-sm btn-outline-info me-2"
-                                            >
-                                                Ver
-                                            </Link>
-                                            {user.roles?.includes("ADMIN") && (
+                                        <td className="text-end">
+                                            <Link to={`/tournament/${t.id}`} className="btn btn-sm btn-outline-info me-2">Ver</Link>
+                                            {user.roles.includes("ADMIN") && (
                                                 <>
-                                                    <Button
-                                                        variant="outline-warning"
-                                                        size="sm"
-                                                        className="me-2"
-                                                        onClick={() => handleEditClick(t)}
-                                                    >
-                                                        Editar
-                                                    </Button>
-                                                    <Button
-                                                        variant="outline-danger"
-                                                        size="sm"
-                                                        onClick={() => handleDeleteTournament(t.id)}
-                                                    >
-                                                        Borrar
-                                                    </Button>
+                                                    <Button variant="outline-warning" size="sm" className="me-2" onClick={() => handleEditTournamentClick(t)}>Editar</Button>
+                                                    <Button variant="outline-danger" size="sm" onClick={() => handleDeleteTournament(t.id)}>Borrar</Button>
                                                 </>
                                             )}
                                         </td>
@@ -200,19 +243,19 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                     </Card>
                 </Tab>
 
-                {/* PESTAÑA DE EQUIPOS */}
-                <Tab eventKey="teams" title="Equipos e Inscripciones">
-                    <Card className="shadow-sm border-0">
+                {/* TAB EQUIPOS */}
+                <Tab eventKey="teams" title="Equipos">
+                    <Card className="border-0 shadow-sm">
                         <Card.Header className="bg-white py-3">
-                            <h5 className="mb-0">Gestión de Equipos Registrados</h5>
+                            <h5 className="mb-0">Gestión de Clubes Registrados</h5>
                         </Card.Header>
-                        <Table responsive hover className="mb-0 align-middle">
+                        <Table hover responsive className="mb-0 align-middle">
                             <thead className="table-light">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Club</th>
+                                    <th>Nombre del Club</th>
                                     <th>Usuario</th>
-                                    <th>Contacto</th>
+                                    <th>Email</th>
                                     <th className="text-end">Acciones</th>
                                 </tr>
                             </thead>
@@ -220,24 +263,16 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                                 {teams.map((team) => (
                                     <tr key={team.id}>
                                         <td>{team.id}</td>
-                                        <td className="fw-bold">{team.teamName || team.username}</td>
+                                        <td className="fw-bold">{team.teamName}</td>
                                         <td>{team.username}</td>
                                         <td>{team.email}</td>
-                                        <td className="text-end text-nowrap">
-                                            <Link
-                                                to={`/team/${team.id}`}
-                                                className="btn btn-sm btn-outline-primary me-2"
-                                            >
-                                                Ver Plantilla
-                                            </Link>
-                                            {user.roles?.includes("ADMIN") && (
-                                                <Button
-                                                    variant="outline-danger"
-                                                    size="sm"
-                                                    onClick={() => handleDeleteTeam(team.id)}
-                                                >
-                                                    Eliminar
-                                                </Button>
+                                        <td className="text-end">
+                                            <Link to={`/team/${team.id}`} className="btn btn-sm btn-outline-primary me-2">Ver</Link>
+                                            {user.roles.includes("ADMIN") && (
+                                                <>
+                                                    <Button variant="outline-warning" size="sm" className="me-2" onClick={() => handleEditTeamClick(team)}>Editar</Button>
+                                                    <Button variant="outline-danger" size="sm" onClick={() => handleDeleteTeam(team.id)}>Eliminar</Button>
+                                                </>
                                             )}
                                         </td>
                                     </tr>
@@ -248,82 +283,76 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                 </Tab>
             </Tabs>
 
-            {/* MODAL CREAR / EDITAR TORNEO */}
+            {/* MODAL TORNEO */}
             <Modal show={showTournamentModal} onHide={() => setShowTournamentModal(false)}>
-                <Modal.Header closeButton className="bg-light">
-                    <Modal.Title>
-                        {editingTournament ? "Editar Torneo" : "Crear Nuevo Torneo"}
-                    </Modal.Title>
+                <Modal.Header closeButton>
+                    <Modal.Title>{editingTournament ? "Editar Torneo" : "Nuevo Torneo"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {tournamentState?.error && (
-                        <Alert variant="danger">{tournamentState.error}</Alert>
-                    )}
+                    {tournamentState?.error && <Alert variant="danger">{tournamentState.error}</Alert>}
                     <Form action={tournamentFormAction}>
                         <Form.Group className="mb-3">
-                            <Form.Label>Nombre del Torneo</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="name"
-                                required
-                                defaultValue={editingTournament?.name || ""}
-                                disabled={isTournamentPending}
-                            />
+                            <Form.Label>Nombre</Form.Label>
+                            <Form.Control type="text" name="name" defaultValue={editingTournament?.name || ""} required />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Tipo</Form.Label>
-                            <Form.Select
-                                name="type"
-                                defaultValue={editingTournament?.type || "LIGA"}
-                                disabled={isTournamentPending}
-                            >
-                                <option value="LIGA">Liga Regular</option>
-                                <option value="ELIMINATORIA">Fase Eliminatoria</option>
+                            <Form.Select name="type" defaultValue={editingTournament?.type || "LIGA"}>
+                                <option value="LIGA">Liga</option>
+                                <option value="ELIMINATORIA">Eliminatoria</option>
                             </Form.Select>
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Estado</Form.Label>
-                            <Form.Select
-                                name="status"
-                                defaultValue={editingTournament?.status || editingTournament?.state || "INSCRIPCIONES_ABIERTAS"}
-                                disabled={isTournamentPending}
-                            >
-                                <option value="INSCRIPCIONES_ABIERTAS">Abierto (Inscripciones)</option>
+                            <Form.Select name="status" defaultValue={editingTournament?.status || "INSCRIPCIONES_ABIERTAS"}>
+                                <option value="INSCRIPCIONES_ABIERTAS">Inscripciones Abiertas</option>
                                 <option value="EN_CURSO">En Curso</option>
                                 <option value="FINALIZADO">Finalizado</option>
                             </Form.Select>
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Label>Max Participantes</Form.Label>
-                            <Form.Control
-                                type="number"
-                                name="maxParticipants"
-                                required
-                                defaultValue={editingTournament?.maxParticipants || 10}
-                                disabled={isTournamentPending}
-                            />
+                            <Form.Label>Máx. Participantes</Form.Label>
+                            <Form.Control type="number" name="maxParticipants" defaultValue={editingTournament?.maxParticipants || 8} />
                         </Form.Group>
                         <Form.Group className="mb-4">
-                            <Form.Label>Logo del Torneo</Form.Label>
-                            <Form.Control
-                                type="file"
-                                name="imageFile"
-                                accept="image/*"
-                                disabled={isTournamentPending}
-                            />
+                            <Form.Label>Logo / Imagen</Form.Label>
+                            <Form.Control type="file" name="imageFile" accept="image/*" />
                         </Form.Group>
-                        <div className="d-flex justify-content-end gap-2">
-                            <Button
-                                variant="secondary"
-                                type="button"
-                                onClick={() => setShowTournamentModal(false)}
-                                disabled={isTournamentPending}
-                            >
-                                Cancelar
-                            </Button>
-                            <Button variant="primary" type="submit" disabled={isTournamentPending}>
-                                {isTournamentPending ? "Guardando..." : "Guardar Torneo"}
-                            </Button>
+                        <div className="text-end">
+                            <Button variant="secondary" onClick={() => setShowTournamentModal(false)} className="me-2">Cancelar</Button>
+                            <Button variant="primary" type="submit" disabled={isTournamentPending}>Guardar</Button>
+                        </div>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+
+            {/* MODAL EQUIPO */}
+            <Modal show={showTeamModal} onHide={() => setShowTeamModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Editar Equipo</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {teamState?.error && <Alert variant="danger">{teamState.error}</Alert>}
+                    <Form action={teamFormAction}>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Nombre del Club</Form.Label>
+                            <Form.Control type="text" name="teamName" defaultValue={editingTeam?.teamName || ""} required />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Usuario</Form.Label>
+                            <Form.Control type="text" name="username" defaultValue={editingTeam?.username || ""} required />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" name="email" defaultValue={editingTeam?.email || ""} required />
+                        </Form.Group>
+                        <Form.Group className="mb-4">
+                            <Form.Label>Actualizar Escudo</Form.Label>
+                            <Form.Control type="file" name="teamLogo" accept="image/*" />
+                        </Form.Group>
+                        <div className="text-end">
+                            <Button variant="secondary" onClick={() => setShowTeamModal(false)} className="me-2">Cancelar</Button>
+                            <Button variant="primary" type="submit" disabled={isTeamPending}>Actualizar Equipo</Button>
                         </div>
                     </Form>
                 </Modal.Body>
@@ -331,4 +360,3 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
         </Container>
     );
 }
-    
