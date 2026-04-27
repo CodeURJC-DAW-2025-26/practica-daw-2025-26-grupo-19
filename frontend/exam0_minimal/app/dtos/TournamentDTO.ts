@@ -4,7 +4,7 @@ export enum TournamentType {
 }
 
 export enum TournamentStatus{
-    INSCRIPCIONES = "INSCRIPCIONES",
+    INSCRIPCIONES = "INSCRIPCIONES_ABIERTAS",
     EN_CURSO = "EN_CURSO",
     FINALIZADO = "FINALIZADO"
 }
@@ -30,7 +30,6 @@ export interface MatchDTO {
 export interface TournamentDTO {
     id: number;
     name: string;
-    state: string;
     status: TournamentStatus;
     type: TournamentType;
     maxParticipants: number;

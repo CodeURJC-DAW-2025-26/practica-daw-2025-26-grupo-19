@@ -3,10 +3,10 @@ import { Container, Card, Button, Row, Col, Spinner, Badge, Alert } from "react-
 import { Link } from "react-router";
 import type { Route } from "./+types/torneos";
 import { getTournaments } from "~/services/tournaments-service";
-import type { TournamentDTO } from "~/dtos/TournamentDTO";
+import { TournamentStatus, type TournamentDTO } from "~/dtos/TournamentDTO";
 
 export async function clientLoader({}: Route.ClientLoaderArgs) {
-    return await getTournaments(0, 10);
+    return await getTournaments(0, 9);
 }
 
 export default function TorneosList({ loaderData }: Route.ComponentProps) {
@@ -20,7 +20,7 @@ export default function TorneosList({ loaderData }: Route.ComponentProps) {
         setIsLoadingMore(true);
         try {
             const nextPage = page + 1;
-            const data = await getTournaments(nextPage, 10);
+            const data = await getTournaments(nextPage, 9);
             setTournaments((prev) => [...prev, ...(data.content ?? [])]);
             setPage(nextPage);
             setIsLast(data.last);
@@ -49,12 +49,13 @@ export default function TorneosList({ loaderData }: Route.ComponentProps) {
                                     <Card.Text>
                                         <Badge
                                             bg={
-                                                (t.state || t.status) === "ABIERTO" ? "success" :
-                                                (t.state || t.status) === "EN_CURSO" ? "warning" : "secondary"
+                                                (t.status) === TournamentStatus.INSCRIPCIONES ? "success" :  
+                                                (t.status) === TournamentStatus.EN_CURSO ? "warning" : 
+                                                (t.status) === TournamentStatus.FINALIZADO ? "dark": "dark"
                                             }
                                             className="me-2"
                                         >
-                                            {t.state || t.status}
+                                            {t.status}
                                         </Badge>
                                         <Badge bg="info">{t.type}</Badge>
                                     </Card.Text>

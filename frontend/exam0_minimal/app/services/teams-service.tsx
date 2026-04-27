@@ -4,7 +4,7 @@ const API_URL = "/api/v1/teams";
 const API_IMAGES_URL = "/api/v1/images";
 const API_PLAYERS_URL = "/api/v1/players";
 
-export async function getTeams(page = 0, size = 10) {
+export async function getTeams(page = 0, size = 9) {
     const res = await fetch(`${API_URL}/?page=${page}&size=${size}`);
     if (!res.ok) throw new Error("Error loading teams");
     return await res.json();

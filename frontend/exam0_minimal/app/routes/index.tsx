@@ -3,7 +3,8 @@ import { Container, Row, Col, Card, Badge } from "react-bootstrap";
 import { AgCharts } from "ag-charts-react";
 import type { Route } from "./+types/index";
 import { getTournaments, getTopScorers, getTopAssisters } from "~/services/tournaments-service";
-import type { TournamentDTO } from "~/dtos/TournamentDTO";
+import { TournamentStatus, type TournamentDTO } from "~/dtos/TournamentDTO";
+import { useUserStore } from "~/stores/user-store";
 
 export async function clientLoader({}: Route.ClientLoaderArgs) {
     const [tournamentsPage, scorers, assisters] = await Promise.all([
@@ -19,8 +20,11 @@ export async function clientLoader({}: Route.ClientLoaderArgs) {
     };
 }
 
+
+
 export default function Index({ loaderData }: Route.ComponentProps) {
     const { tournaments, scorers, assisters } = loaderData;
+    let { user } = useUserStore();
 
     return (
         <>
@@ -32,9 +36,17 @@ export default function Index({ loaderData }: Route.ComponentProps) {
                         La plataforma definitiva para organizar y gestionar torneos de fútbol.
                         ¡Crea tu equipo, inscríbete y compite!
                     </p>
+                    {user ? (
+                    // Si el usuario existe (está logueado), mostramos el botón al Perfil
+                    <Link to="/team/1" className="btn btn-primary btn-lg mt-3 me-2">
+                        Ver mi perfil
+                    </Link>
+                ) : (
+                    // Si NO existe (user es null o false), mostramos el de Registro
                     <Link to="/register" className="btn btn-success btn-lg mt-3 me-2">
                         Crea tu equipo gratis
                     </Link>
+    )}
                     <Link to="/torneos" className="btn btn-outline-light btn-lg mt-3">
                         Ver torneos
                     </Link>
@@ -55,10 +67,10 @@ export default function Index({ loaderData }: Route.ComponentProps) {
                                         <Card.Title>{t.name}</Card.Title>
                                         <Card.Text>
                                             <Badge bg={
-                                                (t.state || t.status) === "ABIERTO" ? "success" :
-                                                (t.state || t.status) === "EN_CURSO" ? "warning" : "secondary"
+                                                t.status === TournamentStatus.INSCRIPCIONES ? "success" :
+                                                t.status === TournamentStatus.EN_CURSO ? "warning" : "dark"
                                             } className="me-2">
-                                                {t.state || t.status}
+                                                {t.status}
                                             </Badge>
                                             <Badge bg="info">{t.type}</Badge>
                                         </Card.Text>

@@ -21,6 +21,7 @@ export async function reqIsLogged(): Promise<UserDTO> {
         throw new HttpError(res.status);
     }
 
+
     return await res.json();
 }
 

@@ -6,7 +6,7 @@ import { getTeams } from "~/services/teams-service";
 import type { TeamDTO } from "~/dtos/TeamDTO";
 
 export async function clientLoader({}: Route.ClientLoaderArgs) {
-    return await getTeams(0, 10);
+    return await getTeams(0, 9);
 }
 
 export default function EquiposList({ loaderData }: Route.ComponentProps) {
@@ -20,7 +20,7 @@ export default function EquiposList({ loaderData }: Route.ComponentProps) {
         setIsLoadingMore(true);
         try {
             const nextPage = page + 1;
-            const data = await getTeams(nextPage, 10);
+            const data = await getTeams(nextPage, 9);
             setTeams((prev) => [...prev, ...(data.content ?? [])]);
             setPage(nextPage);
             setIsLast(data.last);

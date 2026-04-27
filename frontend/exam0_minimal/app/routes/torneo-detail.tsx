@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import type { Route } from "./+types/torneo-detail";
 import { getTournament, generateSchedule, simulateMatch, enrollTeam } from "~/services/tournaments-service";
 import { useUserStore } from "~/stores/user-store";
-import type { TournamentDTO, MatchDTO } from "~/dtos/TournamentDTO";
+import { type TournamentDTO, type MatchDTO, TournamentStatus } from "~/dtos/TournamentDTO";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     return await getTournament(params.id!);
@@ -99,7 +99,7 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
         });
     }, [tournament]);
 
-    const tournamentState = (tournament.state || tournament.status || "").toUpperCase();
+    const tournamentState = tournament.status;
 
     return (
         <Container className="py-5">
@@ -121,7 +121,7 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
                         {tournament.name}
                     </h1>
                 </div>
-                {user && tournamentState === "ABIERTO" && (
+                {user && tournamentState === "INSCRIPCIONES_ABIERTAS" && (
                     <Button variant="success" size="lg" onClick={handleEnroll}>
                         Inscribir Mi Equipo
                     </Button>
@@ -146,8 +146,10 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
                     <ListGroup variant="flush">
                         <ListGroup.Item>
                             <strong>Estado:</strong>{" "}
-                            <Badge bg={tournamentState === "ABIERTO" ? "success" : tournamentState === "EN_CURSO" ? "warning" : "secondary"}>
-                                {tournament.state || tournament.status}
+                            <Badge bg={
+                                tournamentState === "INSCRIPCIONES_ABIERTAS" ? "success" : 
+                                tournamentState === "EN_CURSO" ? "warning" : "dark"}>
+                                {tournament.status}
                             </Badge>
                         </ListGroup.Item>
                         <ListGroup.Item><strong>Tipo:</strong> {tournament.type}</ListGroup.Item>
