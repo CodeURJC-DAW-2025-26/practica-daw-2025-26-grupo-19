@@ -1,6 +1,6 @@
 import { useActionState, useState } from "react";
 import {
-    Container, Card, Table, Button, Tabs, Tab, Alert, Badge, Modal, Form,
+    Container, Card, Table, Button, Tabs, Tab, Alert, Badge, Modal, Form, Spinner
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router";
 import type { Route } from "./+types/admin";
@@ -22,30 +22,35 @@ import { useUserStore } from "~/stores/user-store";
 export async function clientLoader({}: Route.ClientLoaderArgs) {
     const [tournamentsPage, teamsPage] = await Promise.all([
         getTournaments(0, 20),
-        getTeams(0, 20),
+        getTeams(0, 10),
     ]);
     return {
         initialTournaments: tournamentsPage?.content ?? [],
         initialTeams: teamsPage?.content ?? [],
+        initialIsLastTeams: teamsPage?.last ?? true,
     };
 }
 
 export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
-    const { initialTournaments, initialTeams } = loaderData;
+    const { initialTournaments, initialTeams, initialIsLastTeams } = loaderData;
     const { user } = useUserStore();
     const navigate = useNavigate();
 
     const [tournaments, setTournaments] = useState<any[]>(initialTournaments);
-    const [teams, setTeams] = useState<any[]>(initialTeams);
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
     
     // Estados para Torneos
     const [showTournamentModal, setShowTournamentModal] = useState(false);
     const [editingTournament, setEditingTournament] = useState<any>(null);
 
-    // Estados para Equipos
+    // Estados para Equipos 
+    const [teams, setTeams] = useState<any[]>(initialTeams);
     const [showTeamModal, setShowTeamModal] = useState(false);
     const [editingTeam, setEditingTeam] = useState<any>(null);
+    
+    const [teamsPage, setTeamsPage] = useState(0);
+    const [isLastTeams, setIsLastTeams] = useState<boolean>(initialIsLastTeams);
+    const [isLoadingMoreTeams, setIsLoadingMoreTeams] = useState(false);
 
     // Verificación de permisos básica
     if (!user || (!user.roles?.includes("ADMIN") && !user.roles?.includes("USER"))) {
@@ -59,6 +64,21 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
             </Container>
         );
     }
+
+    const loadMoreTeams = async () => {
+        setIsLoadingMoreTeams(true);
+        try {
+            const nextPage = teamsPage + 1;
+            const data = await getTeams(nextPage, 10);
+            setTeams((prev) => [...prev, ...(data.content ?? [])]);
+            setTeamsPage(nextPage);
+            setIsLastTeams(data.last);
+        } catch (err) {
+            console.error("Error cargando más equipos:", err);
+        } finally {
+            setIsLoadingMoreTeams(false);
+        }
+    };
 
     // --- MANEJO DE TORNEOS ---
     const handleEditTournamentClick = (t: any) => {
@@ -142,7 +162,6 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
             username: formData.get("username") as string,
             email: formData.get("email") as string,
             teamName: formData.get("teamName") as string,
-            // Importante: Enviamos hasImage para evitar el error 400 del backend
             hasImage: hasImageUpload || (editingTeam ? editingTeam.hasImage : false),
         };
 
@@ -280,6 +299,27 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                             </tbody>
                         </Table>
                     </Card>
+                    
+                    {!isLastTeams && (
+                        <div className="text-center mt-4 mb-3">
+                            <Button
+                                variant="dark"
+                                onClick={loadMoreTeams}
+                                disabled={isLoadingMoreTeams}
+                                size="lg"
+                                className="px-5"
+                            >
+                                {isLoadingMoreTeams ? (
+                                    <>
+                                        <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />{" "}
+                                        Cargando...
+                                    </>
+                                ) : (
+                                    "Cargar más equipos"
+                                )}
+                            </Button>
+                        </div>
+                    )}
                 </Tab>
             </Tabs>
 
