@@ -21,18 +21,22 @@ export async function deleteTeam(id: number): Promise<void> {
     if (!res.ok) throw new Error("Error deleting team");
 }
 
+// MODIFICADO: Ahora devuelve Promise<any> en lugar de Promise<void> y retorna res.json()
 export async function registerTeam(
     username: string,
     email: string,
     password: string,
     teamName: string
-): Promise<void> {
+): Promise<any> {
     const res = await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password, teamName }),
     });
     if (!res.ok) throw new Error("Error registering team");
+    
+    // Retornamos el JSON para poder acceder al id (ej: res.json().id) en el front
+    return await res.json(); 
 }
 
 // --- PLAYERS ---
