@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./home.css";
 import { Outlet, useNavigate, useNavigation } from "react-router";
 import Header from "~/components/header";
+import Footer from "~/components/footer";
 import type { Route } from "./+types/home";
 import Container from "react-bootstrap/esm/Container";
 import Alert from "react-bootstrap/esm/Alert";
@@ -21,6 +22,8 @@ export default function Home() {
 
             <Header />
             <Outlet />
+            <Footer />
+
         </>
     );
 }
