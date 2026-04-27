@@ -58,53 +58,36 @@ export default function Header() {
                             )}
                         </Nav>
 
-                        <Navbar.Collapse className="justify-content-end">
-                            {!user && (
-                                <Form action={loginFormAction} className="d-flex align-items-center p-2 gap-2">
-                                    <Form.Control
-                                        type="text"
-                                        name="username"
-                                        placeholder="Usuario"
-                                        disabled={isPending}
-                                    />
-                                    <Form.Control
-                                        type="password"
-                                        name="password"
-                                        placeholder="Contraseña"
-                                        disabled={isPending}
-                                    />
-                                    <Button
-                                        type="submit"
-                                        variant="primary"
-                                        className="btn-nowrap"
-                                        disabled={isPending}
-                                    >
-                                        {isPending ? "Entrando..." : "Entrar"}
-                                    </Button>
+                        {/* Mantenemos la estructura flexible para que no se rompa el diseño */}
+                        <div className="d-flex flex-column flex-lg-row align-items-lg-center gap-2 mt-3 mt-lg-0">
+                            {!user ? (
+                                <>
+                                    {/* Uso directo de Link con las clases de Bootstrap */}
+                                    <Link to="/login" className="btn btn-success text-nowrap">
+                                        Iniciar Sesión
+                                    </Link>    
                                     <Link to="/register" className="btn btn-outline-light text-nowrap">
                                         Registrarse
                                     </Link>
-                                </Form>
-                            )}
-
-                            {user && (
-                                <Nav className="d-flex align-items-center gap-2">
-                                    <Navbar.Text className="text-white">
-                                        {/* Adaptación: mostramos teamName, username o name según disponibilidad */}
+                                </>
+                            ) : (
+                                <>
+                                    <Navbar.Text className="text-white me-lg-2">
                                         {user.teamName || user.username || user.name}
                                     </Navbar.Text>
-                                    <Form action={logoutFormAction} className="d-inline">
+                                    <Form action={logoutFormAction} className="m-0">
                                         <Button
                                             variant="outline-light"
                                             type="submit"
                                             disabled={isLoggingOut}
+                                            className="w-100"
                                         >
                                             {isLoggingOut ? "Saliendo..." : "Cerrar Sesión"}
                                         </Button>
                                     </Form>
-                                </Nav>
+                                </>
                             )}
-                        </Navbar.Collapse>
+                        </div>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

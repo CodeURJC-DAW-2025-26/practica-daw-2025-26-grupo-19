@@ -36,7 +36,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
     const [showTournamentModal, setShowTournamentModal] = useState(false);
     const [editingTournament, setEditingTournament] = useState<any>(null);
 
-    if (!user || (!user.roles.includes("ADMIN") && !user.roles.includes("USER"))) {
+    if (!user || (!user.roles?.includes("ADMIN") && !user.roles?.includes("USER"))) {
         return (
             <Container className="py-5 text-center">
                 <Alert variant="danger">
@@ -173,7 +173,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                                             >
                                                 Ver
                                             </Link>
-                                            {user.roles.includes("ADMIN") && (
+                                            {user.roles?.includes("ADMIN") && (
                                                 <>
                                                     <Button
                                                         variant="outline-warning"
@@ -230,7 +230,7 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                                             >
                                                 Ver Plantilla
                                             </Link>
-                                            {user.roles.includes("ADMIN") && (
+                                            {user.roles?.includes("ADMIN") && (
                                                 <Button
                                                     variant="outline-danger"
                                                     size="sm"
@@ -285,10 +285,10 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                             <Form.Label>Estado</Form.Label>
                             <Form.Select
                                 name="status"
-                                defaultValue={editingTournament?.status || editingTournament?.state || "ABIERTO"}
+                                defaultValue={editingTournament?.status || editingTournament?.state || "INSCRIPCIONES_ABIERTAS"}
                                 disabled={isTournamentPending}
                             >
-                                <option value="ABIERTO">Abierto (Inscripciones)</option>
+                                <option value="INSCRIPCIONES_ABIERTAS">Abierto (Inscripciones)</option>
                                 <option value="EN_CURSO">En Curso</option>
                                 <option value="FINALIZADO">Finalizado</option>
                             </Form.Select>
