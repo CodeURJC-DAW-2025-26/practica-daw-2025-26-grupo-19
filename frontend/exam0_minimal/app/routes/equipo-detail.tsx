@@ -11,6 +11,7 @@ import {
     deletePlayer,
     uploadTeamImage,
     uploadPlayerImage,
+    updateTeam,
 } from "~/services/teams-service";
 import { useUserStore } from "~/stores/user-store";
 import type { TeamDTO, PlayerDTO } from "~/dtos/TeamDTO";
@@ -27,6 +28,8 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
     const [showPlayerModal, setShowPlayerModal] = useState(false);
     const [editingPlayer, setEditingPlayer] = useState<PlayerDTO | null>(null);
     const [playerError, setPlayerError] = useState<string | null>(null);
+
+    const [showProfileModal, setShowProfileModal] = useState(false);
 
     const isOwner = user && (user.username === team.username || user.roles.includes("ADMIN"));
 
@@ -81,6 +84,34 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
 
     const [playerState, playerFormAction, isPlayerPending] = useActionState(savePlayerAction, null);
 
+    async function saveProfileAction(
+        _prevState: { success: boolean; error: string | null } | null,
+        formData: FormData
+    ) {
+        const imageFile = formData.get("escudoFile") as File | null;
+        const hasImageUpload = imageFile && imageFile.size > 0;
+
+        const body = {
+            username: team.username,          // username fijo: no se edita para no romper la sesión
+            email: formData.get("email") as string,
+            teamName: formData.get("teamName") as string,
+            hasImage: hasImageUpload || team.hasImage,
+        };
+        try {
+            const updated = await updateTeam(team.id, body);
+            if (hasImageUpload) {
+                await uploadTeamImage(team.id, imageFile!);
+            }
+            setTeam({ ...team, ...updated });
+            setShowProfileModal(false);
+            return { success: true, error: null };
+        } catch (err) {
+            return { success: false, error: "Error al guardar los datos del perfil." };
+        }
+    }
+
+    const [profileState, profileFormAction, isProfilePending] = useActionState(saveProfileAction, null);
+
     const handleDeletePlayer = async (id: number) => {
         if (!window.confirm("¿Estás seguro de eliminar a este jugador?")) return;
         try {
@@ -88,16 +119,6 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
             setTeam({ ...team, players: team.players.filter((p) => p.id !== id) });
         } catch (e) {
             alert("Error eliminando jugador.");
-        }
-    };
-
-    const handleUploadTeamImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files || e.target.files.length === 0) return;
-        try {
-            await uploadTeamImage(team.id, e.target.files[0]);
-            setTeam({ ...team, hasImage: true });
-        } catch (err) {
-            alert("Error subiendo escudo.");
         }
     };
 
@@ -135,17 +156,15 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
                                 </ListGroup.Item>
                             </ListGroup>
                             {isOwner && (
-                                <div className="mt-3 text-center">
-                                    <Form.Label className="btn btn-sm btn-outline-primary mb-0 w-100">
-                                        Sube tu Escudo
-                                        <Form.Control
-                                            type="file"
-                                            size="sm"
-                                            className="d-none"
-                                            accept="image/*"
-                                            onChange={handleUploadTeamImage}
-                                        />
-                                    </Form.Label>
+                                <div className="mt-3">
+                                    <Button
+                                        variant="outline-secondary"
+                                        size="sm"
+                                        className="w-100"
+                                        onClick={() => setShowProfileModal(true)}
+                                    >
+                                        Editar Perfil
+                                    </Button>
                                 </div>
                             )}
                         </Card.Body>
@@ -260,6 +279,89 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
                     )}
                 </Col>
             </Row>
+            <Modal show={showProfileModal} onHide={() => setShowProfileModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Editar Perfil del Equipo</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {profileState?.error && (
+                        <div className="alert alert-danger">{profileState.error}</div>
+                    )}
+                    <Form action={profileFormAction}>
+                        {/* Usuario: solo lectura, no se puede cambiar */}
+                        <Form.Group className="mb-3">
+                            <Form.Label>Nombre de usuario</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={team.username}
+                                disabled
+                                readOnly
+                                className="bg-light"
+                            />
+                            <Form.Text className="text-muted">
+                                El nombre de usuario no se puede cambiar.
+                            </Form.Text>
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Correo electrónico</Form.Label>
+                            <Form.Control
+                                type="email"
+                                name="email"
+                                required
+                                defaultValue={team.email}
+                                disabled={isProfilePending}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Nombre del club</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="teamName"
+                                required
+                                defaultValue={team.teamName}
+                                disabled={isProfilePending}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Escudo del club</Form.Label>
+                            {team.hasImage && (
+                                <div className="mb-2">
+                                    <img
+                                        src={`/api/v1/images/teams/${team.id}/image`}
+                                        alt="Escudo actual"
+                                        width="50"
+                                        height="50"
+                                        className="rounded-circle border shadow-sm me-2"
+                                    />
+                                    <small className="text-muted">Escudo actual</small>
+                                </div>
+                            )}
+                            <Form.Control
+                                type="file"
+                                name="escudoFile"
+                                accept="image/*"
+                                disabled={isProfilePending}
+                            />
+                            <Form.Text className="text-muted">
+                                Deja vacío para mantener el escudo actual.
+                            </Form.Text>
+                        </Form.Group>
+                        <div className="d-flex justify-content-end gap-2">
+                            <Button
+                                variant="secondary"
+                                type="button"
+                                onClick={() => setShowProfileModal(false)}
+                                disabled={isProfilePending}
+                            >
+                                Cancelar
+                            </Button>
+                            <Button variant="primary" type="submit" disabled={isProfilePending}>
+                                {isProfilePending ? "Guardando..." : "Guardar Cambios"}
+                            </Button>
+                        </div>
+                    </Form>
+                </Modal.Body>
+            </Modal>
 
             {/* MODAL CREAR/EDITAR JUGADOR */}
             <Modal show={showPlayerModal} onHide={() => setShowPlayerModal(false)}>
