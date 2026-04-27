@@ -19,6 +19,9 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
     const [tournament, setTournament] = useState<TournamentDTO>(loaderData);
     const [loadingSchedule, setLoadingSchedule] = useState(false);
     const [msg, setMsg] = useState<string | null>(null);
+    
+    // NUEVO: Estado para controlar cuántos partidos se muestran
+    const [visibleMatchesCount, setVisibleMatchesCount] = useState(10);
 
     const isAdmin = user && (user.roles?.includes("ADMIN") || user.username === "admin");
     const isUserEnrolled = user && tournament.teams?.some(t => t.username === user.username);
@@ -101,6 +104,10 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
     }, [tournament]);
 
     const tournamentState = tournament.status;
+    
+    // NUEVO: Cálculos para los partidos visibles
+    const visibleMatches = tournament.matches?.slice(0, visibleMatchesCount) || [];
+    const hasMoreMatches = tournament.matches && visibleMatchesCount < tournament.matches.length;
 
     return (
         <Container className="py-5">
@@ -254,62 +261,79 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
             </div>
 
             {tournament.matches && tournament.matches.length > 0 ? (
-                <Card className="shadow-sm">
-                    <Table responsive hover className="mb-0 align-middle text-center">
-                        <thead className="table-light">
-                            <tr>
-                                <th>Local</th>
-                                <th>Res.</th>
-                                <th>Visitante</th>
-                                <th>Estado</th>
-                                {isAdmin && <th>Acción</th>}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tournament.matches.map((m: MatchDTO) => (
-                                <tr key={m.id}>
-                                    <td className="fw-medium text-end">
-                                        {m.homeTeam?.teamName || m.homeTeam?.username || "Local"}
-                                    </td>
-                                    <td className="fw-bold fs-5 px-3">
-                                        {m.played ? (
-                                            <span className="text-primary">
-                                                {m.homeGoals} - {m.awayGoals}
-                                            </span>
-                                        ) : (
-                                            <span className="text-muted">vs</span>
-                                        )}
-                                    </td>
-                                    <td className="fw-medium text-start">
-                                        {m.awayTeam?.teamName || m.awayTeam?.username || "Visitante"}
-                                    </td>
-                                    <td>
-                                        {m.played ? (
-                                            <Badge bg="success">Finalizado</Badge>
-                                        ) : (
-                                            <Badge bg="warning" text="dark">Pendiente</Badge>
-                                        )}
-                                    </td>
-                                    {isAdmin && (
-                                        <td>
-                                            {!m.played ? (
-                                                <Button
-                                                    variant="outline-success"
-                                                    size="sm"
-                                                    onClick={() => handleSimulateMatch(m.id)}
-                                                >
-                                                    ▶ Simular
-                                                </Button>
+                <>
+                    <Card className="shadow-sm">
+                        <Table responsive hover className="mb-0 align-middle text-center">
+                            <thead className="table-light">
+                                <tr>
+                                    <th>Local</th>
+                                    <th>Res.</th>
+                                    <th>Visitante</th>
+                                    <th>Estado</th>
+                                    {isAdmin && <th>Acción</th>}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/* NUEVO: Iteramos solo sobre visibleMatches */}
+                                {visibleMatches.map((m: MatchDTO) => (
+                                    <tr key={m.id}>
+                                        <td className="fw-medium text-end">
+                                            {m.homeTeam?.teamName || m.homeTeam?.username || "Local"}
+                                        </td>
+                                        <td className="fw-bold fs-5 px-3">
+                                            {m.played ? (
+                                                <span className="text-primary">
+                                                    {m.homeGoals} - {m.awayGoals}
+                                                </span>
                                             ) : (
-                                                <Badge bg="secondary">Hecho</Badge>
+                                                <span className="text-muted">vs</span>
                                             )}
                                         </td>
-                                    )}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Card>
+                                        <td className="fw-medium text-start">
+                                            {m.awayTeam?.teamName || m.awayTeam?.username || "Visitante"}
+                                        </td>
+                                        <td>
+                                            {m.played ? (
+                                                <Badge bg="success">Finalizado</Badge>
+                                            ) : (
+                                                <Badge bg="warning" text="dark">Pendiente</Badge>
+                                            )}
+                                        </td>
+                                        {isAdmin && (
+                                            <td>
+                                                {!m.played ? (
+                                                    <Button
+                                                        variant="outline-success"
+                                                        size="sm"
+                                                        onClick={() => handleSimulateMatch(m.id)}
+                                                    >
+                                                        ▶ Simular
+                                                    </Button>
+                                                ) : (
+                                                    <Badge bg="secondary">Hecho</Badge>
+                                                )}
+                                            </td>
+                                        )}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Card>
+                    
+                    {/* NUEVO: Botón Cargar Más */}
+                    {hasMoreMatches && (
+                        <div className="text-center mt-4">
+                            <Button
+                                variant="dark"
+                                onClick={() => setVisibleMatchesCount(prev => prev + 10)}
+                                size="lg"
+                                className="px-5"
+                            >
+                                Cargar más partidos
+                            </Button>
+                        </div>
+                    )}
+                </>
             ) : (
                 <p className="text-muted bg-light p-4 text-center rounded border">
                     Aún no hay partidos programados en este torneo.
