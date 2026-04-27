@@ -5,5 +5,7 @@ public record MatchBasicDTO(
     String formattedDate,
     int homeGoals, 
     int awayGoals, 
-    boolean played
+    boolean played,
+    TeamBasicDTO homeTeam, 
+    TeamBasicDTO awayTeam  
 ) {}

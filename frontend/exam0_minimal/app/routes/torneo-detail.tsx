@@ -21,6 +21,7 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
     const [msg, setMsg] = useState<string | null>(null);
 
     const isAdmin = user && (user.roles?.includes("ADMIN") || user.username === "admin");
+    const isUserEnrolled = user && tournament.teams?.some(t => t.username === user.username);
 
     const handleGenerateSchedule = async () => {
         setLoadingSchedule(true);
@@ -122,9 +123,15 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
                     </h1>
                 </div>
                 {user && tournamentState === "INSCRIPCIONES_ABIERTAS" && (
-                    <Button variant="success" size="lg" onClick={handleEnroll}>
-                        Inscribir Mi Equipo
-                    </Button>
+                    !isUserEnrolled ? (
+                        <Button variant="success" size="lg" onClick={handleEnroll}>
+                            Inscribir Mi Equipo
+                        </Button>
+                    ) : (
+                        <Button variant="secondary" size="lg" disabled>
+                            Ya estás inscrito
+                        </Button>
+                    )
                 )}
             </div>
 
