@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import es.codeurjc.daw.library.model.Team;
 import es.codeurjc.daw.library.model.Player;
+import es.codeurjc.daw.library.model.Role;
 import es.codeurjc.daw.library.model.Tournament;
 import es.codeurjc.daw.library.dto.PlayerBasicDTO;
 import es.codeurjc.daw.library.dto.PlayerDTO;
@@ -95,7 +96,7 @@ public class PlayerRestController {
         
         Team loggedInTeam = teamRepository.findByUsername(principal.getName()).orElseThrow();
         boolean isOwner = existingPlayer.getTeam() != null && existingPlayer.getTeam().getId().equals(loggedInTeam.getId());
-        boolean isAdmin = loggedInTeam.getRoles().contains("ADMIN");
+        boolean isAdmin = loggedInTeam.getRoles().contains(Role.ADMIN);
 
         if (!isOwner && !isAdmin) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 403: No permission
@@ -123,7 +124,7 @@ public class PlayerRestController {
 
         Team loggedInTeam = teamRepository.findByUsername(principal.getName()).orElseThrow();
         boolean isOwner = player.getTeam() != null && player.getTeam().getId().equals(loggedInTeam.getId());
-        boolean isAdmin = loggedInTeam.getRoles().contains("ADMIN");
+        boolean isAdmin = loggedInTeam.getRoles().contains(Role.ADMIN);
 
         if (!isOwner && !isAdmin) {
             throw new ResponseStatusException(
