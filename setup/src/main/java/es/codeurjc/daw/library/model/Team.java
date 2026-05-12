@@ -42,12 +42,13 @@ public class Team {
     private List<Tournament> tournaments = new ArrayList<>();
 
     // Matches where this team plays as home
-    @OneToMany(mappedBy = "homeTeam")
+    @OneToMany(mappedBy = "homeTeam", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Match> homeMatches = new ArrayList<>();
 
     // Matches where this team plays as away
-    @OneToMany(mappedBy = "awayTeam")
+    @OneToMany(mappedBy = "awayTeam", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Match> awayMatches = new ArrayList<>();
+
 
     
     public Team() {}

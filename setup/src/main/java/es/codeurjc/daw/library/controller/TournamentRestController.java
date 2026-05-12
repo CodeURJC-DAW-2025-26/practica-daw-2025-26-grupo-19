@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,28 +60,51 @@ public class TournamentRestController {
     // 3. CREATE A TOURNAMENT
 @PostMapping("/")
     public ResponseEntity<TournamentDTO> createTournament(@RequestBody TournamentBasicDTO tournamentDTO) {
+        try {
+            Tournament tournament = mapper.toDomain(tournamentDTO);
+            
+            tournamentService.save(tournament);
 
-        Tournament tournament = mapper.toDomain(tournamentDTO);
-        
-        tournamentService.save(tournament);
+            TournamentDTO savedTournamentDTO = mapper.toDTO(tournament);
 
-        TournamentDTO savedTournamentDTO = mapper.toDTO(tournament);
+            URI location = fromCurrentRequest().path("/{id}").buildAndExpand(savedTournamentDTO.id()).toUri();
 
-        URI location = fromCurrentRequest().path("/{id}").buildAndExpand(savedTournamentDTO.id()).toUri();
-
-        return ResponseEntity.created(location).body(savedTournamentDTO);
+            return ResponseEntity.created(location).body(savedTournamentDTO);
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, 
+                "Error en los datos: El estado o tipo de torneo no es válido. " +
+                "Valores permitidos para estado: [INSCRIPCIONES_ABIERTAS, EN_CURSO, FINALIZADO]. " +
+                "Valores permitidos para tipo: [LIGA, ELIMINATORIA]."
+            );
+        }
+            
     }
     // 4. UPDATE A TOURNAMENT
     @PutMapping("/{id}")
     public TournamentDTO replaceTournament(@PathVariable long id, @RequestBody TournamentBasicDTO newTournamentDTO) {
-        if (tournamentService.findById(id).isPresent()) {
-            Tournament newTournament = mapper.toDomain(newTournamentDTO);
-            newTournament.setId(id); // Keep the original ID so it updates instead of creating a new one
-            tournamentService.save(newTournament);
+        Tournament existingTournament = tournamentService.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Torneo no encontrado"));
+
+        try {
+            Tournament updatedTournament = mapper.toDomain(newTournamentDTO);
+            updatedTournament.setId(id);
             
-            return mapper.toDTO(newTournament);
-        } else {
-            throw new NoSuchElementException();
+            updatedTournament.setTeams(existingTournament.getTeams());
+            updatedTournament.setMatches(existingTournament.getMatches());
+            updatedTournament.setImage(existingTournament.getImage());
+            updatedTournament.setHasImage(existingTournament.isHasImage());
+
+            tournamentService.save(updatedTournament);
+            return mapper.toDTO(updatedTournament);
+
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST, 
+                "Error en los datos: El estado o tipo de torneo no es válido. " +
+                "Valores permitidos para estado: [INSCRIPCIONES_ABIERTAS, EN_CURSO, FINALIZADO]. " +
+                "Valores permitidos para tipo: [LIGA, ELIMINATORIA]."
+            );
         }
     }
 
@@ -115,14 +139,12 @@ public class TournamentRestController {
     @PostMapping("/{id}/enroll")
     public ResponseEntity<TournamentDTO> enrollTeam(@PathVariable long id, HttpServletRequest request) {
         
-        // 1. Obtener el torneo
         Optional<Tournament> tournamentOpt = tournamentService.findById(id);
         if (tournamentOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         Tournament tournament = tournamentOpt.get();
 
-        // 2. Obtener el equipo (usuario) autenticado
         Principal principal = request.getUserPrincipal();
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -136,8 +158,6 @@ public class TournamentRestController {
         }
         Team team = teamOpt.get();
 
-        // 3. Validaciones de negocio
-        // Si no cumple las condiciones, devolvemos 400 Bad Request vacío (el frontend ya tiene su propio mensaje)
         if (tournament.getStatus() != TournamentStatus.INSCRIPCIONES_ABIERTAS || 
             tournament.getTeams().contains(team) || 
             (tournament.getMaxParticipants() > 0 && tournament.getTeams().size() >= tournament.getMaxParticipants())) {
@@ -145,11 +165,9 @@ public class TournamentRestController {
             return ResponseEntity.badRequest().build();
         }
 
-        // 4. Realizar la inscripción
         tournament.getTeams().add(team);
         tournamentService.save(tournament);
 
-        // 5. Devolver el torneo actualizado
         return ResponseEntity.ok(mapper.toDTO(tournament));
     }
 }

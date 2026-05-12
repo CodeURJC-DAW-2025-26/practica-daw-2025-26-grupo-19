@@ -16,14 +16,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.daw.library.model.Team;
+import es.codeurjc.daw.library.model.Tournament;
 import es.codeurjc.daw.library.model.Player;
 import es.codeurjc.daw.library.repository.TeamRepository;
+import es.codeurjc.daw.library.repository.TournamentRepository;
 
 @Service
 public class TeamService {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private TournamentRepository tournamentRepository;
 
     public Optional<Team> findById(Long id) {
         return teamRepository.findById(id);
@@ -122,7 +127,18 @@ public void saveImage(long id, MultipartFile imageFile) throws IOException, SQLE
     }
 
     public void deleteById(Long id) {
-        teamRepository.deleteById(id);
+        Optional<Team> teamOpt = teamRepository.findById(id);
+        
+        if (teamOpt.isPresent()) {
+            Team team = teamOpt.get();
+            
+            for (Tournament tournament : team.getTournaments()) {
+                tournament.getTeams().remove(team);
+                tournamentRepository.save(tournament); 
+            }
+            
+            teamRepository.delete(team);
+        }
     }
 
 }
