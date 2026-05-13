@@ -22,6 +22,7 @@ import es.codeurjc.daw.library.dto.TournamentMapper;
 import es.codeurjc.daw.library.service.TeamService;
 import es.codeurjc.daw.library.service.TournamentService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 import org.springframework.data.domain.Page;
@@ -40,7 +41,7 @@ public class TournamentRestController {
     private TournamentMapper mapper;
 
     // 1. GET ALL TOURNAMENTS (Returns Basic DTOs without extensive lists for efficiency)
-@GetMapping("/")
+    @GetMapping("/")
     public Page<TournamentBasicDTO> getTournaments(Pageable pageable) {
         
         // 1. Get a page of Tournament entities from the service
@@ -48,7 +49,7 @@ public class TournamentRestController {
         
         // 2. Convert the Tournament page to TournamentBasicDTO page using the mapper
         return tournamentsPage.map(mapper::toBasicDTO);    
-}
+    }
 
     // 2. GET A TOURNAMENT BY ID (Returns Full DTO with enrolled teams and matches)
     @GetMapping("/{id}")
@@ -58,8 +59,8 @@ public class TournamentRestController {
     }
 
     // 3. CREATE A TOURNAMENT
-@PostMapping("/")
-    public ResponseEntity<TournamentDTO> createTournament(@RequestBody TournamentBasicDTO tournamentDTO) {
+    @PostMapping("/")
+    public ResponseEntity<TournamentDTO> createTournament(@Valid @RequestBody TournamentBasicDTO tournamentDTO) {
         try {
             Tournament tournament = mapper.toDomain(tournamentDTO);
             
@@ -80,9 +81,10 @@ public class TournamentRestController {
         }
             
     }
+    
     // 4. UPDATE A TOURNAMENT
     @PutMapping("/{id}")
-    public TournamentDTO replaceTournament(@PathVariable long id, @RequestBody TournamentBasicDTO newTournamentDTO) {
+    public TournamentDTO replaceTournament(@PathVariable long id, @Valid @RequestBody TournamentBasicDTO newTournamentDTO) {
         Tournament existingTournament = tournamentService.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Torneo no encontrado"));
 

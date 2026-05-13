@@ -26,6 +26,7 @@ import es.codeurjc.daw.library.model.Match;
 import es.codeurjc.daw.library.service.TeamService;
 import es.codeurjc.daw.library.service.MatchService;
 import es.codeurjc.daw.library.service.TournamentService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/matches")
@@ -59,7 +60,7 @@ public class MatchRestController {
 
     // 3. CREATE A MATCH
     @PostMapping("/")
-    public ResponseEntity<MatchDTO> createMatch(@RequestBody MatchRequestDTO requestDTO) {
+    public ResponseEntity<MatchDTO> createMatch(@Valid @RequestBody MatchRequestDTO requestDTO) {
         Match match = mapper.requestToDomain(requestDTO);
         
         if (requestDTO.tournamentId() != null) {
@@ -84,7 +85,7 @@ public class MatchRestController {
 
     // 4. UPDATE A MATCH
     @PutMapping("/{id}")
-    public MatchDTO replaceMatch(@PathVariable long id, @RequestBody MatchBasicDTO newMatchDTO) {
+    public MatchDTO replaceMatch(@PathVariable long id, @Valid @RequestBody MatchBasicDTO newMatchDTO) {
         Optional<Match> existingMatchOpt = matchService.findById(id);
         
         if (existingMatchOpt.isPresent()) {

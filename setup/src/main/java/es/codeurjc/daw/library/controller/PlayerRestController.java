@@ -23,6 +23,7 @@ import es.codeurjc.daw.library.dto.PlayerDTO;
 import es.codeurjc.daw.library.dto.PlayerMapper;
 import es.codeurjc.daw.library.dto.TournamentBasicDTO;
 import es.codeurjc.daw.library.service.PlayerService;
+import jakarta.validation.Valid;
 import es.codeurjc.daw.library.repository.TeamRepository;
 
 @RestController
@@ -39,13 +40,13 @@ public class PlayerRestController {
     private PlayerMapper mapper;
 
     // 1. GET ALL (Returns DTOs)
-@GetMapping("/")
+    @GetMapping("/")
     public Page<PlayerDTO> getPlayers(Pageable pageable) {
         
         Page<Player> playerPage = playerService.getPlayers(pageable);
         
         return playerPage.map(mapper::toDTO);    
-}
+    }
 
     // 2. GET ONE BY ID
     @GetMapping("/{id}")
@@ -55,8 +56,8 @@ public class PlayerRestController {
     }
 
     // 3. CREATE A PLAYER
-@PostMapping("/")
-    public ResponseEntity<PlayerDTO> createPlayer(@RequestBody PlayerBasicDTO playerDTO, Principal principal) {
+    @PostMapping("/")
+    public ResponseEntity<PlayerDTO> createPlayer(@Valid @RequestBody PlayerBasicDTO playerDTO, Principal principal) {
         
         // Check if there is a logged-in user
         if (principal == null) {
@@ -84,8 +85,8 @@ public class PlayerRestController {
 
     
     // 4. UPDATE A PLAYER
-@PutMapping("/{id}")
-    public ResponseEntity<PlayerDTO> replacePlayer(@PathVariable long id, @RequestBody PlayerBasicDTO newPlayerDTO, Principal principal) {
+    @PutMapping("/{id}")
+    public ResponseEntity<PlayerDTO> replacePlayer(@PathVariable long id, @Valid @RequestBody PlayerBasicDTO newPlayerDTO, Principal principal) {
         // Find the original player
         Player existingPlayer = playerService.findById(id).orElseThrow(() -> new NoSuchElementException());
         
@@ -112,7 +113,7 @@ public class PlayerRestController {
     }
  
      // 5. DELETE A PLAYER
-@DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<PlayerDTO> deletePlayer(@PathVariable long id, Principal principal) {
         // Find the original player
         Player player = playerService.findById(id).orElseThrow(() -> new NoSuchElementException());
@@ -131,7 +132,7 @@ public class PlayerRestController {
             HttpStatus.FORBIDDEN, 
             "Acceso denegado: No tienes permiso para modificar o borrar un jugador que pertenece a otro equipo."
             );
-}
+        }
 
         playerService.deleteById(id);
         return ResponseEntity.ok(mapper.toDTO(player));

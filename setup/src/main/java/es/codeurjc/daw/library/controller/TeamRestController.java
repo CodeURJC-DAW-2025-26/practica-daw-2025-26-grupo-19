@@ -26,6 +26,8 @@ import es.codeurjc.daw.library.dto.TeamMapper;
 import es.codeurjc.daw.library.dto.PlayerDTO;
 import es.codeurjc.daw.library.dto.RegisterDTO;
 import es.codeurjc.daw.library.service.TeamService;
+import jakarta.validation.Valid;
+
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -43,13 +45,13 @@ public class TeamRestController {
     private PasswordEncoder passwordEncoder;
 
     // 1. GET ALL (Returns Basic DTOs without lists for efficiency)
-@GetMapping("/")
+    @GetMapping("/")
     public Page<TeamDTO> getTeams(Pageable pageable) {
         
         Page<Team> teamPage = teamService.getTeams(pageable);
         
         return teamPage.map(mapper::toDTO);    
-}
+    }
 
     // 2. GET ONE BY ID (Returns Full DTO with players and tournaments)
     @GetMapping("/{id}")
@@ -60,7 +62,7 @@ public class TeamRestController {
 
     // 3. CREATE A TEAM
     @PostMapping("/")
-    public ResponseEntity<TeamDTO> createTeam(@RequestBody TeamBasicDTO teamDTO) {
+    public ResponseEntity<TeamDTO> createTeam(@Valid @RequestBody TeamBasicDTO teamDTO) {
         Team team = mapper.toDomain(teamDTO);
         
         
@@ -75,8 +77,8 @@ public class TeamRestController {
     }
 
     // 4. UPDATE A TEAM
-@PutMapping("/{id}")
-    public ResponseEntity<TeamDTO> replaceTeam(@PathVariable long id, @RequestBody TeamBasicDTO newTeamDTO, Principal principal) {
+    @PutMapping("/{id}")
+    public ResponseEntity<TeamDTO> replaceTeam(@PathVariable long id, @Valid @RequestBody TeamBasicDTO newTeamDTO, Principal principal) {
         
         // 1. Retrieve the existing team from the database
         Team existingTeam = teamService.findById(id)
