@@ -50,19 +50,6 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
     const [isLastTeams, setIsLastTeams] = useState<boolean>(initialIsLastTeams);
     const [isLoadingMoreTeams, setIsLoadingMoreTeams] = useState(false);
 
-    // Basic permissions check
-    if (!user || (!user.roles?.includes("ADMIN") && !user.roles?.includes("USER"))) {
-        return (
-            <Container className="py-5 text-center">
-                <Alert variant="danger">
-                    <h3>Acceso Denegado</h3>
-                    <p>No tienes permisos suficientes para ver esta pantalla.</p>
-                </Alert>
-                <Button onClick={() => navigate("/")}>Volver al Inicio</Button>
-            </Container>
-        );
-    }
-
     const loadMoreTeams = async () => {
         setIsLoadingMoreTeams(true);
         try {
@@ -198,6 +185,19 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
             alert("No se pudo eliminar el equipo.");
         }
     };
+
+    // Basic permissions check
+    if (!user || !user.roles?.includes("ADMIN")) {
+        return (
+            <Container className="py-5 text-center">
+                <Alert variant="danger">
+                    <h3>Acceso Denegado</h3>
+                    <p>No tienes permisos suficientes para ver esta pantalla.</p>
+                </Alert>
+                <Button onClick={() => navigate("/")}>Volver al Inicio</Button>
+            </Container>
+        );
+    }
 
 
     return (
