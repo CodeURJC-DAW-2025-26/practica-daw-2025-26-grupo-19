@@ -7,7 +7,7 @@ import { useUserStore } from "~/stores/user-store";
 export default function Register() {
     const navigate = useNavigate();
 
-    const loginUser = useUserStore((state) => state.loginUser);
+    const { loginUser, user } = useUserStore();
 
     async function performRegister(
         _prevState: { success: boolean; error: string | null } | null,
@@ -57,6 +57,13 @@ export default function Register() {
             navigate("/");
         }
     }, [state?.success, navigate]);
+
+    useEffect(() => {
+        // Redirect to home if user is already logged in
+        if (user) {
+            navigate("/");
+        }
+    }, [user, navigate]);
 
     return (
         <Container className="py-5" style={{ maxWidth: "600px" }}>

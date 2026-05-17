@@ -71,7 +71,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
                             Crea tu equipo gratis
                         </Link>
                     )}
-                    <Link to="/torneos" className="btn btn-outline-light btn-lg mt-3">
+                    <Link to="/tournaments" className="btn btn-outline-light btn-lg mt-3">
                         Ver torneos
                     </Link>
                 </Container>

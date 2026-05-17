@@ -52,7 +52,7 @@ export default function Header() {
                     <Navbar.Collapse id="navbarContent">
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/">Inicio</Nav.Link>
-                            <Nav.Link as={Link} to="/torneos">Torneos</Nav.Link>
+                            <Nav.Link as={Link} to="/tournaments">Torneos</Nav.Link>
                             {user && (user.roles?.includes("ADMIN") || user.username === "admin") && (
                                 <Nav.Link as={Link} to="/admin">Panel Gestión</Nav.Link>
                             )}

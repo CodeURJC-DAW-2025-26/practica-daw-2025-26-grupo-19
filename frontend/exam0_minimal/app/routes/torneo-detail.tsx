@@ -111,7 +111,7 @@ export default function TorneoDetail({ loaderData }: Route.ComponentProps) {
         <Container className="py-5">
             <div className="mb-4 d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
-                    <Button variant="outline-secondary" onClick={() => navigate("/torneos")}>
+                    <Button variant="outline-secondary" onClick={() => navigate("/tournaments")}>
                         &larr; Volver
                     </Button>
                     <h1 className="mb-0 d-flex align-items-center gap-3">
