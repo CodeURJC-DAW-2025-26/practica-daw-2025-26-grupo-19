@@ -62,18 +62,26 @@ public class WebSecurityConfig {
 		
 		http
 			.authorizeHttpRequests(authorize -> authorize
+					// tournament
 					.requestMatchers(HttpMethod.GET,"/api/v1/tournaments/**").permitAll()
-					.requestMatchers(HttpMethod.POST,"/api/v1/tournaments/").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.POST,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.DELETE,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.PUT,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
-					.requestMatchers(HttpMethod.GET,"/api/v1/players/**").hasAnyRole("ADMIN")
+					//players
+					.requestMatchers(HttpMethod.GET,"/api/v1/players/").hasAnyRole("ADMIN")
+					.requestMatchers(HttpMethod.GET,"/api/v1/players/{id}").hasAnyRole("USER","ADMIN")
 					.requestMatchers(HttpMethod.POST,"/api/v1/players/").hasAnyRole("USER")
-					.requestMatchers(HttpMethod.DELETE,"/api/v1/players/**").hasAnyRole("ADMIN","USER")
-					.requestMatchers(HttpMethod.PUT,"/api/v1/players/**").hasAnyRole("ADMIN","USER")
+					.requestMatchers(HttpMethod.DELETE,"/api/v1/players/**").hasAnyRole("USER","ADMIN")
+					.requestMatchers(HttpMethod.PUT,"/api/v1/players/**").hasAnyRole("USER", "ADMIN")
+					//matches
 					.requestMatchers(HttpMethod.GET, "/api/v1/matches/**").permitAll()
 					.requestMatchers(HttpMethod.POST, "/api/v1/matches/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.PUT, "/api/v1/matches/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.DELETE, "/api/v1/matches/**").hasAnyRole("ADMIN")
+					//teams
+					.requestMatchers(HttpMethod.PUT, "/api/v1/teams/**").hasAnyRole("USER", "ADMIN")     
+        			.requestMatchers(HttpMethod.DELETE, "/api/v1/teams/**").hasAnyRole("ADMIN")
+
 					.anyRequest().permitAll() 
 			);
 		

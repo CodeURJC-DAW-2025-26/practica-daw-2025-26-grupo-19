@@ -49,9 +49,28 @@ public class PlayerRestController {
     }
 
     // 2. GET ONE BY ID
-    @GetMapping("/{id}")
-    public PlayerDTO getPlayerByID(@PathVariable long id) {
-        Player player = playerService.findById(id).orElseThrow();
+   @GetMapping("/{id}")
+    public PlayerDTO getPlayerByID(@PathVariable long id, Principal principal) {
+        Player player = playerService.findById(id)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Jugador no encontrado"));
+
+        if (principal == null) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        Team loggedInTeam = teamRepository.findByUsername(principal.getName())
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+        boolean isOwner = player.getTeam() != null && player.getTeam().getId().equals(loggedInTeam.getId());
+        boolean isAdmin = loggedInTeam.getRoles().contains(Role.ADMIN);
+
+        if (!isOwner && !isAdmin) {
+            throw new ResponseStatusException(
+                HttpStatus.FORBIDDEN, 
+                "Acceso denegado: No puedes ver los datos de un jugador de otro equipo."
+            );
+        }
+
         return mapper.toDTO(player);
     }
 
