@@ -21,40 +21,47 @@ import { useUserStore } from "~/stores/user-store";
 
 export async function clientLoader({}: Route.ClientLoaderArgs) {
     const [tournamentsPage, teamsPage] = await Promise.all([
-        getTournaments(0, 20),
-        getTeams(0, 10),
+        getTournaments(0, 5),
+        getTeams(0, 5),
     ]);
     return {
         initialTournaments: tournamentsPage?.content ?? [],
+        initialIsLastTournaments: tournamentsPage?.last ?? true,
         initialTeams: teamsPage?.content ?? [],
         initialIsLastTeams: teamsPage?.last ?? true,
     };
 }
 
 export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
-    const { initialTournaments, initialTeams, initialIsLastTeams } = loaderData;
+    const { initialTournaments, initialIsLastTournaments, initialTeams, initialIsLastTeams } = loaderData;
     const { user } = useUserStore();
     const navigate = useNavigate();
 
+    // --- TOURNAMENT STATES ---
     const [tournaments, setTournaments] = useState<any[]>(initialTournaments);
-    const [statusMessage, setStatusMessage] = useState<string | null>(null);
+    const [tournamentsPage, setTournamentsPage] = useState(0);
+    const [isLastTournaments, setIsLastTournaments] = useState<boolean>(initialIsLastTournaments);
+    const [isLoadingMoreTournaments, setIsLoadingMoreTournaments] = useState(false);
     
     const [showTournamentModal, setShowTournamentModal] = useState(false);
     const [editingTournament, setEditingTournament] = useState<any>(null);
 
+    // --- TEAM STATES ---
     const [teams, setTeams] = useState<any[]>(initialTeams);
-    const [showTeamModal, setShowTeamModal] = useState(false);
-    const [editingTeam, setEditingTeam] = useState<any>(null);
-
     const [teamsPage, setTeamsPage] = useState(0);
     const [isLastTeams, setIsLastTeams] = useState<boolean>(initialIsLastTeams);
     const [isLoadingMoreTeams, setIsLoadingMoreTeams] = useState(false);
+
+    const [showTeamModal, setShowTeamModal] = useState(false);
+    const [editingTeam, setEditingTeam] = useState<any>(null);
+
+    const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
     const loadMoreTeams = async () => {
         setIsLoadingMoreTeams(true);
         try {
             const nextPage = teamsPage + 1;
-            const data = await getTeams(nextPage, 10);
+            const data = await getTeams(nextPage, 5);
             setTeams((prev) => [...prev, ...(data.content ?? [])]);
             setTeamsPage(nextPage);
             setIsLastTeams(data.last);
@@ -62,6 +69,21 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
             console.error("Failed to load more teams:", err);
         } finally {
             setIsLoadingMoreTeams(false);
+        }
+    };
+
+    const loadMoreTournaments = async () => {
+        setIsLoadingMoreTournaments(true);
+        try {
+            const nextPage = tournamentsPage + 1;
+            const data = await getTournaments(nextPage, 5);
+            setTournaments((prev) => [...prev, ...(data.content ?? [])]);
+            setTournamentsPage(nextPage);
+            setIsLastTournaments(data.last);
+        } catch (err) {
+            console.error("Failed to load more tournaments:", err);
+        } finally {
+            setIsLoadingMoreTournaments(false);
         }
     };
 
@@ -258,6 +280,27 @@ export default function AdminDashboard({ loaderData }: Route.ComponentProps) {
                             </tbody>
                         </Table>
                     </Card>
+
+                    {!isLastTournaments && (
+                        <div className="text-center mt-4 mb-3">
+                            <Button
+                                variant="dark"
+                                onClick={loadMoreTournaments}
+                                disabled={isLoadingMoreTournaments}
+                                size="lg"
+                                className="px-5"
+                            >
+                                {isLoadingMoreTournaments ? (
+                                    <>
+                                        <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />{" "}
+                                        Cargando...
+                                    </>
+                                ) : (
+                                    "Cargar más torneos"
+                                )}
+                            </Button>
+                        </div>
+                    )}
                 </Tab>
 
                 {/* TAB EQUIPOS */}
