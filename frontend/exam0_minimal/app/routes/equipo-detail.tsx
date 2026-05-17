@@ -31,7 +31,13 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
 
     const [showProfileModal, setShowProfileModal] = useState(false);
 
+    const [visiblePlayersCount, setVisiblePlayersCount] = useState(5);
+
     const isOwner = user && (user.username === team.username || user.roles.includes("ADMIN"));
+
+    const handleLoadMorePlayers = () => {
+        setVisiblePlayersCount((prevCount) => prevCount + 5);
+    };
 
     const handleEditClick = (player: PlayerDTO) => {
         setEditingPlayer(player);
@@ -92,7 +98,7 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
         const hasImageUpload = imageFile && imageFile.size > 0;
 
         const body = {
-            username: team.username, // fixed: username cannot change without breaking the session
+            username: team.username,
             email: formData.get("email") as string,
             teamName: formData.get("teamName") as string,
             hasImage: hasImageUpload || team.hasImage,
@@ -125,7 +131,6 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
     return (
         <Container className="py-5">
             <div className="mb-4 d-flex align-items-center gap-3">
-
                 <h1 className="mb-0 d-flex align-items-center gap-3">
                     {team.hasImage && (
                         <img
@@ -182,72 +187,82 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
                     </div>
 
                     {team.players && team.players.length > 0 ? (
-                        <Card className="shadow-sm border-0">
-                            <Table responsive hover className="mb-0 align-middle text-center">
-                                <thead className="table-light">
-                                    <tr>
-                                        <th>Dorsal</th>
-                                        <th>Nombre</th>
-                                        <th>Posición</th>
-                                        <th>Goles</th>
-                                        <th>Asistencias</th>
-                                        {isOwner && <th>Acciones</th>}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {team.players.map((p) => (
-                                        <tr key={p.id}>
-                                            <td>
-                                                <h4><Badge bg="dark">{p.jerseyNumber || "-"}</Badge></h4>
-                                            </td>
-                                            <td className="fw-bold align-middle">
-                                                <div className="d-flex align-items-center justify-content-center gap-2">
-                                                    {p.hasImage ? (
-                                                        <img
-                                                            src={`/api/v1/images/player/${p.id}/image`}
-                                                            alt="Avatar"
-                                                            width="35"
-                                                            height="35"
-                                                            className="rounded-circle shadow-sm"
-                                                        />
-                                                    ) : (
-                                                        <div
-                                                            className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center shadow-sm"
-                                                            style={{ width: "35px", height: "35px", fontSize: "12px" }}
-                                                        >
-                                                            {p.name.charAt(0)}
-                                                        </div>
-                                                    )}
-                                                    {p.name}
-                                                </div>
-                                            </td>
-                                            <td>{p.position}</td>
-                                            <td className="text-success fw-bold fs-5">{p.goals}</td>
-                                            <td className="text-secondary fs-5">{p.assists}</td>
-                                            {isOwner && (
-                                                <td className="text-nowrap">
-                                                    <Button
-                                                        variant="outline-warning"
-                                                        size="sm"
-                                                        className="me-2"
-                                                        onClick={() => handleEditClick(p)}
-                                                    >
-                                                        Editar
-                                                    </Button>
-                                                    <Button
-                                                        variant="outline-danger"
-                                                        size="sm"
-                                                        onClick={() => handleDeletePlayer(p.id)}
-                                                    >
-                                                        X
-                                                    </Button>
-                                                </td>
-                                            )}
+                        <>
+                            <Card className="shadow-sm border-0">
+                                <Table responsive hover className="mb-0 align-middle text-center">
+                                    <thead className="table-light">
+                                        <tr>
+                                            <th>Dorsal</th>
+                                            <th>Nombre</th>
+                                            <th>Posición</th>
+                                            <th>Goles</th>
+                                            <th>Asistencias</th>
+                                            {isOwner && <th>Acciones</th>}
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                        </Card>
+                                    </thead>
+                                    <tbody>
+                                        {team.players.slice(0, visiblePlayersCount).map((p) => (
+                                            <tr key={p.id}>
+                                                <td>
+                                                    <h4><Badge bg="dark">{p.jerseyNumber || "-"}</Badge></h4>
+                                                </td>
+                                                <td className="fw-bold align-middle">
+                                                    <div className="d-flex align-items-center justify-content-center gap-2">
+                                                        {p.hasImage ? (
+                                                            <img
+                                                                src={`/api/v1/images/player/${p.id}/image`}
+                                                                alt="Avatar"
+                                                                width="35"
+                                                                height="35"
+                                                                className="rounded-circle shadow-sm"
+                                                            />
+                                                        ) : (
+                                                            <div
+                                                                className="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center shadow-sm"
+                                                                style={{ width: "35px", height: "35px", fontSize: "12px" }}
+                                                            >
+                                                                {p.name.charAt(0)}
+                                                            </div>
+                                                        )}
+                                                        {p.name}
+                                                    </div>
+                                                </td>
+                                                <td>{p.position}</td>
+                                                <td className="text-success fw-bold fs-5">{p.goals}</td>
+                                                <td className="text-secondary fs-5">{p.assists}</td>
+                                                {isOwner && (
+                                                    <td className="text-nowrap">
+                                                        <Button
+                                                            variant="outline-warning"
+                                                            size="sm"
+                                                            className="me-2"
+                                                            onClick={() => handleEditClick(p)}
+                                                        >
+                                                            Editar
+                                                        </Button>
+                                                        <Button
+                                                            variant="outline-danger"
+                                                            size="sm"
+                                                            onClick={() => handleDeletePlayer(p.id)}
+                                                        >
+                                                            X
+                                                        </Button>
+                                                    </td>
+                                                )}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </Card>
+                            
+                            {team.players.length > visiblePlayersCount && (
+                                <div className="text-center mt-3 mb-4">
+                                    <Button variant="dark" onClick={handleLoadMorePlayers}>
+                                        Cargar más jugadores
+                                    </Button>
+                                </div>
+                            )}
+                        </>
                     ) : (
                         <p className="text-muted bg-light p-4 rounded text-center">
                             Este equipo no tiene jugadores inscritos actualmente.
@@ -279,6 +294,7 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
                     )}
                 </Col>
             </Row>
+
             <Modal show={showProfileModal} onHide={() => setShowProfileModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Editar Perfil del Equipo</Modal.Title>
@@ -288,7 +304,6 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
                         <div className="alert alert-danger">{profileState.error}</div>
                     )}
                     <Form action={profileFormAction}>
-                        {/* Username: read-only — changing it would break the active session */}
                         <Form.Group className="mb-3">
                             <Form.Label>Nombre de usuario</Form.Label>
                             <Form.Control
@@ -363,7 +378,6 @@ export default function EquipoDetail({ loaderData }: Route.ComponentProps) {
                 </Modal.Body>
             </Modal>
 
-            {/* MODAL CREAR/EDITAR JUGADOR */}
             <Modal show={showPlayerModal} onHide={() => setShowPlayerModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>
