@@ -64,6 +64,7 @@ public class WebSecurityConfig {
 			.authorizeHttpRequests(authorize -> authorize
 					// tournament
 					.requestMatchers(HttpMethod.GET,"/api/v1/tournaments/**").permitAll()
+					.requestMatchers(HttpMethod.POST,"/api/v1/tournaments/*/enroll").hasAnyRole("USER", "ADMIN")
 					.requestMatchers(HttpMethod.POST,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.DELETE,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
 					.requestMatchers(HttpMethod.PUT,"/api/v1/tournaments/**").hasAnyRole("ADMIN")
