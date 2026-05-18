@@ -1,32 +1,32 @@
-# Compiling image
-FROM maven:3.9-eclipse-temurin-21 AS builder
+# ---- STAGE 1: Compile React (Node) ----
+FROM node:20 AS frontend-builder
+WORKDIR /app
+# Copy the package.json file from your frontend
+COPY frontend/exam0_minimal/package*.json ./
+RUN npm install
+# Copy the rest of the frontend code and compile
+COPY frontend/exam0_minimal/ ./
+RUN npm run build
 
-# Working directory for the build process
+
+# ---- STAGE 2: Compile Spring Boot (Maven) ----
+FROM maven:3.9-eclipse-temurin-21 AS backend-builder
 WORKDIR /project
-
-# Copy dependencies configuration file
-COPY pom.xml /project/
-
-# Download project dependencies
+# Copy the pom.xml and download dependencies
+COPY setup/pom.xml /project/
 RUN mvn dependency:go-offline
-
-# Copy project source code
-COPY /src /project/src
-
-# Compile project and package it into a JAR file, no test
+# Copy the Java code
+COPY setup/src /project/src
+# Copy compiled React (Stage 1) into the Java static files.
+COPY --from=frontend-builder /app/build/client /project/src/main/resources/static/new
+# Compile Java (it now includes React)
 RUN mvn -B package -DskipTests
 
-# JRE image
+
+# ---- STAGE 3: Final Image ----
 FROM eclipse-temurin:21-jre
-
-# JAR directory
 WORKDIR /usr/src/app/
-
-# Copy JAR
-COPY --from=builder /project/target/*.jar /usr/src/app/app.jar
-
-# Listening port
+# Copy the final JAR
+COPY --from=backend-builder /project/target/*.jar /usr/src/app/app.jar
 EXPOSE 8443
-
-# Command to run the application
 CMD [ "java", "-jar", "app.jar" ]

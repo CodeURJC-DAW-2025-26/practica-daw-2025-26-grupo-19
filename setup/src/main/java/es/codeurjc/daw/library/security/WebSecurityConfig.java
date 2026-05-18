@@ -119,6 +119,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/player/**").permitAll()
 						.requestMatchers("/tournaments").permitAll() 
                         .requestMatchers("/showLoadMore").permitAll()
+						.requestMatchers("/new/**").permitAll()
 						
 						// --- RUTAS DE DOCUMENTACIÓN OPENAPI Y SWAGGER PERMITIDAS ---
 						.requestMatchers("/v3/api-docs/**", "/v3/api-docs.yaml", "/swagger-ui/**", "/swagger-ui.html").permitAll()
