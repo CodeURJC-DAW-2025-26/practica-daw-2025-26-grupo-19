@@ -21,6 +21,12 @@ Tambien se puede construir y subir en un solo paso:
 ./docker_publish.sh aaluc futbolmanager latest
 ```
 
+Para publicar usando Docker Compose:
+
+```sh
+./docker_compose_publish.sh aaluc latest
+```
+
 ## Valores por defecto
 
 Si no se indican argumentos, los scripts usan estos valores:
