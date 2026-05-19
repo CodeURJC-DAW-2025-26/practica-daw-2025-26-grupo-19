@@ -2,7 +2,7 @@
 echo ====================================================
 echo 1. Arrancando la base de datos MySQL...
 echo ====================================================
-docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=futbolmanager -p 3306:3306 -d mysql:9.2
+docker run --rm -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=futbolmanager -p 3307:3306 -d mysql:9.2
 
 echo.
 echo ====================================================
@@ -10,7 +10,7 @@ echo 2. Construyendo la aplicacion (Frontend y Backend)...
 echo ====================================================
 REM Nos movemos a la raiz del proyecto para que Docker vea el frontend
 cd ..
-docker build -t mi-app-daw -f setup/Dockerfile .
+docker build -t mi-app-daw -f docker/Dockerfile .
 
 echo.
 echo ====================================================
