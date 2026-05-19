@@ -876,24 +876,34 @@ ul.nav-tabs {
   }
 };
     defs["MatchBasicDTO"] = {
+  "required" : [ "formattedDate" ],
   "properties" : {
     "id" : {
       "type" : "integer",
       "format" : "int64"
     },
     "formattedDate" : {
+      "minLength" : 1,
       "type" : "string"
     },
     "homeGoals" : {
+      "minimum" : 0,
       "type" : "integer",
       "format" : "int32"
     },
     "awayGoals" : {
+      "minimum" : 0,
       "type" : "integer",
       "format" : "int32"
     },
     "played" : {
       "type" : "boolean"
+    },
+    "homeTeam" : {
+      "$ref" : "#/components/schemas/TeamBasicDTO"
+    },
+    "awayTeam" : {
+      "$ref" : "#/components/schemas/TeamBasicDTO"
     }
   }
 };
@@ -929,15 +939,19 @@ ul.nav-tabs {
   }
 };
     defs["MatchRequestDTO"] = {
+  "required" : [ "awayTeamId", "formattedDate", "homeTeamId", "tournamentId" ],
   "properties" : {
     "formattedDate" : {
+      "minLength" : 1,
       "type" : "string"
     },
     "homeGoals" : {
+      "minimum" : 0,
       "type" : "integer",
       "format" : "int32"
     },
     "awayGoals" : {
+      "minimum" : 0,
       "type" : "integer",
       "format" : "int32"
     },
@@ -967,13 +981,22 @@ ul.nav-tabs {
 };
     defs["PageMatchDTO"] = {
   "properties" : {
+    "totalElements" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
     "totalPages" : {
       "type" : "integer",
       "format" : "int32"
     },
-    "totalElements" : {
-      "type" : "integer",
-      "format" : "int64"
+    "pageable" : {
+      "$ref" : "#/components/schemas/PageableObject"
+    },
+    "first" : {
+      "type" : "boolean"
+    },
+    "last" : {
+      "type" : "boolean"
     },
     "size" : {
       "type" : "integer",
@@ -989,21 +1012,12 @@ ul.nav-tabs {
       "type" : "integer",
       "format" : "int32"
     },
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
+    },
     "numberOfElements" : {
       "type" : "integer",
       "format" : "int32"
-    },
-    "first" : {
-      "type" : "boolean"
-    },
-    "last" : {
-      "type" : "boolean"
-    },
-    "pageable" : {
-      "$ref" : "#/components/schemas/PageableObject"
-    },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
     },
     "empty" : {
       "type" : "boolean"
@@ -1012,13 +1026,22 @@ ul.nav-tabs {
 };
     defs["PagePlayerDTO"] = {
   "properties" : {
+    "totalElements" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
     "totalPages" : {
       "type" : "integer",
       "format" : "int32"
     },
-    "totalElements" : {
-      "type" : "integer",
-      "format" : "int64"
+    "pageable" : {
+      "$ref" : "#/components/schemas/PageableObject"
+    },
+    "first" : {
+      "type" : "boolean"
+    },
+    "last" : {
+      "type" : "boolean"
     },
     "size" : {
       "type" : "integer",
@@ -1034,21 +1057,12 @@ ul.nav-tabs {
       "type" : "integer",
       "format" : "int32"
     },
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
+    },
     "numberOfElements" : {
       "type" : "integer",
       "format" : "int32"
-    },
-    "first" : {
-      "type" : "boolean"
-    },
-    "last" : {
-      "type" : "boolean"
-    },
-    "pageable" : {
-      "$ref" : "#/components/schemas/PageableObject"
-    },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
     },
     "empty" : {
       "type" : "boolean"
@@ -1057,13 +1071,22 @@ ul.nav-tabs {
 };
     defs["PageTeamDTO"] = {
   "properties" : {
+    "totalElements" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
     "totalPages" : {
       "type" : "integer",
       "format" : "int32"
     },
-    "totalElements" : {
-      "type" : "integer",
-      "format" : "int64"
+    "pageable" : {
+      "$ref" : "#/components/schemas/PageableObject"
+    },
+    "first" : {
+      "type" : "boolean"
+    },
+    "last" : {
+      "type" : "boolean"
     },
     "size" : {
       "type" : "integer",
@@ -1079,21 +1102,12 @@ ul.nav-tabs {
       "type" : "integer",
       "format" : "int32"
     },
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
+    },
     "numberOfElements" : {
       "type" : "integer",
       "format" : "int32"
-    },
-    "first" : {
-      "type" : "boolean"
-    },
-    "last" : {
-      "type" : "boolean"
-    },
-    "pageable" : {
-      "$ref" : "#/components/schemas/PageableObject"
-    },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
     },
     "empty" : {
       "type" : "boolean"
@@ -1102,13 +1116,22 @@ ul.nav-tabs {
 };
     defs["PageTournamentBasicDTO"] = {
   "properties" : {
+    "totalElements" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
     "totalPages" : {
       "type" : "integer",
       "format" : "int32"
     },
-    "totalElements" : {
-      "type" : "integer",
-      "format" : "int64"
+    "pageable" : {
+      "$ref" : "#/components/schemas/PageableObject"
+    },
+    "first" : {
+      "type" : "boolean"
+    },
+    "last" : {
+      "type" : "boolean"
     },
     "size" : {
       "type" : "integer",
@@ -1124,21 +1147,12 @@ ul.nav-tabs {
       "type" : "integer",
       "format" : "int32"
     },
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
+    },
     "numberOfElements" : {
       "type" : "integer",
       "format" : "int32"
-    },
-    "first" : {
-      "type" : "boolean"
-    },
-    "last" : {
-      "type" : "boolean"
-    },
-    "pageable" : {
-      "$ref" : "#/components/schemas/PageableObject"
-    },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
     },
     "empty" : {
       "type" : "boolean"
@@ -1167,42 +1181,46 @@ ul.nav-tabs {
 };
     defs["PageableObject"] = {
   "properties" : {
-    "offset" : {
-      "type" : "integer",
-      "format" : "int64"
-    },
-    "pageSize" : {
-      "type" : "integer",
-      "format" : "int32"
+    "paged" : {
+      "type" : "boolean"
     },
     "pageNumber" : {
       "type" : "integer",
       "format" : "int32"
     },
-    "sort" : {
-      "$ref" : "#/components/schemas/SortObject"
-    },
-    "paged" : {
-      "type" : "boolean"
+    "pageSize" : {
+      "type" : "integer",
+      "format" : "int32"
     },
     "unpaged" : {
       "type" : "boolean"
+    },
+    "offset" : {
+      "type" : "integer",
+      "format" : "int64"
+    },
+    "sort" : {
+      "$ref" : "#/components/schemas/SortObject"
     }
   }
 };
     defs["PlayerBasicDTO"] = {
+  "required" : [ "name", "position" ],
   "properties" : {
     "id" : {
       "type" : "integer",
       "format" : "int64"
     },
     "name" : {
+      "minLength" : 1,
       "type" : "string"
     },
     "position" : {
+      "minLength" : 1,
       "type" : "string"
     },
     "jerseyNumber" : {
+      "minimum" : 1,
       "type" : "integer",
       "format" : "int32"
     },
@@ -1278,30 +1296,35 @@ ul.nav-tabs {
 };
     defs["SortObject"] = {
   "properties" : {
-    "empty" : {
-      "type" : "boolean"
-    },
     "sorted" : {
       "type" : "boolean"
     },
     "unsorted" : {
       "type" : "boolean"
+    },
+    "empty" : {
+      "type" : "boolean"
     }
   }
 };
     defs["TeamBasicDTO"] = {
+  "required" : [ "email", "teamName", "username" ],
   "properties" : {
     "id" : {
       "type" : "integer",
       "format" : "int64"
     },
     "username" : {
+      "minLength" : 1,
       "type" : "string"
     },
     "email" : {
-      "type" : "string"
+      "minLength" : 1,
+      "type" : "string",
+      "format" : "email"
     },
     "teamName" : {
+      "minLength" : 1,
       "type" : "string"
     },
     "hasImage" : {
@@ -1338,25 +1361,37 @@ ul.nav-tabs {
       "items" : {
         "$ref" : "#/components/schemas/TournamentBasicDTO"
       }
+    },
+    "roles" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string",
+        "enum" : [ "USER", "ADMIN" ]
+      }
     }
   }
 };
     defs["TournamentBasicDTO"] = {
+  "required" : [ "name", "status", "type" ],
   "properties" : {
     "id" : {
       "type" : "integer",
       "format" : "int64"
     },
     "name" : {
+      "minLength" : 1,
       "type" : "string"
     },
     "type" : {
+      "minLength" : 1,
       "type" : "string"
     },
     "status" : {
+      "minLength" : 1,
       "type" : "string"
     },
     "maxParticipants" : {
+      "minimum" : 2,
       "type" : "integer",
       "format" : "int32"
     },
@@ -1524,6 +1559,9 @@ ul.nav-tabs {
                     <li data-group="TeamRestController" data-name="deleteTeam" class="">
                       <a href="#api-TeamRestController-deleteTeam">deleteTeam</a>
                     </li>
+                    <li data-group="TeamRestController" data-name="getLoggedTeam" class="">
+                      <a href="#api-TeamRestController-getLoggedTeam">getLoggedTeam</a>
+                    </li>
                     <li data-group="TeamRestController" data-name="getTeamById" class="">
                       <a href="#api-TeamRestController-getTeamById">getTeamById</a>
                     </li>
@@ -1542,6 +1580,9 @@ ul.nav-tabs {
                     </li>
                     <li data-group="TournamentRestController" data-name="deleteTournament" class="">
                       <a href="#api-TournamentRestController-deleteTournament">deleteTournament</a>
+                    </li>
+                    <li data-group="TournamentRestController" data-name="enrollTeam" class="">
+                      <a href="#api-TournamentRestController-enrollTeam">enrollTeam</a>
                     </li>
                     <li data-group="TournamentRestController" data-name="generateTournamentSchedule" class="">
                       <a href="#api-TournamentRestController-generateTournamentSchedule">generateTournamentSchedule</a>
@@ -1615,7 +1656,7 @@ ul.nav-tabs {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/email/forgot-password" \
+ "http://localhost:8080/api/v1/email/forgot-password" \
  -d '{
   &quot;email&quot; : &quot;email&quot;
 }'
@@ -2005,7 +2046,7 @@ $(document).ready(function() {
                           <div class="tab-pane active" id="examples-HomeController-showLoadMore-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/showLoadMore?to=56"
+ "http://localhost:8080/showLoadMore?to=56"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-HomeController-showLoadMore-0-java">
@@ -2376,7 +2417,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-ImageRestController-deletePlayerImage-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/images/player/{id}/image"
+ "http://localhost:8080/api/v1/images/player/{id}/image"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-ImageRestController-deletePlayerImage-0-java">
@@ -2742,7 +2783,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-ImageRestController-deleteTeamImage-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/images/teams/{id}/image"
+ "http://localhost:8080/api/v1/images/teams/{id}/image"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-ImageRestController-deleteTeamImage-0-java">
@@ -3108,7 +3149,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-ImageRestController-deleteTournamentImage-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/images/tournament/{id}/image"
+ "http://localhost:8080/api/v1/images/tournament/{id}/image"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-ImageRestController-deleteTournamentImage-0-java">
@@ -3474,7 +3515,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-ImageRestController-downloadPlayerImage-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/images/player/{id}/image"
+ "http://localhost:8080/api/v1/images/player/{id}/image"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-ImageRestController-downloadPlayerImage-0-java">
@@ -3841,7 +3882,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-ImageRestController-downloadTeamImage-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/images/teams/{id}/image"
+ "http://localhost:8080/api/v1/images/teams/{id}/image"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-ImageRestController-downloadTeamImage-0-java">
@@ -4208,7 +4249,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-ImageRestController-downloadTournamentImage-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/images/tournament/{id}/image"
+ "http://localhost:8080/api/v1/images/tournament/{id}/image"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-ImageRestController-downloadTournamentImage-0-java">
@@ -4576,7 +4617,7 @@ pub fn main() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/images/player/{id}/image" \
+ "http://localhost:8080/api/v1/images/player/{id}/image" \
  -d ''
 </code></pre>
                           </div>
@@ -5004,7 +5045,7 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/images/teams/{id}/image" \
+ "http://localhost:8080/api/v1/images/teams/{id}/image" \
  -d ''
 </code></pre>
                           </div>
@@ -5432,7 +5473,7 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/images/tournament/{id}/image" \
+ "http://localhost:8080/api/v1/images/tournament/{id}/image" \
  -d ''
 </code></pre>
                           </div>
@@ -5860,7 +5901,7 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/images/player/{id}/image" \
+ "http://localhost:8080/api/v1/images/player/{id}/image" \
  -d ''
 </code></pre>
                           </div>
@@ -6288,7 +6329,7 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/images/teams/{id}/image" \
+ "http://localhost:8080/api/v1/images/teams/{id}/image" \
  -d ''
 </code></pre>
                           </div>
@@ -6716,7 +6757,7 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/images/tournament/{id}/image" \
+ "http://localhost:8080/api/v1/images/tournament/{id}/image" \
  -d ''
 </code></pre>
                           </div>
@@ -7122,7 +7163,7 @@ $(document).ready(function() {
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/auth/logout</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/v1/auth/logout</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -7146,7 +7187,7 @@ $(document).ready(function() {
                           <div class="tab-pane active" id="examples-LoginController-logOut-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
- "https://localhost:8443/api/auth/logout"
+ "http://localhost:8080/api/v1/auth/logout"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-LoginController-logOut-0-java">
@@ -7447,7 +7488,7 @@ pub fn main() {
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/auth/login</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/v1/auth/login</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -7472,7 +7513,7 @@ pub fn main() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/auth/login" \
+ "http://localhost:8080/api/v1/auth/login" \
  -d '{
   &quot;password&quot; : &quot;password&quot;,
   &quot;username&quot; : &quot;username&quot;
@@ -7836,7 +7877,7 @@ $(document).ready(function() {
                         <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/auth/refresh</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/v1/auth/refresh</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -7860,7 +7901,7 @@ $(document).ready(function() {
                           <div class="tab-pane active" id="examples-LoginController-refreshToken-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
- "https://localhost:8443/api/auth/refresh"
+ "http://localhost:8080/api/v1/auth/refresh"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-LoginController-refreshToken-0-java">
@@ -8202,7 +8243,7 @@ pub fn main() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/matches/" \
+ "http://localhost:8080/api/v1/matches/" \
  -d '{
   &quot;formattedDate&quot; : &quot;formattedDate&quot;,
   &quot;tournamentId&quot; : 1,
@@ -8210,7 +8251,7 @@ pub fn main() {
   &quot;homeGoals&quot; : 0,
   &quot;played&quot; : true,
   &quot;awayTeamId&quot; : 5,
-  &quot;awayGoals&quot; : 6
+  &quot;awayGoals&quot; : 0
 }'
 </code></pre>
                           </div>
@@ -8595,7 +8636,7 @@ $(document).ready(function() {
                           <div class="tab-pane active" id="examples-MatchRestController-deleteMatch-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/matches/{id}"
+ "http://localhost:8080/api/v1/matches/{id}"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-MatchRestController-deleteMatch-0-java">
@@ -8961,7 +9002,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-MatchRestController-getMatchById-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/matches/{id}"
+ "http://localhost:8080/api/v1/matches/{id}"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-MatchRestController-getMatchById-0-java">
@@ -9327,7 +9368,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-MatchRestController-getMatches-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/matches/?pageable="
+ "http://localhost:8080/api/v1/matches/?pageable="
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-MatchRestController-getMatches-0-java">
@@ -9691,13 +9732,27 @@ pub fn main() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/matches/{id}" \
+ "http://localhost:8080/api/v1/matches/{id}" \
  -d '{
+  &quot;awayTeam&quot; : {
+    &quot;teamName&quot; : &quot;teamName&quot;,
+    &quot;hasImage&quot; : true,
+    &quot;id&quot; : 1,
+    &quot;email&quot; : &quot;email&quot;,
+    &quot;username&quot; : &quot;username&quot;
+  },
   &quot;formattedDate&quot; : &quot;formattedDate&quot;,
+  &quot;homeTeam&quot; : {
+    &quot;teamName&quot; : &quot;teamName&quot;,
+    &quot;hasImage&quot; : true,
+    &quot;id&quot; : 1,
+    &quot;email&quot; : &quot;email&quot;,
+    &quot;username&quot; : &quot;username&quot;
+  },
   &quot;id&quot; : 5,
-  &quot;homeGoals&quot; : 5,
+  &quot;homeGoals&quot; : 0,
   &quot;played&quot; : true,
-  &quot;awayGoals&quot; : 2
+  &quot;awayGoals&quot; : 0
 }'
 </code></pre>
                           </div>
@@ -10123,7 +10178,7 @@ $(document).ready(function() {
                           <div class="tab-pane active" id="examples-MatchRestController-simulateMatchRest-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/matches/{id}/simulate"
+ "http://localhost:8080/api/v1/matches/{id}/simulate"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-MatchRestController-simulateMatchRest-0-java">
@@ -10493,7 +10548,7 @@ pub fn main() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/players/" \
+ "http://localhost:8080/api/v1/players/" \
  -d '{
   &quot;assists&quot; : 5,
   &quot;name&quot; : &quot;name&quot;,
@@ -10886,7 +10941,7 @@ $(document).ready(function() {
                           <div class="tab-pane active" id="examples-PlayerRestController-deletePlayer-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/players/{id}"
+ "http://localhost:8080/api/v1/players/{id}"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-PlayerRestController-deletePlayer-0-java">
@@ -11252,7 +11307,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-PlayerRestController-getPlayerByID-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/players/{id}"
+ "http://localhost:8080/api/v1/players/{id}"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-PlayerRestController-getPlayerByID-0-java">
@@ -11618,7 +11673,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-PlayerRestController-getPlayers-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/players/?pageable="
+ "http://localhost:8080/api/v1/players/?pageable="
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-PlayerRestController-getPlayers-0-java">
@@ -11982,7 +12037,7 @@ pub fn main() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/players/{id}" \
+ "http://localhost:8080/api/v1/players/{id}" \
  -d '{
   &quot;assists&quot; : 5,
   &quot;name&quot; : &quot;name&quot;,
@@ -12419,7 +12474,7 @@ $(document).ready(function() {
                           <div class="tab-pane active" id="examples-StatisticsRestController-getTopAssisters-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/statistics/assisters"
+ "http://localhost:8080/api/v1/statistics/assisters"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-StatisticsRestController-getTopAssisters-0-java">
@@ -12747,7 +12802,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-StatisticsRestController-getTopScorers-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/statistics/scorers"
+ "http://localhost:8080/api/v1/statistics/scorers"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-StatisticsRestController-getTopScorers-0-java">
@@ -13079,7 +13134,7 @@ pub fn main() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/teams/" \
+ "http://localhost:8080/api/v1/teams/" \
  -d '{
   &quot;teamName&quot; : &quot;teamName&quot;,
   &quot;hasImage&quot; : true,
@@ -13470,7 +13525,7 @@ $(document).ready(function() {
                           <div class="tab-pane active" id="examples-TeamRestController-deleteTeam-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/teams/{id}"
+ "http://localhost:8080/api/v1/teams/{id}"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TeamRestController-deleteTeam-0-java">
@@ -13800,6 +13855,331 @@ pub fn main() {
                         </article>
                       </div>
                       <hr>
+                    <div id="api-TeamRestController-getLoggedTeam">
+                      <article id="api-TeamRestController-getLoggedTeam-0" data-group="User" data-name="getLoggedTeam" data-version="0">
+                        <div class="pull-left">
+                          <h1>getLoggedTeam</h1>
+                          <p></p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/api/v1/teams/me</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-TeamRestController-getLoggedTeam-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-java">Java</a></li>
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-python">Python</a></li>
+                          <li class=""><a href="#examples-TeamRestController-getLoggedTeam-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-TeamRestController-getLoggedTeam-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET \
+ -H "Accept: */*" \
+ "http://localhost:8080/api/v1/teams/me"
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.TeamRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class TeamRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        TeamRestControllerApi apiInstance = new TeamRestControllerApi();
+
+        try {
+            TeamDTO result = apiInstance.getLoggedTeam();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling TeamRestControllerApi#getLoggedTeam");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+
+try {
+    final result = await api_instance.getLoggedTeam();
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->getLoggedTeam: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.TeamRestControllerApi;
+
+public class TeamRestControllerApiExample {
+    public static void main(String[] args) {
+        TeamRestControllerApi apiInstance = new TeamRestControllerApi();
+
+        try {
+            TeamDTO result = apiInstance.getLoggedTeam();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling TeamRestControllerApi#getLoggedTeam");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+TeamRestControllerApi *apiInstance = [[TeamRestControllerApi alloc] init];
+
+[apiInstance getLoggedTeamWithCompletionHandler: 
+              ^(TeamDTO output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.TeamRestControllerApi()
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getLoggedTeam(callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class getLoggedTeamExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new TeamRestControllerApi();
+
+            try {
+                TeamDTO result = apiInstance.getLoggedTeam();
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling TeamRestControllerApi.getLoggedTeam: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\TeamRestControllerApi();
+
+try {
+    $result = $api_instance->getLoggedTeam();
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling TeamRestControllerApi->getLoggedTeam: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::TeamRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::TeamRestControllerApi->new();
+
+eval {
+    my $result = $api_instance->getLoggedTeam();
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling TeamRestControllerApi->getLoggedTeam: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.TeamRestControllerApi()
+
+try:
+    api_response = api_instance.get_logged_team()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling TeamRestControllerApi->getLoggedTeam: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TeamRestController-getLoggedTeam-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate TeamRestControllerApi;
+
+pub fn main() {
+
+    let mut context = TeamRestControllerApi::Context::default();
+    let result = client.getLoggedTeam(&context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-TeamRestController-getLoggedTeam-title-200"></h3>
+                            <p id="examples-TeamRestController-getLoggedTeam-description-200" class="marked"></p>
+                            <script>
+                              var responseTeamRestController200_description = `OK`;
+                              var responseTeamRestController200_description_break = responseTeamRestController200_description.indexOf('\n');
+                              if (responseTeamRestController200_description_break == -1) {
+                                $("#examples-TeamRestController-getLoggedTeam-title-200").text("Status: 200 - " + responseTeamRestController200_description);
+                              } else {
+                                $("#examples-TeamRestController-getLoggedTeam-title-200").text("Status: 200 - " + responseTeamRestController200_description.substring(0, responseTeamRestController200_description_break));
+                                $("#examples-TeamRestController-getLoggedTeam-description-200").html(responseTeamRestController200_description.substring(responseTeamRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-TeamRestController-getLoggedTeam-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-TeamRestController-getLoggedTeam-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-TeamRestController-getLoggedTeam-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-TeamRestController-getLoggedTeam-200-schema">
+                                <div id="responses-TeamRestController-getLoggedTeam-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/TeamDTO"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-TeamRestController-getLoggedTeam-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-TeamRestController-getLoggedTeam-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-TeamRestController-getLoggedTeam-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-TeamRestController-getTeamById">
                       <article id="api-TeamRestController-getTeamById-0" data-group="User" data-name="getTeamById" data-version="0">
                         <div class="pull-left">
@@ -13836,7 +14216,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-TeamRestController-getTeamById-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/teams/{id}"
+ "http://localhost:8080/api/v1/teams/{id}"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TeamRestController-getTeamById-0-java">
@@ -14202,7 +14582,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-TeamRestController-getTeams-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/teams/?pageable="
+ "http://localhost:8080/api/v1/teams/?pageable="
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TeamRestController-getTeams-0-java">
@@ -14566,7 +14946,7 @@ pub fn main() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/teams/register" \
+ "http://localhost:8080/api/v1/teams/register" \
  -d '{
   &quot;teamName&quot; : &quot;teamName&quot;,
   &quot;password&quot; : &quot;password&quot;,
@@ -14957,7 +15337,7 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/teams/{id}" \
+ "http://localhost:8080/api/v1/teams/{id}" \
  -d '{
   &quot;teamName&quot; : &quot;teamName&quot;,
   &quot;hasImage&quot; : true,
@@ -15393,14 +15773,14 @@ $(document).ready(function() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/tournaments/" \
+ "http://localhost:8080/api/v1/tournaments/" \
  -d '{
   &quot;name&quot; : &quot;name&quot;,
   &quot;hasImage&quot; : true,
   &quot;id&quot; : 0,
   &quot;type&quot; : &quot;type&quot;,
   &quot;status&quot; : &quot;status&quot;,
-  &quot;maxParticipants&quot; : 6
+  &quot;maxParticipants&quot; : 2
 }'
 </code></pre>
                           </div>
@@ -15785,7 +16165,7 @@ $(document).ready(function() {
                           <div class="tab-pane active" id="examples-TournamentRestController-deleteTournament-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X DELETE \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/tournaments/{id}"
+ "http://localhost:8080/api/v1/tournaments/{id}"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TournamentRestController-deleteTournament-0-java">
@@ -16115,6 +16495,372 @@ pub fn main() {
                         </article>
                       </div>
                       <hr>
+                    <div id="api-TournamentRestController-enrollTeam">
+                      <article id="api-TournamentRestController-enrollTeam-0" data-group="User" data-name="enrollTeam" data-version="0">
+                        <div class="pull-left">
+                          <h1>enrollTeam</h1>
+                          <p></p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/api/v1/tournaments/{id}/enroll</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-TournamentRestController-enrollTeam-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-java">Java</a></li>
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-dart">Dart</a></li>
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-TournamentRestController-enrollTeam-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-TournamentRestController-enrollTeam-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-python">Python</a></li>
+                          <li class=""><a href="#examples-TournamentRestController-enrollTeam-0-rust">Rust</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-TournamentRestController-enrollTeam-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST \
+ -H "Accept: */*" \
+ "http://localhost:8080/api/v1/tournaments/{id}/enroll"
+</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-java">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.model.*;
+import org.openapitools.client.api.TournamentRestControllerApi;
+
+import java.io.File;
+import java.util.*;
+
+public class TournamentRestControllerApiExample {
+    public static void main(String[] args) {
+
+        // Create an instance of the API class
+        TournamentRestControllerApi apiInstance = new TournamentRestControllerApi();
+        Long id = 789; // Long | 
+
+        try {
+            TournamentDTO result = apiInstance.enrollTeam(id);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling TournamentRestControllerApi#enrollTeam");
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-dart">
+                            <pre class="prettyprint"><code class="language-dart">import 'package:openapi/api.dart';
+
+final api_instance = DefaultApi();
+
+final Long id = new Long(); // Long | 
+
+try {
+    final result = await api_instance.enrollTeam(id);
+    print(result);
+} catch (e) {
+    print('Exception when calling DefaultApi->enrollTeam: $e\n');
+}
+
+</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-android">
+                            <pre class="prettyprint"><code class="language-java">import org.openapitools.client.api.TournamentRestControllerApi;
+
+public class TournamentRestControllerApiExample {
+    public static void main(String[] args) {
+        TournamentRestControllerApi apiInstance = new TournamentRestControllerApi();
+        Long id = 789; // Long | 
+
+        try {
+            TournamentDTO result = apiInstance.enrollTeam(id);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling TournamentRestControllerApi#enrollTeam");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">
+
+// Create an instance of the API class
+TournamentRestControllerApi *apiInstance = [[TournamentRestControllerApi alloc] init];
+Long *id = 789; //  (default to null)
+
+[apiInstance enrollTeamWith:id
+              completionHandler: ^(TournamentDTO output, NSError* error) {
+    if (output) {
+        NSLog(@"%@", output);
+    }
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var OpenApiDefinition = require('open_api_definition');
+
+// Create an instance of the API class
+var api = new OpenApiDefinition.TournamentRestControllerApi()
+var id = 789; // {Long} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.enrollTeam(id, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class enrollTeamExample
+    {
+        public void main()
+        {
+
+            // Create an instance of the API class
+            var apiInstance = new TournamentRestControllerApi();
+            var id = 789;  // Long |  (default to null)
+
+            try {
+                TournamentDTO result = apiInstance.enrollTeam(id);
+                Debug.WriteLine(result);
+            } catch (Exception e) {
+                Debug.Print("Exception when calling TournamentRestControllerApi.enrollTeam: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Create an instance of the API class
+$api_instance = new OpenAPITools\Client\Api\TournamentRestControllerApi();
+$id = 789; // Long | 
+
+try {
+    $result = $api_instance->enrollTeam($id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling TournamentRestControllerApi->enrollTeam: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::OPenAPIClient::Configuration;
+use WWW::OPenAPIClient::TournamentRestControllerApi;
+
+# Create an instance of the API class
+my $api_instance = WWW::OPenAPIClient::TournamentRestControllerApi->new();
+my $id = 789; # Long | 
+
+eval {
+    my $result = $api_instance->enrollTeam(id => $id);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling TournamentRestControllerApi->enrollTeam: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.TournamentRestControllerApi()
+id = 789 # Long |  (default to null)
+
+try:
+    api_response = api_instance.enroll_team(id)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling TournamentRestControllerApi->enrollTeam: %s\n" % e)</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-TournamentRestController-enrollTeam-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">extern crate TournamentRestControllerApi;
+
+pub fn main() {
+    let id = 789; // Long
+
+    let mut context = TournamentRestControllerApi::Context::default();
+    let result = client.enrollTeam(id, &context).wait();
+
+    println!("{:?}", result);
+}
+</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            
+                          </table>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">id*</td>
+<td>
+
+
+    <div id="d2e199_enrollTeam_id">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3 id="examples-TournamentRestController-enrollTeam-title-200"></h3>
+                            <p id="examples-TournamentRestController-enrollTeam-description-200" class="marked"></p>
+                            <script>
+                              var responseTournamentRestController200_description = `OK`;
+                              var responseTournamentRestController200_description_break = responseTournamentRestController200_description.indexOf('\n');
+                              if (responseTournamentRestController200_description_break == -1) {
+                                $("#examples-TournamentRestController-enrollTeam-title-200").text("Status: 200 - " + responseTournamentRestController200_description);
+                              } else {
+                                $("#examples-TournamentRestController-enrollTeam-title-200").text("Status: 200 - " + responseTournamentRestController200_description.substring(0, responseTournamentRestController200_description_break));
+                                $("#examples-TournamentRestController-enrollTeam-description-200").html(responseTournamentRestController200_description.substring(responseTournamentRestController200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-TournamentRestController-enrollTeam-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-TournamentRestController-enrollTeam-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-TournamentRestController-enrollTeam-200-wrapper" style='margin-bottom: 10px;'>
+                              <div class="tab-pane active" id="responses-TournamentRestController-enrollTeam-200-schema">
+                                <div id="responses-TournamentRestController-enrollTeam-schema-200" class="exampleStyle">
+                                  <script>
+                                    $(document).ready(function() {
+                                      var schemaWrapper = {
+  "description" : "OK",
+  "content" : {
+    "*/*" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/TournamentDTO"
+      }
+    }
+  }
+};
+                                      var schema = findNode('schema',schemaWrapper).schema;
+                                      if (!schema) {
+                                        schema = schemaWrapper.schema;
+                                      }
+                                      if (schema == null) {
+                                        return;
+                                      }
+                                      if (schema.$ref != null) {
+                                        schema = defsParser.$refs.get(schema.$ref);
+                                        if (schema.properties != null) {
+                                          Object.keys(schema.properties).forEach( (item) => {
+                                            if (schema.properties[item].$ref != null) {
+                                              schema.properties[item] = defsParser.$refs.get(schema.properties[item].$ref);
+                                            }
+                                          });
+                                        }
+                                      } else if (schema.items != null && schema.items.$ref != null) {
+                                        schema.items = defsParser.$refs.get(schema.items.$ref);
+                                      } else {
+                                        schemaWrapper.definitions = Object.assign({}, defs);
+                                        $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                          console.log(err);
+                                        });
+                                      }
+
+                                      var view = new JSONSchemaView(schema, 3);
+                                      $('#responses-TournamentRestController-enrollTeam-200-schema-data').val(JSON.stringify(schema));
+                                      var result = $('#responses-TournamentRestController-enrollTeam-schema-200');
+                                      result.empty();
+                                      result.append(view.render());
+                                    });
+                                  </script>
+                                </div>
+                                <input id='responses-TournamentRestController-enrollTeam-200-schema-data' type='hidden' value=''></input>
+                              </div>
+                            </div>
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-TournamentRestController-generateTournamentSchedule">
                       <article id="api-TournamentRestController-generateTournamentSchedule-0" data-group="User" data-name="generateTournamentSchedule" data-version="0">
                         <div class="pull-left">
@@ -16151,7 +16897,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-TournamentRestController-generateTournamentSchedule-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/tournaments/{id}/schedule"
+ "http://localhost:8080/api/v1/tournaments/{id}/schedule"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TournamentRestController-generateTournamentSchedule-0-java">
@@ -16517,7 +17263,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-TournamentRestController-getTournamentById-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/tournaments/{id}"
+ "http://localhost:8080/api/v1/tournaments/{id}"
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TournamentRestController-getTournamentById-0-java">
@@ -16883,7 +17629,7 @@ pub fn main() {
                           <div class="tab-pane active" id="examples-TournamentRestController-getTournaments-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X GET \
  -H "Accept: */*" \
- "https://localhost:8443/api/v1/tournaments/?pageable="
+ "http://localhost:8080/api/v1/tournaments/?pageable="
 </code></pre>
                           </div>
                           <div class="tab-pane" id="examples-TournamentRestController-getTournaments-0-java">
@@ -17247,14 +17993,14 @@ pub fn main() {
                             <pre class="prettyprint"><code class="language-bsh">curl -X PUT \
  -H "Accept: */*" \
  -H "Content-Type: application/json" \
- "https://localhost:8443/api/v1/tournaments/{id}" \
+ "http://localhost:8080/api/v1/tournaments/{id}" \
  -d '{
   &quot;name&quot; : &quot;name&quot;,
   &quot;hasImage&quot; : true,
   &quot;id&quot; : 0,
   &quot;type&quot; : &quot;type&quot;,
   &quot;status&quot; : &quot;status&quot;,
-  &quot;maxParticipants&quot; : 6
+  &quot;maxParticipants&quot; : 2
 }'
 </code></pre>
                           </div>

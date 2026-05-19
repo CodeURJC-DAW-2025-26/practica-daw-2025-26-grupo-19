@@ -334,7 +334,7 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 #### **Documentación HTML**
 📖 **[Documentación API REST (HTML)](https://raw.githack.com/V1ctor2911/practica-daw-2025-26-grupo-19/main/setup/api-docs/api-docs.html)**
 
-> La documentación de la API REST se encuentra en la carpeta `/api-docs` del repositorio. Se ha generado automáticamente con SpringDoc a partir de las anotaciones en el código Java.
+> La documentación de la API REST se encuentra en la carpeta `/setup/api-docs` del repositorio. Se ha generado automáticamente con SpringDoc a partir de las anotaciones en el código Java.
 
 ### **Diagrama de Clases y Templates Actualizado**
 
@@ -352,11 +352,26 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 1. **Clonar el repositorio** (si no lo has hecho ya):
    ```bash
-   git clone https://github.com/[usuario]/[repositorio].git
-   cd [repositorio]
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19.git
+   cd practica-daw-2025-26-grupo-19
    ```
 
-2. **AQUÍ LOS SIGUIENTES PASOS**:
+2. **Navegar a la carpeta de Docker**:
+   ```bash
+   cd docker
+   ```
+
+3. **Arrancar la aplicación**:
+   ```bash
+   docker compose up
+   ```
+
+   Esto descargará automáticamente la imagen `aaluc/futbolmanager:latest` de Docker Hub y arrancará también la base de datos MySQL. La aplicación estará disponible en **[https://localhost:8443](https://localhost:8443)**.
+
+   > Para detenerla, pulsa `Ctrl+C`. Para borrar también los datos persistentes de la base de datos:
+   > ```bash
+   > docker compose down -v
+   > ```
 
 ### **Construcción de la Imagen Docker**
 
@@ -370,32 +385,68 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
    cd docker
    ```
 
-2. **AQUÍ LOS SIGUIENTES PASOS**
+2. **Iniciar sesión en Docker Hub**:
+   ```bash
+   ./docker_login.sh aaluc
+   ```
+
+3. **Construir la imagen**:
+   ```bash
+   ./docker_build.sh aaluc futbolmanager latest
+   ```
+
+4. **Subir la imagen a Docker Hub**:
+   ```bash
+   ./docker_push.sh aaluc futbolmanager latest
+   ```
+
+   También se puede construir y subir en un solo paso:
+   ```bash
+   ./docker_publish.sh aaluc futbolmanager latest
+   ```
+
+   La imagen publicada está disponible en: **[hub.docker.com/r/aaluc/futbolmanager](https://hub.docker.com/r/aaluc/futbolmanager)**
 
 ### **Despliegue en Máquina Virtual**
 
 #### **Requisitos:**
-- Acceso a la máquina virtual (SSH)
+- Acceso a la máquina virtual por SSH
 - Clave privada para autenticación
-- Conexión a la red correspondiente o VPN configurada
+- Conexión a la red URJC o VPN configurada
 
 #### **Pasos para desplegar:**
 
 1. **Conectar a la máquina virtual**:
    ```bash
-   ssh -i [ruta/a/clave.key] [usuario]@[IP-o-dominio-VM]
-   ```
-   
-   Ejemplo:
-   ```bash
-   ssh -i ssh-keys/app.key vmuser@10.100.139.XXX
+   ssh -i ssh-keys/app.key vmuser@10.100.139.214
    ```
 
-2. **AQUÍ LOS SIGUIENTES PASOS**:
+2. **Clonar el repositorio en la VM** (solo la primera vez):
+   ```bash
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19.git
+   cd practica-daw-2025-26-grupo-19/docker
+   ```
+
+   Si ya estaba clonado, actualizar a la última versión:
+   ```bash
+   cd practica-daw-2025-26-grupo-19
+   git pull
+   cd docker
+   ```
+
+3. **Arrancar la aplicación en segundo plano**:
+   ```bash
+   docker compose up -d
+   ```
+
+   Esto descarga la imagen de Docker Hub, lanza la base de datos MySQL y arranca el backend. Para ver los logs:
+   ```bash
+   docker compose logs -f
+   ```
 
 ### **URL de la Aplicación Desplegada**
 
-🌐 **URL de acceso**: `https://[nombre-app].etsii.urjc.es:8443`
+🌐 **URL de acceso**: `https://appWeb19.etsii.urjc.es:8443`
 
 #### **Credenciales de Usuarios de Ejemplo**
 
@@ -446,15 +497,15 @@ Se encargó de varios de los controladores rest de imágenes, jugadores y todo e
 
 #### **Alumno 3 - Santiago Sanchez-Merino Pérez**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Se encargó de refactorizar la arquitectura de controladores web separando responsabilidades en controladores específicos, implementar funcionalidades AJAX de carga dinámica para torneos y desarrollar varios endpoints REST relacionados con jugadores, equipos y partidos. Además, añadió soporte de paginación en la API REST y trabajó en la creación y corrección de lógica para la gestión de partidos y DTOs asociados.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Split WebController into specific controllers](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/307a2570ebacf8f1caf2a3de28b4da2310888191)  | [All Controllers‎](setup/src/main/java/es/codeurjc/daw/library/controller)   |
+|2| [Add AJAX load more functionality for tournaments](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/351a4b977d11a7ede815381696ed04af57544b64)  | [HomeController.java & TorneoService.java & some .html](setup/src/main/java/es/codeurjc/daw/library/controller/HomeController.java)   |
+|3| [Add pageable REST API endpoints for players and teams](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/5e29b3cd015e401aadf5340d7c061b3bfe112a57)  | [EquipoRestController.java & JugadorRestController.java‎](setup/src/main/java/es/codeurjc/daw/library/controller/EquipoRestController.java)   |
+|4| [Implement Partido REST](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/489d3f4b64e57f3a6a3134b65661c84b498895c7)  | [PartidoRestController.java & PartidoService.java‎](setup/src/main/java/es/codeurjc/daw/library/controller/PartidoRestController.java)   |
+|5| [Implement Partido REST & fix CreateMatch](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/4b5ac98f00dbd18e62dadc4b209ab804f0ca0e8f)  | [PartidoRestController.java & PartidoMapper.java‎ & PartidoRequestDTO.java‎](setup/src/main/java/es/codeurjc/daw/library/controller/PartidoRestController.java)   |
 
 ---
 
@@ -485,16 +536,47 @@ Se encargó de varios de los controladores rest de imágenes, jugadores y todo e
 
 2. **Clonar el repositorio** (si no lo has hecho ya)
    ```bash
-   git clone https://github.com/[usuario]/[nombre-repositorio].git
-   cd [nombre-repositorio]
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19.git
+   cd practica-daw-2025-26-grupo-19
    ```
 
-3. **Navegar a la carpeta del proyecto React**
+3. **Navegar a la carpeta del proyecto frontend**
    ```bash
-   cd frontend
+   cd frontend/exam0_minimal
    ```
 
-4. **AQUÍ LOS SIGUIENTES PASOS**
+4. **Instalar las dependencias**
+   ```bash
+   npm install
+   ```
+
+5. **Arrancar el servidor de desarrollo**
+   ```bash
+   npm run dev
+   ```
+   
+   La aplicación estará disponible en: **[http://localhost:5173](http://localhost:5173)**
+   
+   > El servidor de desarrollo incluye un proxy configurado en `vite.config.ts` que redirige automáticamente las peticiones `/api/*` al backend en `https://localhost:8443`. Asegúrate de tener el backend y la base de datos corriendo antes de usar la aplicación.
+
+#### **Comandos disponibles**
+
+| Comando | Descripción |
+|:---|:---|
+| `npm run dev` | Inicia el servidor de desarrollo |
+| `npm run build` | Genera el bundle de producción en la carpeta `build/` |
+| `npm run start` | Sirve el bundle de producción (requiere ejecutar `build` antes) |
+
+
+
+#### **Tecnologías utilizadas**
+
+- **React 19** con **TypeScript**
+- **React Router v7** — enrutado en modo SPA 
+- **Vite** — bundler y servidor de desarrollo
+- **Bootstrap 5** + **React Bootstrap** — componentes UI
+- **Zustand** — gestión de estado global
+- **AG Charts** — gráficas y visualizaciones de datos
 
 ### **Diagrama de Clases y Templates de la SPA**
 
@@ -534,14 +616,14 @@ Se encargó de implementar el esqueleto, plantillas iniciales y estilo inicial p
 
 #### **Alumno 3 - Santiago Sanchez-Merino Pérez**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Se encargó de implementar mejoras tanto en backend como en frontend relacionadas con la paginación y la experiencia de usuario. Añadió validaciones de DTOs y manejo global de excepciones para la API REST, amplió los datos iniciales de la base de datos para probar funcionalidades de paginación y desarrolló la funcionalidad “Load More” para jugadores en equipos desde React. Además, integró el sistema de rutas SPA de React junto con una configuración Docker optimizada mediante multi-stage build.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [Add DTOs validation and global REST exception handler](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/905c2bdfaac59121d7aa99c317cbf487c61195d6)  | [GlobalRestControllerAdvice.java‎ & PlayerRestController.java & PlayerBasicDTO.java](setup/src/main/java/es/codeurjc/daw/library/controller/GlobalRestControllerAdvice.java)   |
+|2| [Add more default data for pagination](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/2e5a2930a96140ea8c1af4274acdd112bdb4b324)  | [DatabaseInitializer.java](setup/src/main/java/es/codeurjc/daw/library/service/DatabaseInitializer.java)   |
+|3| [Add Load more pagination for team players](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/773061579fe2cc2d43df9079c287cbc3a0509a54)  | [admin.tsx](frontend/exam0_minimal/app/routes/admin.tsx)   |
+|4| [Add frontend load more pagination for team players](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/f5364d55577c21f6409707b70ed19f32a23099cc)  | [equipo-detail.tsx](frontend/exam0_minimal/app/routes/equipo-detail.tsx)   |
+|5| [Integrate React SPA routing & multi-stage Docker build](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/b00afb4368c2d1f3e1c63cc0edf5216f7e9833fe)  | [Dockerfile](setup/Dockerfile)   |
 
 ---
