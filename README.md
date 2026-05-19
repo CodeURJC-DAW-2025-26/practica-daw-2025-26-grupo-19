@@ -341,7 +341,7 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 
 Diagrama actualizado incluyendo los @RestController y su relación con los @Service compartidos:
 
-![Diagrama de Clases Actualizado](images/complete-classes-diagram.png)
+![Diagrama de Clases Actualizado](images/diagramaRest.png)
 
 ### **Instrucciones de Ejecución con Docker**
 
@@ -506,7 +506,7 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 Diagrama mostrando los componentes React, hooks personalizados, servicios y sus relaciones:
 
-![Diagrama de Componentes React](images/spa-classes-diagram.png)
+![Diagrama de Componentes React](images/diagramaClasesReact.png)
 
 ### **Participación de Miembros en la Práctica 3**
 
