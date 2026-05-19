@@ -323,7 +323,7 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 ## 🛠 **Práctica 2: Incorporación de una API REST a la aplicación web, despliegue con Docker y despliegue remoto**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](https://www.youtube.com/watch?v=x91MPoITQ3I)**
+📹 **[Enlace al vídeo en YouTube](https://youtu.be/SWmStNGV4rk?si=kYHO8RSfD3s-re7i)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Documentación de la API REST**
@@ -483,15 +483,15 @@ Se encargó de varios de los controladores rest de imágenes, jugadores y todo e
 
 #### **Alumno 2 - Adam El Kassmi Serroukh**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Se encargó de diseñar e implementar la capa de transferencia de datos mediante DTOs para todas las entidades, desarrolló el controlador REST de torneos con sus operaciones CRUD, añadió el endpoint de registro de equipos a la API REST e implementó la lógica de control de propietario para restringir las operaciones de jugadores a sus dueños. Además, se encargó íntegramente de la dockerización del proyecto, creando el Dockerfile y el docker-compose para facilitar el despliegue de la aplicación junto a la base de datos MySQL.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
+|1| [DTO implemented](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/86d74d2ebd541a4b98b0c4e95f7748cb71cac39f)  | [All DTOs](setup/src/main/java/es/codeurjc/daw/library/dto/)   |
+|2| [Torneo Rest Controller](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/b71322bf4d55657e7aeb871025c7df53e514a4dd)  | [TorneoRestController.java](setup/src/main/java/es/codeurjc/daw/library/controller/TorneoRestController.java)   |
+|3| [Register team](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/18a236636da5f48b8f0587b81ffa900bc6c65d0e)  | [EquipoRestController.java](setup/src/main/java/es/codeurjc/daw/library/controller/EquipoRestController.java)   |
+|4| [Owner control](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/3de5653977d1391b41f35d50b0b25ce1e196f193)  | [JugadorRestController.java](setup/src/main/java/es/codeurjc/daw/library/controller/JugadorRestController.java)   |
+|5| [Docker file and docker compose](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/928620854b538e38b0472ce58a4c42be4c4db212)  | [Dockerfile](setup/Dockerfile)   |
 
 ---
 
@@ -512,7 +512,7 @@ Se encargó de refactorizar la arquitectura de controladores web separando respo
 ## 🛠 **Práctica 3: Implementación de la web con arquitectura SPA**
 
 ### **Vídeo de Demostración**
-📹 **[Enlace al vídeo en YouTube](URL_del_video)**
+📹 **[Enlace al vídeo en YouTube](https://youtu.be/mIsql3mBT-M?si=zclKjdFcK_m6SA4B)**
 > Vídeo mostrando las principales funcionalidades de la aplicación web.
 
 ### **Preparación del Entorno de Desarrollo**
@@ -602,14 +602,14 @@ Se encargó de implementar el esqueleto, plantillas iniciales y estilo inicial p
 
 #### **Alumno 2 - Adam El Kassmi Serroukh**
 
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
+Se encargó de integrar la autenticación en el frontend React, implementando el flujo completo de login con gestión de sesión y cabecera dinámica según el estado del usuario. Corrigió el formulario de registro de equipos adaptándolo a la nueva API REST. Añadió el componente de footer reutilizable para toda la aplicación. Además, desarrolló e integró el panel de administración en React, incluyendo la gestión de equipos y las acciones administrativas sobre ellos.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
+|1| [Adding login](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/70393e9ed03db7fb122544c87d7c4c3fdd4f0488)  | [header.tsx and login.tsx and more](frontend/exam0_minimal/app/components/header.tsx)   |
+|2| [fixing register](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/ec541d3e720d3e3a6fea8590036208b8e2e9adaf)  | [register.tsx and teams-service.tsx](frontend/exam0_minimal/app/routes/register.tsx)   |
+|3| [Adding footer](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/a45a95ce1204af2934ed71e03448c79ca0175a21)  | [footer.tsx](frontend/exam0_minimal/app/components/footer.tsx)   |
+|4| [Admin panel implemented](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/690f67d19d7f9bb2e8e6b3cc1334b051376b1174)  | [admin.tsx and equipo-detail.tsx and teams-service.tsx](frontend/exam0_minimal/app/routes/admin.tsx)   |
 |5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
 
 ---
