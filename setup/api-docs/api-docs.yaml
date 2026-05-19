@@ -3,7 +3,7 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-- url: https://localhost:8443
+- url: http://localhost:8080
   description: Generated server url
 paths:
   /api/v1/tournaments/{id}:
@@ -557,6 +557,25 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/TournamentDTO"
+  /api/v1/tournaments/{id}/enroll:
+    post:
+      tags:
+      - tournament-rest-controller
+      operationId: enrollTeam
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TournamentDTO"
   /api/v1/tournaments/:
     get:
       tags:
@@ -752,7 +771,7 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/MessageResponseDTO"
-  /api/auth/refresh:
+  /api/v1/auth/refresh:
     post:
       tags:
       - login-controller
@@ -770,7 +789,7 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/AuthResponse"
-  /api/auth/logout:
+  /api/v1/auth/logout:
     post:
       tags:
       - login-controller
@@ -782,7 +801,7 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/AuthResponse"
-  /api/auth/login:
+  /api/v1/auth/login:
     post:
       tags:
       - login-controller
@@ -821,6 +840,18 @@ paths:
                 type: object
                 additionalProperties:
                   type: boolean
+  /api/v1/teams/me:
+    get:
+      tags:
+      - team-rest-controller
+      operationId: getLoggedTeam
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/TeamDTO"
   /api/v1/statistics/scorers:
     get:
       tags:
@@ -859,15 +890,23 @@ components:
           format: int64
         name:
           type: string
+          minLength: 1
         type:
           type: string
+          minLength: 1
         status:
           type: string
+          minLength: 1
         maxParticipants:
           type: integer
           format: int32
+          minimum: 2
         hasImage:
           type: boolean
+      required:
+      - name
+      - status
+      - type
     MatchBasicDTO:
       type: object
       properties:
@@ -876,14 +915,23 @@ components:
           format: int64
         formattedDate:
           type: string
+          minLength: 1
         homeGoals:
           type: integer
           format: int32
+          minimum: 0
         awayGoals:
           type: integer
           format: int32
+          minimum: 0
         played:
           type: boolean
+        homeTeam:
+          $ref: "#/components/schemas/TeamBasicDTO"
+        awayTeam:
+          $ref: "#/components/schemas/TeamBasicDTO"
+      required:
+      - formattedDate
     TeamBasicDTO:
       type: object
       properties:
@@ -892,12 +940,20 @@ components:
           format: int64
         username:
           type: string
+          minLength: 1
         email:
           type: string
+          format: email
+          minLength: 1
         teamName:
           type: string
+          minLength: 1
         hasImage:
           type: boolean
+      required:
+      - email
+      - teamName
+      - username
     TournamentDTO:
       type: object
       properties:
@@ -931,11 +987,14 @@ components:
           format: int64
         name:
           type: string
+          minLength: 1
         position:
           type: string
+          minLength: 1
         jerseyNumber:
           type: integer
           format: int32
+          minimum: 1
         goals:
           type: integer
           format: int32
@@ -944,6 +1003,9 @@ components:
           format: int32
         hasImage:
           type: boolean
+      required:
+      - name
+      - position
     TeamDTO:
       type: object
       properties:
@@ -966,6 +1028,13 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/TournamentBasicDTO"
+        roles:
+          type: array
+          items:
+            type: string
+            enum:
+            - USER
+            - ADMIN
     PlayerDTO:
       type: object
       properties:
@@ -1027,12 +1096,15 @@ components:
       properties:
         formattedDate:
           type: string
+          minLength: 1
         homeGoals:
           type: integer
           format: int32
+          minimum: 0
         awayGoals:
           type: integer
           format: int32
+          minimum: 0
         played:
           type: boolean
         tournamentId:
@@ -1044,6 +1116,11 @@ components:
         awayTeamId:
           type: integer
           format: int64
+      required:
+      - awayTeamId
+      - formattedDate
+      - homeTeamId
+      - tournamentId
     ForgotPasswordRequestDTO:
       type: object
       properties:
@@ -1091,12 +1168,18 @@ components:
     PageTournamentBasicDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -1107,55 +1190,55 @@ components:
         number:
           type: integer
           format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
         numberOfElements:
           type: integer
           format: int32
-        first:
-          type: boolean
-        last:
-          type: boolean
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
-        sort:
-          $ref: "#/components/schemas/SortObject"
         empty:
           type: boolean
     PageableObject:
       type: object
       properties:
-        offset:
-          type: integer
-          format: int64
-        pageSize:
-          type: integer
-          format: int32
+        paged:
+          type: boolean
         pageNumber:
           type: integer
           format: int32
-        sort:
-          $ref: "#/components/schemas/SortObject"
-        paged:
-          type: boolean
+        pageSize:
+          type: integer
+          format: int32
         unpaged:
           type: boolean
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: "#/components/schemas/SortObject"
     SortObject:
       type: object
       properties:
-        empty:
-          type: boolean
         sorted:
           type: boolean
         unsorted:
           type: boolean
+        empty:
+          type: boolean
     PageTeamDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -1166,28 +1249,28 @@ components:
         number:
           type: integer
           format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
         numberOfElements:
           type: integer
           format: int32
-        first:
-          type: boolean
-        last:
-          type: boolean
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
-        sort:
-          $ref: "#/components/schemas/SortObject"
         empty:
           type: boolean
     PagePlayerDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -1198,28 +1281,28 @@ components:
         number:
           type: integer
           format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
         numberOfElements:
           type: integer
           format: int32
-        first:
-          type: boolean
-        last:
-          type: boolean
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
-        sort:
-          $ref: "#/components/schemas/SortObject"
         empty:
           type: boolean
     PageMatchDTO:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        first:
+          type: boolean
+        last:
+          type: boolean
         size:
           type: integer
           format: int32
@@ -1230,16 +1313,10 @@ components:
         number:
           type: integer
           format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
         numberOfElements:
           type: integer
           format: int32
-        first:
-          type: boolean
-        last:
-          type: boolean
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
-        sort:
-          $ref: "#/components/schemas/SortObject"
         empty:
           type: boolean
