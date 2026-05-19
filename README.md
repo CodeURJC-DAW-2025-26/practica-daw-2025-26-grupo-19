@@ -334,7 +334,7 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 #### **Documentación HTML**
 📖 **[Documentación API REST (HTML)](https://raw.githack.com/V1ctor2911/practica-daw-2025-26-grupo-19/main/setup/api-docs/api-docs.html)**
 
-> La documentación de la API REST se encuentra en la carpeta `/api-docs` del repositorio. Se ha generado automáticamente con SpringDoc a partir de las anotaciones en el código Java.
+> La documentación de la API REST se encuentra en la carpeta `/setup/api-docs` del repositorio. Se ha generado automáticamente con SpringDoc a partir de las anotaciones en el código Java.
 
 ### **Diagrama de Clases y Templates Actualizado**
 
@@ -369,8 +369,53 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
    ```bash
    cd docker
    ```
+# Publicar imagen en Docker Hub
 
-2. **AQUÍ LOS SIGUIENTES PASOS**
+Scripts disponibles para publicar la imagen del backend en Docker Hub.
+
+```sh
+# 1. Construir la imagen
+./docker_build.sh [tu_usuario] futbolmanager latest
+
+# 2. Subir la imagen
+./docker_push.sh [tu_usuario] futbolmanager latest
+```
+
+Tambien se puede construir y subir en un solo paso:
+
+```sh
+./docker_publish.sh [tu_usuario] futbolmanager latest
+```
+
+Para publicar usando Docker Compose:
+
+```sh
+./docker_compose_publish.sh [tu_usuario] latest
+```
+
+## Valores por defecto
+
+Si no se indican argumentos, los scripts usan estos valores:
+
+```sh
+DOCKERHUB_USER=aaluc
+IMAGE_NAME=futbolmanager
+TAG=latest
+```
+
+Por ejemplo, estos dos comandos son equivalentes:
+
+```sh
+./docker_publish.sh
+./docker_publish.sh aaluc futbolmanager latest
+```
+
+Tambien se pueden usar variables de entorno:
+
+```sh
+DOCKERHUB_USER=miusuario IMAGE_NAME=futbolmanager TAG=v1 ./docker_publish.sh
+```
+
 
 ### **Despliegue en Máquina Virtual**
 
