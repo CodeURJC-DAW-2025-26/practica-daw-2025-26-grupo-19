@@ -329,10 +329,10 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 ### **Documentación de la API REST**
 
 #### **Especificación OpenAPI**
-📄 **[Especificación OpenAPI (YAML)](/setup/api-docs/api-docs.yaml)**
+📄 **[Especificación OpenAPI (YAML)](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/blob/main/setup/api-docs/api-docs.yaml)**
 
 #### **Documentación HTML**
-📖 **[Documentación API REST (HTML)](https://raw.githack.com/V1ctor2911/practica-daw-2025-26-grupo-19/main/setup/api-docs/api-docs.html)**
+📖 **[Documentación API REST (HTML)](https://raw.githack.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/main/setup/api-docs/api-docs.html)**
 
 > La documentación de la API REST se encuentra en la carpeta `/setup/api-docs` del repositorio. Se ha generado automáticamente con SpringDoc a partir de las anotaciones en el código Java.
 
