@@ -5,8 +5,7 @@
 |:--- |:--- |:--- |
 | Víctor Omar Llantoy Núñez del Arco | vo.llantoy.2023@alumnos.urjc.es | V1ctor2911 |
 | Adam El Kassmi Serroukh | a.elkassmi.2023@alumnos.urjc.es | aaluc2 |
-| Santiago Sanchez-Merino Pérez | [sa.sanchezmerin.2022@alumnos.urjc.es | YagoSMP |
-| [Nombre 4] | [email4]@alumnos.urjc.es | [User4] |
+| Santiago Sanchez-Merino Pérez | sa.sanchezmerin.2022@alumnos.urjc.es | YagoSMP |
 
 ---
 
@@ -330,10 +329,10 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 ### **Documentación de la API REST**
 
 #### **Especificación OpenAPI**
-📄 **[Especificación OpenAPI (YAML)](/api-docs/api-docs.yaml)**
+📄 **[Especificación OpenAPI (YAML)](/setup/api-docs/api-docs.yaml)**
 
 #### **Documentación HTML**
-📖 **[Documentación API REST (HTML)](https://raw.githack.com/[usuario]/[repositorio]/main/api-docs/api-docs.html)**
+📖 **[Documentación API REST (HTML)](https://raw.githack.com/V1ctor2911/practica-daw-2025-26-grupo-19/main/setup/api-docs/api-docs.html)**
 
 > La documentación de la API REST se encuentra en la carpeta `/api-docs` del repositorio. Se ha generado automáticamente con SpringDoc a partir de las anotaciones en el código Java.
 
@@ -341,7 +340,7 @@ Desarrollo del envío de emails de recuperación de contraseñas (JavaMailSender
 
 Diagrama actualizado incluyendo los @RestController y su relación con los @Service compartidos:
 
-![Diagrama de Clases Actualizado](images/diagramaRest.png)
+![Diagrama de Clases Actualizado](images/diagramaRest.jpeg)
 
 ### **Instrucciones de Ejecución con Docker**
 
@@ -402,13 +401,36 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 | Rol | Usuario | Contraseña |
 |:---|:---|:---|
-| Administrador | admin | admin123 |
-| Usuario Registrado | user1 | user123 |
-| Usuario Registrado | user2 | user123 |
+| Administrador | admin | adminpass |
+| Usuario Registrado | user1 | pass |
+| Usuario Registrado | user2 | pass |
+| Usuario Registrado | user3 | pass |
+| Usuario Registrado | user4 | pass |
+| Usuario Registrado | user5 | pass |
+| Usuario Registrado | user6 | pass |
+| Usuario Registrado | user7 | pass |
+| Usuario Registrado | user8 | pass |
+| Usuario Registrado | user9 | pass |
+| Usuario Registrado | user10 | pass |
+| Usuario Registrado | user11 | pass |
 
 ### **Participación de Miembros en la Práctica 2**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - Víctor Omar Llantoy Núñez del Arco**
+
+Se encargó de varios de los controladores rest de imágenes, jugadores y todo el campo de las estadísticas. Además, se encargo de refactorizar todo el código fuente a inglés, generar la documentación con api-docs, realizó la colección postman integrada y elaboró el diagrama de la documentación.
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| [Player Rest controller](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/ecd340111623b21251c87c280e0ebfbb5e0363ff)  | [JugadorRestController.java](setup/src/main/java/es/codeurjc/daw/library/controller/JugadorRestController.java)   |
+|2| [Stats endpoints](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/6064329728a0a0431cfd8b262f7d9c87ea855117)  | [EstadisticasRestController.java](setup/src/main/java/es/codeurjc/daw/library/controller/EstadisticasRestController.java)   |
+|3| [Image Rest Controller](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/97a019a9a5e4c6b51c109d95695b9778f7b67529)  | [ImageRestController.java](setup/src/main/java/es/codeurjc/daw/library/controller/ImageRestController.java)   |
+|4| [Translation code](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/1ba8899cefd238fd76686a40f05f68aaf668de34)  | [All controllers, service, dtos, entities](setup/src/main/java/es/codeurjc/daw/library)   |
+|5| [Integrated postman collection](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/b9fa8729291d97f2b57d1895a154afdcb12ec19e)  | [postman_collection.json](setup/FutbolManager.postman_collection.json)   |
+
+---
+
+#### **Alumno 2 - Adam El Kassmi Serroukh**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -422,35 +444,7 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 3 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 4 - [Nombre Completo]**
+#### **Alumno 3 - Santiago Sanchez-Merino Pérez**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -506,11 +500,25 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 Diagrama mostrando los componentes React, hooks personalizados, servicios y sus relaciones:
 
-![Diagrama de Componentes React](images/diagramaClasesReact.png)
+![Diagrama de Componentes React](images/diagramaClasesReact.jpeg)
 
 ### **Participación de Miembros en la Práctica 3**
 
-#### **Alumno 1 - [Nombre Completo]**
+#### **Alumno 1 - Víctor Omar Llantoy Núñez del Arco**
+
+Se encargó de implementar el esqueleto, plantillas iniciales y estilo inicial para la elaboración del frontend con react. Arregló una gran cantidad de bugs y refactorizó errores que se arrastraban de prácticas anteriores. A su vez, se encargó de unos cuantos botones de cargar más, implementó la tecnología del mail sender y realizó los diagramas de la documentación. 
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| [Refactor tournaments and team models](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/94d3efbf1b75e7be5335c65ed9b78f09f519d8bf)  | [react dtos, endpoint controllers, spring models](frontend/exam0_minimal/app/dtos/TournamentDTO.ts)   |
+|2| [New header and fixes](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/9ac43770db41c08f4d61a57d376300ca810d853d)  | [header.tsx](frontend/exam0_minimal/app/components/header.tsx)   |
+|3| [adding load more button](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/a6a092b658286b7d4e4d220b1aa263c0b55724d5)  | [index.tsx](frontend/exam0_minimal/app/routes/index.tsx)   |
+|4| [edit profile](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/9a1ad30325403b5affb68489e19f134f83cf2a60)  | [equipo-detail.tsx](frontend/exam0_minimal/app/routes/equipo-detail.tsx)   |
+|5| [mail sender implemented](https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19/commit/7e9f79a40efc7bea1e1154d9bbaa23e6c16a5786)  | [login.tsx and email-service.tsx](frontend/exam0_minimal/app/routes/login.tsx)   |
+
+---
+
+#### **Alumno 2 - Adam El Kassmi Serroukh**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -524,7 +532,7 @@ Diagrama mostrando los componentes React, hooks personalizados, servicios y sus 
 
 ---
 
-#### **Alumno 2 - [Nombre Completo]**
+#### **Alumno 3 - Santiago Sanchez-Merino Pérez**
 
 [Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
 
@@ -537,30 +545,3 @@ Diagrama mostrando los componentes React, hooks personalizados, servicios y sus 
 |5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
 
 ---
-
-#### **Alumno 3 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
----
-
-#### **Alumno 4 - [Nombre Completo]**
-
-[Descripción de las tareas y responsabilidades principales del alumno en el proyecto]
-
-| Nº    | Commits      | Files      |
-|:------------: |:------------:| :------------:|
-|1| [Descripción commit 1](URL_commit_1)  | [Archivo1](URL_archivo_1)   |
-|2| [Descripción commit 2](URL_commit_2)  | [Archivo2](URL_archivo_2)   |
-|3| [Descripción commit 3](URL_commit_3)  | [Archivo3](URL_archivo_3)   |
-|4| [Descripción commit 4](URL_commit_4)  | [Archivo4](URL_archivo_4)   |
-|5| [Descripción commit 5](URL_commit_5)  | [Archivo5](URL_archivo_5)   |
-
