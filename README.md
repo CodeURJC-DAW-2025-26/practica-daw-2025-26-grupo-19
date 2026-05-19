@@ -352,11 +352,26 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
 
 1. **Clonar el repositorio** (si no lo has hecho ya):
    ```bash
-   git clone https://github.com/[usuario]/[repositorio].git
-   cd [repositorio]
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19.git
+   cd practica-daw-2025-26-grupo-19
    ```
 
-2. **AQUÍ LOS SIGUIENTES PASOS**:
+2. **Navegar a la carpeta de Docker**:
+   ```bash
+   cd docker
+   ```
+
+3. **Arrancar la aplicación**:
+   ```bash
+   docker compose up
+   ```
+
+   Esto descargará automáticamente la imagen `aaluc/futbolmanager:latest` de Docker Hub y arrancará también la base de datos MySQL. La aplicación estará disponible en **[https://localhost:8443](https://localhost:8443)**.
+
+   > Para detenerla, pulsa `Ctrl+C`. Para borrar también los datos persistentes de la base de datos:
+   > ```bash
+   > docker compose down -v
+   > ```
 
 ### **Construcción de la Imagen Docker**
 
@@ -369,78 +384,69 @@ Diagrama actualizado incluyendo los @RestController y su relación con los @Serv
    ```bash
    cd docker
    ```
-# Publicar imagen en Docker Hub
 
-Scripts disponibles para publicar la imagen del backend en Docker Hub.
+2. **Iniciar sesión en Docker Hub**:
+   ```bash
+   ./docker_login.sh aaluc
+   ```
 
-```sh
-# 1. Construir la imagen
-./docker_build.sh [tu_usuario] futbolmanager latest
+3. **Construir la imagen**:
+   ```bash
+   ./docker_build.sh aaluc futbolmanager latest
+   ```
 
-# 2. Subir la imagen
-./docker_push.sh [tu_usuario] futbolmanager latest
-```
+4. **Subir la imagen a Docker Hub**:
+   ```bash
+   ./docker_push.sh aaluc futbolmanager latest
+   ```
 
-Tambien se puede construir y subir en un solo paso:
+   También se puede construir y subir en un solo paso:
+   ```bash
+   ./docker_publish.sh aaluc futbolmanager latest
+   ```
 
-```sh
-./docker_publish.sh [tu_usuario] futbolmanager latest
-```
-
-Para publicar usando Docker Compose:
-
-```sh
-./docker_compose_publish.sh [tu_usuario] latest
-```
-
-## Valores por defecto
-
-Si no se indican argumentos, los scripts usan estos valores:
-
-```sh
-DOCKERHUB_USER=aaluc
-IMAGE_NAME=futbolmanager
-TAG=latest
-```
-
-Por ejemplo, estos dos comandos son equivalentes:
-
-```sh
-./docker_publish.sh
-./docker_publish.sh aaluc futbolmanager latest
-```
-
-Tambien se pueden usar variables de entorno:
-
-```sh
-DOCKERHUB_USER=miusuario IMAGE_NAME=futbolmanager TAG=v1 ./docker_publish.sh
-```
-
+   La imagen publicada está disponible en: **[hub.docker.com/r/aaluc/futbolmanager](https://hub.docker.com/r/aaluc/futbolmanager)**
 
 ### **Despliegue en Máquina Virtual**
 
 #### **Requisitos:**
-- Acceso a la máquina virtual (SSH)
+- Acceso a la máquina virtual por SSH
 - Clave privada para autenticación
-- Conexión a la red correspondiente o VPN configurada
+- Conexión a la red URJC o VPN configurada
 
 #### **Pasos para desplegar:**
 
 1. **Conectar a la máquina virtual**:
    ```bash
-   ssh -i [ruta/a/clave.key] [usuario]@[IP-o-dominio-VM]
-   ```
-   
-   Ejemplo:
-   ```bash
-   ssh -i ssh-keys/app.key vmuser@10.100.139.XXX
+   ssh -i ssh-keys/app.key vmuser@10.100.139.214
    ```
 
-2. **AQUÍ LOS SIGUIENTES PASOS**:
+2. **Clonar el repositorio en la VM** (solo la primera vez):
+   ```bash
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19.git
+   cd practica-daw-2025-26-grupo-19/docker
+   ```
+
+   Si ya estaba clonado, actualizar a la última versión:
+   ```bash
+   cd practica-daw-2025-26-grupo-19
+   git pull
+   cd docker
+   ```
+
+3. **Arrancar la aplicación en segundo plano**:
+   ```bash
+   docker compose up -d
+   ```
+
+   Esto descarga la imagen de Docker Hub, lanza la base de datos MySQL y arranca el backend. Para ver los logs:
+   ```bash
+   docker compose logs -f
+   ```
 
 ### **URL de la Aplicación Desplegada**
 
-🌐 **URL de acceso**: `https://[nombre-app].etsii.urjc.es:8443`
+🌐 **URL de acceso**: `https://appWeb19.etsii.urjc.es:8443`
 
 #### **Credenciales de Usuarios de Ejemplo**
 
@@ -530,16 +536,47 @@ Se encargó de varios de los controladores rest de imágenes, jugadores y todo e
 
 2. **Clonar el repositorio** (si no lo has hecho ya)
    ```bash
-   git clone https://github.com/[usuario]/[nombre-repositorio].git
-   cd [nombre-repositorio]
+   git clone https://github.com/CodeURJC-DAW-2025-26/practica-daw-2025-26-grupo-19.git
+   cd practica-daw-2025-26-grupo-19
    ```
 
-3. **Navegar a la carpeta del proyecto React**
+3. **Navegar a la carpeta del proyecto frontend**
    ```bash
-   cd frontend
+   cd frontend/exam0_minimal
    ```
 
-4. **AQUÍ LOS SIGUIENTES PASOS**
+4. **Instalar las dependencias**
+   ```bash
+   npm install
+   ```
+
+5. **Arrancar el servidor de desarrollo**
+   ```bash
+   npm run dev
+   ```
+   
+   La aplicación estará disponible en: **[http://localhost:5173](http://localhost:5173)**
+   
+   > El servidor de desarrollo incluye un proxy configurado en `vite.config.ts` que redirige automáticamente las peticiones `/api/*` al backend en `https://localhost:8443`. Asegúrate de tener el backend y la base de datos corriendo antes de usar la aplicación.
+
+#### **Comandos disponibles**
+
+| Comando | Descripción |
+|:---|:---|
+| `npm run dev` | Inicia el servidor de desarrollo |
+| `npm run build` | Genera el bundle de producción en la carpeta `build/` |
+| `npm run start` | Sirve el bundle de producción (requiere ejecutar `build` antes) |
+
+
+
+#### **Tecnologías utilizadas**
+
+- **React 19** con **TypeScript**
+- **React Router v7** — enrutado en modo SPA 
+- **Vite** — bundler y servidor de desarrollo
+- **Bootstrap 5** + **React Bootstrap** — componentes UI
+- **Zustand** — gestión de estado global
+- **AG Charts** — gráficas y visualizaciones de datos
 
 ### **Diagrama de Clases y Templates de la SPA**
 
